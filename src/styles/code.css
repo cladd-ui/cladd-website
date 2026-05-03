@@ -8,7 +8,7 @@
  * in `mdx-components.tsx`, not CSS. */
 
 .prose pre > code {
-  @apply block bg-transparent p-0 text-[0.875em] leading-relaxed;
+  @apply block bg-transparent p-0 text-[0.875em] leading-relaxed opacity-100;
   font-family: var(--font-mono);
   counter-reset: line;
 }
