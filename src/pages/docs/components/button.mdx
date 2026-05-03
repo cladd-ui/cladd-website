@@ -1,0 +1,26 @@
+import { Button } from '@cladd-ui/react';
+import { DocsLayout } from '@/components/DocsLayout';
+
+export default ({ children }) => <DocsLayout>{children}</DocsLayout>;
+
+# Button
+
+`Button` is a polymorphic surface-backed control. It supports sizes from `2xs`
+through `2xl`, the full set of accent colors, and any `Surface` variant.
+
+<div className="flex items-center gap-3 my-6">
+  <Button color="brand">Primary</Button>
+  <Button>Neutral</Button>
+  <Button variant="solid">Solid</Button>
+  <Button disabled>Disabled</Button>
+</div>
+
+## Usage
+
+```tsx
+import { Button } from '@cladd-ui/react';
+
+<Button color="brand" size="lg">
+  Save changes
+</Button>
+```

@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "@cladd-ui/react/css";
+
+@theme {
+  --font-sans:
+    "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:
+    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  @apply bg-cladd-bg text-cladd-fg;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+}
