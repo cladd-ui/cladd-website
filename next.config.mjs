@@ -1,7 +1,28 @@
 import createMDX from '@next/mdx';
 
+/** @type {import('rehype-pretty-code').Options} */
+const prettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    dark: 'github-dark',
+  },
+  // Don't paint the Shiki theme background — let cladd's surface show through.
+  keepBackground: false,
+  // Block-only fallback. Leaving `inline` unset means plain `\`code\`` stays
+  // as a vanilla <code> element (no Shiki wrapping) and renders as a chip via
+  // CSS. Add `{:lang}` to opt an inline span into highlighting.
+  defaultLang: {
+    block: 'plaintext',
+  },
+};
+
 const withMDX = createMDX({
   extension: /\.mdx?$/,
+  options: {
+    // Plugins are passed as module specifier strings so Turbopack can
+    // serialize the loader options (Next 16 default bundler).
+    rehypePlugins: [['rehype-pretty-code', prettyCodeOptions]],
+  },
 });
 
 /** @type {import('next').NextConfig} */

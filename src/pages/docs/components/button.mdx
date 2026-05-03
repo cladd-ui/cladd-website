@@ -1,7 +1,14 @@
 import { Button } from '@cladd-ui/react';
 import { DocsLayout } from '@/components/DocsLayout';
 
-export default ({ children }) => <DocsLayout>{children}</DocsLayout>;
+export default ({ children }) => (
+  <DocsLayout
+    title="Button — Cladd"
+    description="Polymorphic, surface-backed Button component. Sizes 2xs → 2xl, eleven accent colors, every Surface variant."
+  >
+    {children}
+  </DocsLayout>
+);
 
 # Button
 
@@ -22,5 +29,5 @@ import { Button } from '@cladd-ui/react';
 
 <Button color="brand" size="lg">
   Save changes
-</Button>
+</Button>;
 ```

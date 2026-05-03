@@ -1,0 +1,163 @@
+.prose {
+  @apply leading-relaxed;
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-normal text-white light:text-black;
+  }
+  h1 {
+    @apply mt-0 mb-[0.5em] text-4xl leading-[1.2] tracking-tight text-balance sm:text-5xl;
+  }
+  h2 {
+    @apply mt-[1.8em] mb-[0.6em] text-3xl leading-[1.125] tracking-tight sm:text-4xl;
+  }
+  h3 {
+    @apply mt-[1.4em] mb-[0.7em] text-2xl leading-tight sm:text-3xl;
+  }
+  h4 {
+    @apply mt-[1.6em] mb-[0.8em] text-xl leading-tight sm:text-2xl;
+  }
+  em {
+    font-variation-settings: "slnt" -10;
+  }
+  h1 + *,
+  h2 + *,
+  h3 + *,
+  h4 + * {
+    @apply mt-0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply first:mt-0 last:mb-0;
+  }
+
+  p,
+  ul,
+  ol,
+  pre,
+  table,
+  blockquote {
+    @apply my-4 first:mt-0 last:mb-0;
+  }
+  hr {
+    @apply my-8 first:mt-0 last:mb-0;
+  }
+  li > ul,
+  li > ol {
+    @apply last:mb-6;
+  }
+  li > img {
+    @apply my-2;
+  }
+
+  img,
+  video,
+  iframe,
+  .img-svg {
+    @apply rounded-2xl border border-cladd-outline;
+  }
+  iframe {
+    @apply block aspect-video w-full;
+  }
+
+  hr {
+    @apply border-cladd-outline;
+  }
+
+  ul,
+  ol {
+    @apply list-outside pl-6;
+  }
+  ul {
+    @apply list-disc;
+  }
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply my-2 pl-2 first:mt-0 last:mb-0;
+    &::marker {
+      font-variant-numeric: normal;
+    }
+  }
+
+  strong {
+    @apply font-bold;
+  }
+  mark {
+    @apply bg-cladd-primary;
+  }
+  blockquote {
+    @apply border-l-4 border-cladd-outline py-4 pl-4 italic;
+    font-variation-settings: "slnt" -10;
+  }
+  blockquote > *:first-child {
+    @apply mt-0;
+  }
+  blockquote > *:last-child {
+    @apply mb-0;
+  }
+  a {
+    @apply cursor-pointer;
+  }
+  a.text-cladd-primary {
+    @apply hover:underline;
+  }
+  a:not(.text-cladd-primary) {
+    @apply underline opacity-75 hover:no-underline;
+  }
+  table {
+    @apply w-full table-fixed border border-cladd-outline text-sm;
+    p {
+      @apply m-0;
+    }
+
+    th,
+    td {
+      @apply relative min-w-16 p-2 text-left;
+    }
+    th {
+      @apply font-bold;
+    }
+    th {
+      @apply bg-cladd-surface;
+    }
+    tr {
+      @apply divide-x divide-cladd-outline;
+    }
+    tr + tr {
+      @apply border-t border-cladd-outline;
+    }
+  }
+
+  code {
+    @apply text-sm text-cladd-fg opacity-75;
+  }
+  code::before,
+  code::after {
+    content: "`";
+    @apply font-mono text-cladd-fg-soft;
+  }
+  pre {
+    @apply bg-transparent px-4 pt-8 pb-8 text-sm;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    code {
+      font-size: 1em;
+    }
+  }
+
+  pre code::before,
+  pre code::after {
+    content: "";
+    display: none;
+  }
+}

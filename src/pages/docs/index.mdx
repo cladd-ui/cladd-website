@@ -1,18 +1,50 @@
 import { DocsLayout } from '@/components/DocsLayout';
 
-export default ({ children }) => <DocsLayout>{children}</DocsLayout>;
+export default ({ children }) => (
+  <DocsLayout
+    title="Introduction — Cladd"
+    description="Cladd is an opinionated React UI kit for building real apps, editors, and dashboards — not a headless primitives library."
+  >
+    {children}
+  </DocsLayout>
+);
 
 # Introduction
 
-**cladd** is a React UI primitive library. It ships unstyled-but-not-quite
-components that already understand surfaces, focus rings, and theming, so you
-can compose them into your own design system without rebuilding the boring
-parts.
+**Cladd** is an opinionated React UI kit for building applications. It's not a
+collection of headless primitives — it ships with a defined visual identity:
+recessed/cut surfaces, subtle gradients, dark-first theming, a lime accent, and
+a coherent set of controls that look like they belong in the same product.
 
-## What you get
+If you've used Radix or Base UI, those give you behaviour and leave the design
+to you. Cladd gives you both — and a kit complete enough that you can start
+shipping real screens immediately.
 
-- A small set of building blocks: `Button`, `Surface`, `Dialog`, `Popover`, `List`, ...
-- Built on Tailwind v4 and CSS variables — themable from the outside.
-- Hooks for the common imperative bits: `useDialog`, `useToast`, `useTheme`.
+## What's in the box
 
-Head over to [Installation](/docs/installation/) to get set up.
+- **A surface system.** `Surface`, `SurfaceCut`, and five depth levels that
+  nest contextually. Surfaces inherit and offset from their parent, so nested
+  panels read correctly without manual color picking.
+- **A sizing scale.** Every interactive control — `Button`, `Input`,
+  `NumberField`, `OTPField`, `Switch`, `Slider`, `Chip`, `Shortcut` — supports
+  the same `2xs → 2xl` size axis. They line up.
+- **Eleven accent colors.** `neutral`, `brand`, `red`, `pink`, `purple`,
+  `blue`, `cyan`, `lime`, `green`, `yellow`, `orange` — each with the right
+  text, fill, and outline shades for any surface variant.
+- **Application-grade components.** `Toolbar`, `Segmented`, `Popover`,
+  `Dialog`, `Toast`, `Tooltip`, `Shortcut`, `Select`, `OTPField`, `Slider`,
+  `NumberField` — the parts you need for the boring shell of a real app.
+- **Hooks for the imperative bits.** `useDialog`, `useToast`, `useTheme`,
+  `useSurface`, `useDevice`.
+
+## Already shipping
+
+Cladd powers production apps:
+
+- **[Swiper Studio](https://studio.swiperjs.com/)** — visual editor for Swiper sliders
+- **[t0ggles](https://t0ggles.com/)** — project management
+- **PaneFlow** — animated panel framework
+- **Start Page HQ** — browser start page
+
+If you're building an app and don't want to spend the first two weeks deciding
+what a button looks like — start with [Installation](/docs/installation/).

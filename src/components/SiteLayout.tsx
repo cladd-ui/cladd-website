@@ -1,33 +1,51 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
+import Head from 'next/head';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 interface SiteLayoutProps {
   children: ReactNode;
+  /** Full <title> string. Required so every page in the site has one. */
+  title: string;
+  /** Meta description. Required so every page is indexable / shareable. */
+  description: string;
 }
 
-export function SiteLayout({ children }: SiteLayoutProps) {
+export function SiteLayout({ children, title, description }: SiteLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="flex items-center justify-between px-6 h-14 border-b border-cladd-outline">
-        <Link href="/" className="font-semibold tracking-tight">
-          cladd
-        </Link>
-        <nav className="flex items-center gap-6 text-sm">
-          <Link href="/docs/">Docs</Link>
-          <Link href="/docs/components/button/">Components</Link>
-          <a
-            href="https://github.com/cladd-ui/cladd"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-        </nav>
-      </header>
-      <main className="flex-1">{children}</main>
-      <footer className="px-6 py-6 text-xs text-cladd-fg-2 border-t border-cladd-outline">
-        Built with cladd.
-      </footer>
-    </div>
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Cladd" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+      </Head>
+      <div className="flex min-h-screen flex-col">
+        <header className="flex h-14 items-center justify-between border-b border-cladd-outline px-6">
+          <Link href="/" className="font-semibold">
+            cladd
+          </Link>
+          <nav className="flex items-center gap-6 text-sm">
+            <Link href="/docs/">Docs</Link>
+            <Link href="/docs/components/button/">Components</Link>
+            <a
+              href="https://github.com/cladd-ui/cladd"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+          </nav>
+        </header>
+        <main className="flex-1">{children}</main>
+        <footer className="border-t border-cladd-outline px-6 py-6 text-xs text-cladd-fg-soft">
+          Built with cladd.
+        </footer>
+      </div>
+    </>
   );
 }

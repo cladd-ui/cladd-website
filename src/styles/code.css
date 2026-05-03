@@ -1,0 +1,68 @@
+/* Syntax highlighting via rehype-pretty-code + Shiki.
+ *
+ * Each token receives an inline style with `--shiki-light` / `--shiki-dark`
+ * (and `*-bg` for backgrounds). We default to the light value, then under
+ * cladd's `.dark` ancestor flip to the dark value.
+ *
+ * The surface treatment around <pre> is provided by the <SurfaceCut> wrapper
+ * in `mdx-components.tsx`, not CSS. */
+
+.prose pre > code {
+  @apply block bg-transparent p-0 text-[0.875em] leading-relaxed;
+  font-family: var(--font-mono);
+  counter-reset: line;
+}
+
+.prose :not(pre) > code {
+  @apply text-[0.875em];
+  font-family: var(--font-mono);
+}
+
+/* Shiki tokens: default to the light theme. */
+[data-rehype-pretty-code-figure] code,
+[data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+/* Flip to the dark theme inside any `.dark` ancestor. */
+:where(.dark, .dark *) [data-rehype-pretty-code-figure] code,
+:where(.dark, .dark *) [data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
+
+/* Lines: each one is a span with `data-line`. Scoped to <pre> so the
+ * `display: block` doesn't leak onto inline code spans. */
+pre [data-line] {
+  @apply block min-h-[1lh] px-4;
+}
+
+pre code[data-line-numbers] {
+  counter-reset: line;
+}
+
+pre code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply mr-4 inline-block w-4 text-right text-cladd-fg-soft;
+}
+
+pre [data-highlighted-line] {
+  @apply bg-cladd-surface-minus;
+}
+
+pre [data-highlighted-chars] {
+  @apply rounded bg-cladd-surface-minus px-1;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply mt-4 -mb-2 px-4 py-2 text-xs text-cladd-fg-soft;
+  font-family: var(--font-mono);
+}

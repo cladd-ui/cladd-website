@@ -11,9 +11,9 @@
     // delegating to ASSETS.fetch for static files.
     "binding": "ASSETS",
     "run_worker_first": true,
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
   },
   "observability": {
-    "enabled": true
-  }
+    "enabled": false,
+  },
 }

@@ -1,3 +1,4 @@
+import { SectionTitle } from '@cladd-ui/react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
@@ -5,6 +6,10 @@ import { SiteLayout } from './SiteLayout';
 
 interface DocsLayoutProps {
   children: ReactNode;
+  /** Full <title> string. Forwarded to SiteLayout. */
+  title: string;
+  /** Meta description. Forwarded to SiteLayout. */
+  description: string;
 }
 
 const sections: { title: string; links: { label: string; href: string }[] }[] =
@@ -22,16 +27,14 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
     },
   ];
 
-export function DocsLayout({ children }: DocsLayoutProps) {
+export function DocsLayout({ children, title, description }: DocsLayoutProps) {
   return (
-    <SiteLayout>
-      <div className="grid grid-cols-[220px_1fr] gap-10 px-6 py-10 max-w-6xl mx-auto">
-        <aside className="text-sm flex flex-col gap-6">
+    <SiteLayout title={title} description={description}>
+      <div className="mx-auto grid max-w-6xl grid-cols-[220px_1fr] gap-10 px-6 py-10">
+        <aside className="flex flex-col gap-6 text-sm">
           {sections.map((section) => (
             <div key={section.title} className="flex flex-col gap-2">
-              <div className="text-xs uppercase tracking-wide text-cladd-fg-2">
-                {section.title}
-              </div>
+              <SectionTitle>{section.title}</SectionTitle>
               <ul className="flex flex-col gap-1">
                 {section.links.map((link) => (
                   <li key={link.href}>

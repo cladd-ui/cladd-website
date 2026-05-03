@@ -1,17 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": [
-      "@types/mdx"
-    ],
+    "types": ["@types/mdx"],
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": false,
@@ -31,9 +25,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -43,10 +35,5 @@
     "**/*.mdx",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "out",
-    ".worker-dist"
-  ]
+  "exclude": ["node_modules", ".next", "out", ".worker-dist"]
 }
