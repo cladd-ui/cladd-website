@@ -1,4 +1,4 @@
-import { Surface } from '@cladd-ui/react';
+import { cn, Surface } from '@cladd-ui/react';
 import { Fragment, type ReactNode } from 'react';
 
 export interface PropRow {
@@ -97,7 +97,7 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
       )}
 
       <Surface
-        className="rounded-2xl"
+        className="overflow-hidden rounded-2xl"
         outline
         contentClassName="overflow-x-auto"
       >
@@ -105,10 +105,10 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
           <table className="props-table w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-cladd-outline text-xs tracking-wide text-cladd-fg-soft uppercase">
-                <th className="px-4 py-3 font-medium">Name</th>
-                <th className="px-4 py-3 font-medium">Type</th>
-                <th className="px-4 py-3 font-medium">Default</th>
-                <th className="px-4 py-3 font-medium">Description</th>
+                <th className="w-1/6 px-4 py-3 font-medium">Name</th>
+                <th className="w-1/6 px-4 py-3 font-medium">Type</th>
+                <th className="w-1/6 px-4 py-3 font-medium">Default</th>
+                <th className="w-3/6 px-4 py-3 font-medium">Description</th>
               </tr>
             </thead>
             <tbody>
@@ -125,13 +125,14 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
               {rows.map((row, idx) => (
                 <tr
                   key={row.name}
-                  className={
+                  className={cn(
+                    idx % 2 === 1 && 'bg-cladd-surface-plus',
                     idx < rows.length - 1
                       ? 'border-b border-cladd-outline/60 align-top'
-                      : 'align-top'
-                  }
+                      : 'align-top',
+                  )}
                 >
-                  <td className="cladd-color-blue px-4 py-3 font-mono text-xs whitespace-nowrap text-cladd-primary">
+                  <td className="cladd-color-blue w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
                     {row.name}
                     {!row.optional && (
                       <span
@@ -143,13 +144,13 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
                       </span>
                     )}
                   </td>
-                  <td className="cladd-color-orange px-4 py-3 font-mono text-xs text-cladd-primary">
+                  <td className="cladd-color-orange w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
                     <span className="break-words">{row.type}</span>
                   </td>
-                  <td className="cladd-color-green px-4 py-3 font-mono text-xs whitespace-nowrap text-cladd-primary">
+                  <td className="cladd-color-green w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
                     {row.default ?? '—'}
                   </td>
-                  <td className="px-4 py-3 leading-relaxed text-cladd-fg">
+                  <td className="w-3/6 px-4 py-3 leading-relaxed text-cladd-fg">
                     {renderDescription(row.description)}
                   </td>
                 </tr>
