@@ -1,10 +1,25 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorsExample,
+  CompositionExample,
+  InteractiveExample,
+  LevelsGridExample,
+  NestedLevelsExample,
+  OutlineExample,
+  OverviewExample,
+  PlaygroundExample,
+  PolymorphicExample,
+  RelativeLevelsExample,
+  TransparentNestingExample,
+  VariantsExample,
+} from '@/components/examples/surface';
 import SurfaceProps from '@/generated/props/SurfaceProps';
+import SurfaceContentProps from '@/generated/props/SurfaceContentProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="Surface — Cladd"
-    description="Surface component props."
+    description="Surface is the foundational container in cladd — every panel, card, button, and toolbar is built from it."
   >
     {children}
   </DocsLayout>
@@ -12,6 +27,100 @@ export default ({ children }) => (
 
 # Surface
 
+`Surface` is the foundational container in cladd. Almost every other component — `Button`, `Toolbar`, `Input`, `Switch`, `Segmented` — is composed from it. It carries the **depth level**, the **variant**, the **accent color**, and the optional interactive states (`hoverable`, `clickable`, `pressed`) that the rest of the kit reuses.
+
+This page covers `Surface` together with its content slot, `SurfaceContent`.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Surface } from '@cladd-ui/react';
+
+<Surface outline className="rounded-xl">
+  Hello, surface
+</Surface>
+```
+
+By default `Surface` renders a `div` and wraps `children` in a `SurfaceContent` flex wrapper. Pass `as` to render a different element, `wrapContent={false}` to opt out of the inner wrapper, or `contentClassName` to style the inner wrapper directly.
+
+## Levels
+
+Every `Surface` resolves to a depth `level` from 1 to 5. The level drives the background tone via the `cladd-surface-level-N` class and propagates to nested surfaces through React context. By default a surface renders **one level deeper than its parent**, so nesting "just works" without you tracking depth manually.
+
+<LevelsGridExample />
+
+### Nested surfaces auto-bump
+
+A `Surface` with no `level` prop reads the current context and renders at `parent + 1`. Stack them and each child sits one shade above its container, up to the clamp at 5.
+
+<NestedLevelsExample />
+
+### Relative offsets
+
+Pass a string like `"+1"` or `"-1"` to render relative to the parent context. Useful when a surface needs to break out of the default downward stacking — e.g. an inner panel that should match a sibling rather than its container.
+
+<RelativeLevelsExample />
+
+### Transparent inherits the parent
+
+A `variant="transparent"` surface publishes its parent's level (not its own) to descendants. Children render at the same depth as the transparent wrapper — handy for grouping without adding a visual layer.
+
+<TransparentNestingExample />
+
+## Composition
+
+`Surface` ships with `SurfaceContent`, the inner flex wrapper. By default `Surface` wraps its `children` in a single `SurfaceContent`. For richer layouts — header/body/footer, decorative overlays, side-by-side panes — pass `wrapContent={false}` and compose the slots yourself.
+
+<CompositionExample />
+
+The `beforeContent` prop is a sibling slot rendered between the background layer and the content wrapper. Use it for decorative overlays or focus rings that should sit above the surface fill but outside the content flex layout.
+
+## Examples
+
+### Variants
+
+`variant` controls the surface's visual treatment. `transparent` renders no background (children sit at the parent level), `solid` is the default flat fill, `gradient` adds a diagonal highlight, and the `*-fill` variants paint the accent color across the whole surface with inverted text.
+
+<VariantsExample />
+
+### Colors
+
+`Surface` accepts any of the eleven cladd accent tokens through `color`. The token sets `cladd-color-{name}` on the root, which flows into accent-aware fills, outlines, and inverted text colors on the `*-fill` variants.
+
+<ColorsExample />
+
+### Outline
+
+`outline` adds a 1px ring around the surface. The ring switches to a fill-aware token automatically when `variant` ends in `-fill`, so it stays legible against accent backgrounds.
+
+<OutlineExample />
+
+### Interactive states
+
+`hoverable` reveals a hover overlay; `clickable` adds an active scale + pressed background; `pressed` forces the pressed state regardless of pointer activity (controlled press). Combine them to turn a surface into a fully interactive target. Use `as="button"` (or `as="a"`) so the surface itself is the interactive element.
+
+<InteractiveExample />
+
+### Polymorphic root
+
+`Surface` is polymorphic. Render it as a button, anchor, or any custom component — props of the target element are forwarded automatically.
+
+<PolymorphicExample />
+
+### Playground
+
+`variant`, `color`, `outline`, and nesting are designed to compose. The outer surface sets the context — accent color flows down through `cladd-color-{name}`, and nested surfaces auto-bump one level deeper for visual depth.
+
+<PlaygroundExample />
+
 ## Props
 
+### Surface
+
 <SurfaceProps />
+
+### SurfaceContent
+
+<SurfaceContentProps />

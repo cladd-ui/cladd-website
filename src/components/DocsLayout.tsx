@@ -42,7 +42,6 @@ const componentNames = [
   'Slider',
   'Spinner',
   'Surface',
-  'SurfaceContent',
   'SurfaceCut',
   'SurfaceCutContent',
   'Switch',
