@@ -19,7 +19,7 @@ export default function HomePage() {
           product — not a landing page.
         </p>
         <div className="flex items-center gap-3">
-          <Button as={Link} href="/docs/" color="brand" size="lg">
+          <Button as={Link} href="/react/" color="brand" size="lg">
             Read the docs
           </Button>
           <Button

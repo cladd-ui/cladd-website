@@ -30,8 +30,8 @@ export function SiteLayout({ children, title, description }: SiteLayoutProps) {
             cladd
           </Link>
           <nav className="flex items-center gap-6 text-sm">
-            <Link href="/docs/">Docs</Link>
-            <Link href="/docs/components/button/">Components</Link>
+            <Link href="/react/">Docs</Link>
+            <Link href="/react/components/button/">Components</Link>
             <a
               href="https://github.com/cladd-ui/cladd"
               target="_blank"

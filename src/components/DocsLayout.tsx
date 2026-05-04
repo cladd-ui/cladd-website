@@ -68,15 +68,15 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
     {
       title: 'Getting started',
       links: [
-        { label: 'Introduction', href: '/docs/' },
-        { label: 'Installation', href: '/docs/installation/' },
+        { label: 'Introduction', href: '/react/' },
+        { label: 'Installation', href: '/react/installation/' },
       ],
     },
     {
       title: 'Components',
       links: componentNames.map((name) => ({
         label: name,
-        href: `/docs/components/${toKebab(name)}/`,
+        href: `/react/components/${toKebab(name)}/`,
       })),
     },
   ];

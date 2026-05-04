@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, '..');
 const generatedDir = resolve(projectRoot, 'src/generated/props');
-const pagesDir = resolve(projectRoot, 'src/pages/docs/components');
+const pagesDir = resolve(projectRoot, 'src/pages/react/components');
 
 function toKebab(s) {
   return s
