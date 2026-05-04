@@ -46,7 +46,7 @@ const componentNames = [
   'SurfaceCut',
   'SurfaceCutContent',
   'Switch',
-  'TextArea',
+  'Textarea',
   'Toast',
   'Toolbar',
   'ToolbarButton',
