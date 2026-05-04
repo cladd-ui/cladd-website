@@ -111,7 +111,7 @@
   a:not(.text-cladd-primary) {
     @apply underline opacity-75 hover:no-underline;
   }
-  table {
+  table:not(.props-table) {
     @apply w-full table-fixed border border-cladd-outline text-sm;
     p {
       @apply m-0;

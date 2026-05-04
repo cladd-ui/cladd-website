@@ -14,7 +14,7 @@
 }
 
 .prose :not(pre) > code {
-  @apply text-[0.875em];
+  @apply text-[0.875em] bg-transparent p-0;
   font-family: var(--font-mono);
 }
 

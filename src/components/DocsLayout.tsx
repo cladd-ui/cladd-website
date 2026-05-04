@@ -12,6 +12,57 @@ interface DocsLayoutProps {
   description: string;
 }
 
+const componentNames = [
+  'Backdrop',
+  'Button',
+  'Checkbox',
+  'Chip',
+  'Dialog',
+  'Input',
+  'Link',
+  'List',
+  'ListButton',
+  'ListItem',
+  'ListSeparator',
+  'ListTitle',
+  'NumberField',
+  'OTPField',
+  'OTPFieldInput',
+  'OTPFieldSeparator',
+  'Popover',
+  'Popup',
+  'PopupContent',
+  'Radio',
+  'SearchField',
+  'SectionTitle',
+  'Segmented',
+  'SegmentedButton',
+  'Select',
+  'Shortcut',
+  'Slider',
+  'Spinner',
+  'Surface',
+  'SurfaceContent',
+  'SurfaceCut',
+  'SurfaceCutContent',
+  'Switch',
+  'TextArea',
+  'Toast',
+  'Toolbar',
+  'ToolbarButton',
+  'ToolbarSeparator',
+  'Tooltip',
+  'TooltipPrimitive',
+  'UIProvider',
+];
+
+function toKebab(s: string) {
+  return s
+    .replace(/([a-z\d])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
 const sections: { title: string; links: { label: string; href: string }[] }[] =
   [
     {
@@ -23,7 +74,10 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
     },
     {
       title: 'Components',
-      links: [{ label: 'Button', href: '/docs/components/button/' }],
+      links: componentNames.map((name) => ({
+        label: name,
+        href: `/docs/components/${toKebab(name)}/`,
+      })),
     },
   ];
 
