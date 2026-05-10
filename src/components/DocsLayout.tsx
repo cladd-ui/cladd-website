@@ -21,10 +21,6 @@ const componentNames = [
   'Input',
   'Link',
   'List',
-  'ListButton',
-  'ListItem',
-  'ListSeparator',
-  'ListTitle',
   'NumberField',
   'NumberScrubber',
   'OTPField',
@@ -48,7 +44,6 @@ const componentNames = [
   'Toast',
   'Toolbar',
   'Tooltip',
-  'TooltipPrimitive',
   'UIProvider',
 ];
 

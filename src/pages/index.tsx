@@ -18,7 +18,7 @@ export default function HomePage() {
           eleven accent colors, and the components you need to ship a real
           product — not a landing page.
         </p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Button as={Link} href="/react/" color="brand" size="lg">
             Read the docs
           </Button>

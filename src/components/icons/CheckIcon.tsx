@@ -6,13 +6,7 @@ type IconProps = SVGProps<SVGSVGElement> & {
   title?: string;
 };
 
-export function CheckIcon({
-  fill = 'currentColor',
-  secondaryfill,
-  ...props
-}: IconProps) {
-  secondaryfill = secondaryfill || fill;
-
+export function CheckIcon({ fill = 'currentColor', ...props }: IconProps) {
   return (
     <svg
       height="18"

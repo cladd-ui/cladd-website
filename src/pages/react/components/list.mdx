@@ -1,14 +1,131 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  HeaderFooterExample,
+  InPopoverExample,
+  ListItemExample,
+  OverviewExample,
+  SelectedExample,
+  SizeExample,
+  WithIconExample,
+} from '@/components/examples/list';
 import ListProps from '@/generated/props/ListProps';
+import ListButtonProps from '@/generated/props/ListButtonProps';
+import ListItemProps from '@/generated/props/ListItemProps';
+import ListSeparatorProps from '@/generated/props/ListSeparatorProps';
+import ListTitleProps from '@/generated/props/ListTitleProps';
 
 export default ({ children }) => (
-  <DocsLayout title="List — Cladd" description="List component props.">
+  <DocsLayout
+    title="List — Cladd"
+    description="List, ListButton, ListItem, ListSeparator, and ListTitle — the row primitives for sidebars, navigation panels, and Popover-driven menus."
+  >
     {children}
   </DocsLayout>
 );
 
 # List
 
+`List` and its companions are the building blocks of vertical row layouts — sidebars, navigation panels, settings sheets, and dropdown menus. The five pieces are designed to compose:
+
+- `List` — the container. A flex column with `p-2`; pass `className` to size it (`w-64`, `w-full`, etc.).
+- `ListButton` — the interactive row primitive. Wraps [`Button`](/react/components/button/) with list-tuned defaults (`size="lg"`, transparent variant, `multiline`) plus slots for `icon`, `header`, `footer`, and `after`.
+- `ListItem` — the static row primitive. Same vertical rhythm as `ListButton` but renders a plain `<div>` — for read-only metadata rows.
+- `ListSeparator` — a hairline that bleeds into the list's padding, for grouping rows.
+- `ListTitle` — an uppercase eyebrow label for naming a group of rows.
+
+In practice these are most often dropped into a [`Popover`](/react/components/popover/) to build option menus, sort pickers, account dropdowns, and command-palette rows — see the [popover example](#in-a-popover) below.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import {
+  List,
+  ListButton,
+  ListItem,
+  ListSeparator,
+  ListTitle,
+} from '@cladd-ui/react';
+
+<List className="w-64">
+  <ListTitle>Workspace</ListTitle>
+  <ListButton selected>Inbox</ListButton>
+  <ListButton>Drafts</ListButton>
+  <ListSeparator />
+  <ListButton icon={<PlusIcon />}>New project</ListButton>
+</List>;
+```
+
+A bare `List` is a flex column with `p-2`. Drop in any combination of `ListTitle`, `ListSeparator`, `ListButton`, and `ListItem` — they all share the list's padding rhythm so spacing stays consistent without per-row tuning.
+
+`ListButton` inherits the full [`Button`](/react/components/button/) API. Notable defaults that differ from `Button`: `size="lg"` (lists usually want more vertical space than a toolbar), `variant="transparent"`, `outline={false}`, and `multiline` so long titles wrap instead of truncating.
+
+## Examples
+
+### With icon
+
+`ListButton`'s `icon` slot takes a node — typically an SVG — and renders it in a size-matched square ahead of the title. The wrapper applies the size class for you, so the same icon stays in proportion as you change the row's `size`. Use it for action menus and navigation rows where the leading glyph carries most of the recognition load.
+
+<WithIconExample />
+
+### Header, footer & after
+
+`header` and `footer` are small `cladd-xs` labels stacked above and below the title — the right slots for an eyebrow date/category and a metadata line. `after` is a right-aligned end slot for badges, chevrons, [`Chip`s](/react/components/chip/), or [`Shortcut`s](/react/components/shortcut/). Combine them to build the dense, three-line rows you'd see in a task list, an inbox, or an activity feed.
+
+<HeaderFooterExample />
+
+### Selected
+
+`selected` marks the active row. Internally it forces `variant="gradient"` and `outline={true}` regardless of the props you pass, so a selected row always reads as the live one. Pair with `color` to tint the highlight — neutral by default, `"brand"` for the typical app accent.
+
+<SelectedExample />
+
+### Sizes
+
+`size` accepts the same `2xs → 2xl` scale as [`Button`](/react/components/button/). The default is `lg` — one step up from `Button`'s default — because list rows want more vertical air than toolbar buttons. Stay around `md`–`lg` for typical menus and sidebars; drop to `sm` or `xs` for dense option sheets opened in a [`Popover`](/react/components/popover/).
+
+<SizeExample />
+
+### Color
+
+`color` tints the row's text and accent treatment (the highlight under hover, the gradient under `selected`). Use it in isolation to mark a destructive row — a red `"Delete"` row at the end of a menu — without changing the surrounding rhythm, or pair it with `selected` for a colored active-row highlight.
+
+<ColorExample />
+
+### Static info rows
+
+`ListItem` is the non-interactive sibling of `ListButton` — same vertical rhythm, but it renders a plain `<div>` with no button behavior, no hover overlay, and smaller `cladd-xs` text. Use it for read-only metadata rows in a settings panel, account header rows, or anywhere a row needs to line up with surrounding `ListButton`s but stay static. It composes with [`Chip`](/react/components/chip/) for inline status, and with `ListSeparator` and `ListTitle` for sectioning.
+
+<ListItemExample />
+
+### In a popover
+
+The List family was designed to drop straight into a [`Popover`](/react/components/popover/). The popover supplies the floating surface, the anchoring against the trigger, and the open/close transitions; the list supplies the rows. Wire `selected` to your selection state and you have a sort picker, an account menu, or a properties dropdown in a few lines.
+
+When using `ListButton` inside a popover, drop the `size` to `md` (or `sm` for very dense menus) — popovers are typically narrower than sidebars and the default `lg` rows can feel oversized. Override the popover's default width via `className` (`w-56`, `w-64`) to match the longest row.
+
+<InPopoverExample />
+
 ## Props
 
+### List
+
 <ListProps />
+
+### ListButton
+
+<ListButtonProps />
+
+### ListItem
+
+<ListItemProps />
+
+### ListSeparator
+
+<ListSeparatorProps />
+
+### ListTitle
+
+<ListTitleProps />

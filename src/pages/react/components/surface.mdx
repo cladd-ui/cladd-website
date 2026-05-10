@@ -1,7 +1,6 @@
 import { DocsLayout } from '@/components/DocsLayout';
 import {
   ColorsExample,
-  CompositionExample,
   InteractiveExample,
   LevelsGridExample,
   NestedLevelsExample,
@@ -38,12 +37,31 @@ This page covers `Surface` together with its content slot, `SurfaceContent`.
 ```tsx
 import { Surface } from '@cladd-ui/react';
 
-<Surface outline className="rounded-xl">
-  Hello, surface
+<Surface outline className="w-64 rounded-xl" contentClassName="flex gap-4 p-4">
+  <span>Hello,</span>
+  <span>surface</span>
 </Surface>;
 ```
 
-By default `Surface` renders a `div` and wraps `children` in a `SurfaceContent` flex wrapper. Pass `as` to render a different element, `wrapContent={false}` to opt out of the inner wrapper, or `contentClassName` to style the inner wrapper directly.
+`Surface` is built from three layers — see [Anatomy](#anatomy) below for the full picture. The short version: `className` styles the outer box (size, corner radius, accent color, ring), `contentClassName` styles the inner content area (padding, `flex`, `grid`). Putting `flex p-4` on `className` won't lay out the children, because the children live one wrapper deeper.
+
+## Anatomy
+
+A `Surface` renders three layers, in this order:
+
+1. **Root element** — the polymorphic node (`div` by default, swappable via `as`). Carries `className`, the depth-level class (`cladd-surface-level-N`), the accent-color class (`cladd-color-{name}`), and any forwarded element props. Positioned `relative` so the other layers can sit inside it.
+2. **Background layer** — an absolutely-positioned `div` sized to the root. Paints the variant fill (`solid`, `gradient`, `*-fill`), the outline ring, and the hover/pressed overlays. Style it via `bgClassName` if you need to tweak it.
+3. **Content wrapper** — a `relative h-full` `div` (`SurfaceContent`) that wraps `children`. The `relative` positioning is the whole point: it lifts the content above the absolute bg layer so the children render on top of the fill. It has no padding, `flex`, or other layout of its own — that's `contentClassName`'s job.
+
+This split is why `className` and `contentClassName` are separate props. `className` shapes the **box**: width, rounded corners, accent token, outline. `contentClassName` shapes the **content layout**: padding, `flex`, `grid`, gap, alignment. The two never collide.
+
+### Bypassing the content wrapper
+
+Pass `wrapContent={false}` to render `children` directly instead of wrapping them in `SurfaceContent`. You rarely need this — the default wrapper is invisible until you put styles on it via `contentClassName`. Reach for it only when you want multiple stacked content slots (e.g. header / divider / body, each in its own `SurfaceContent`), or you want full manual control of the inner DOM.
+
+### `beforeContent`
+
+The `beforeContent` prop renders a sibling slot between the bg layer and the content wrapper — outside the `SurfaceContent` flow. Use it for focus rings, decorative gradients, or any overlay that needs to sit above the fill but not inside the content layout.
 
 ## Levels
 
@@ -68,14 +86,6 @@ Pass a string like `"+1"` or `"-1"` to render relative to the parent context. Us
 A `variant="transparent"` surface publishes its parent's level (not its own) to descendants. Children render at the same depth as the transparent wrapper — handy for grouping without adding a visual layer.
 
 <TransparentNestingExample />
-
-## Composition
-
-`Surface` ships with `SurfaceContent`, the inner flex wrapper. By default `Surface` wraps its `children` in a single `SurfaceContent`. For richer layouts — header/body/footer, decorative overlays, side-by-side panes — pass `wrapContent={false}` and compose the slots yourself.
-
-<CompositionExample />
-
-The `beforeContent` prop is a sibling slot rendered between the background layer and the content wrapper. Use it for decorative overlays or focus rings that should sit above the surface fill but outside the content flex layout.
 
 ## Examples
 

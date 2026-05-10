@@ -1,4 +1,5 @@
 import { cn, Surface } from '@cladd-ui/react';
+import Link from 'next/link';
 import { Fragment, type ReactNode } from 'react';
 
 export interface PropRow {
@@ -20,6 +21,14 @@ export interface PropsTableProps {
   rows: PropRow[];
   typeParams?: TypeParam[];
   extendsList?: string[];
+}
+
+function propsTypeToKebab(propsType: string): string {
+  return propsType
+    .replace(/Props$/, '')
+    .replace(/([a-z\d])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
 }
 
 // Render a string with inline `backtick` segments as styled <code>. Multi-line
@@ -88,7 +97,12 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
               {extendsList!.map((p, i) => (
                 <Fragment key={p}>
                   {i > 0 ? ', ' : null}
-                  <code className="font-mono text-cladd-fg">{p}</code>
+                  <Link
+                    href={`/react/components/${propsTypeToKebab(p)}/`}
+                    className="font-mono text-cladd-fg underline-offset-2 hover:underline"
+                  >
+                    {p}
+                  </Link>
                 </Fragment>
               ))}
             </span>

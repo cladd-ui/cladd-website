@@ -154,7 +154,7 @@ function ExampleCode({ code }: { code: string }) {
       <div
         className={cn(
           collapsed &&
-            'h-24 overflow-hidden mask-linear-180 mask-linear-from-black/50 mask-linear-to-transparent',
+            'max-h-24 overflow-hidden mask-linear-180 mask-linear-from-black/50 mask-linear-to-transparent',
           'relative',
         )}
       >

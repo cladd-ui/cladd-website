@@ -129,7 +129,15 @@ function collectFromTypeNode(typeNode, sourceFile, ctx) {
       ? typeNode.typeName.text
       : null;
     if (!refName) return;
-    if (TYPE_HELPERS_TO_SKIP.has(refName)) return;
+    if (TYPE_HELPERS_TO_SKIP.has(refName)) {
+      // Peek into the first type argument so wrappers like
+      // `Omit<TooltipPrimitiveProps, …>` still surface the underlying
+      // `*Props` reference for the extends list.
+      if (typeNode.typeArguments && typeNode.typeArguments.length > 0) {
+        collectFromTypeNode(typeNode.typeArguments[0], sourceFile, ctx);
+      }
+      return;
+    }
     const localDecl = findDeclaration(refName, sourceFile);
     if (localDecl) {
       if (ctx.visited.has(refName)) return;
@@ -143,14 +151,45 @@ function collectFromTypeNode(typeNode, sourceFile, ctx) {
   }
 }
 
+// ExpressionWithTypeArguments (the node behind `extends X<…>`) isn't a TypeNode,
+// so it can't be passed to `collectFromTypeNode` directly. This helper reads
+// the expression name + type arguments and applies the same rules as a
+// TypeReferenceNode.
+function collectFromHeritageType(node, sourceFile, ctx) {
+  if (!ts.isIdentifier(node.expression)) return;
+  const refName = node.expression.text;
+  if (TYPE_HELPERS_TO_SKIP.has(refName)) {
+    if (node.typeArguments && node.typeArguments.length > 0) {
+      collectFromTypeNode(node.typeArguments[0], sourceFile, ctx);
+    }
+    return;
+  }
+  const localDecl = findDeclaration(refName, sourceFile);
+  if (localDecl) {
+    if (ctx.visited.has(refName)) return;
+    ctx.visited.add(refName);
+    collectFromDeclaration(localDecl, sourceFile, ctx);
+    return;
+  }
+  if (refName.endsWith('Props')) ctx.extendsExternal.add(refName);
+}
+
 function collectFromDeclaration(decl, sourceFile, ctx) {
   if (!ctx.rootTypeParameters && decl.typeParameters) {
     ctx.rootTypeParameters = decl.typeParameters;
   }
   if (ts.isInterfaceDeclaration(decl)) {
     for (const m of decl.members) ctx.members.push(m);
-    // Note: heritage clauses on interfaces (extends) are not chased here —
-    // cladd's props interfaces don't use them for own-props composition.
+    // Chase heritage clauses (`interface FooProps extends BarProps {…}`,
+    // or `extends Omit<BarProps, …>`) so the extends list catches the
+    // inherited types.
+    if (decl.heritageClauses) {
+      for (const hc of decl.heritageClauses) {
+        for (const typeRef of hc.types) {
+          collectFromHeritageType(typeRef, sourceFile, ctx);
+        }
+      }
+    }
     return;
   }
   if (ts.isTypeAliasDeclaration(decl)) {

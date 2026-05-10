@@ -110,7 +110,7 @@ export function VariantExample() {
         </Toolbar>
       }
     >
-      <Button variant={variant} color="brand">
+      <Button variant={variant} color="brand" className="w-32">
         {variant}
       </Button>
     </Example>
@@ -135,7 +135,7 @@ export function ColorExample() {
         </>
       }
     >
-      <Button variant={variant} color={color}>
+      <Button variant={variant} color={color} className="w-32">
         {color}
       </Button>
     </Example>

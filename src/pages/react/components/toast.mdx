@@ -1,14 +1,168 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  CompoundExample,
+  ControlledExample,
+  IconExample,
+  OverviewExample,
+  RichContentExample,
+  TimeoutExample,
+  UseToastExample,
+  VariantExample,
+} from '@/components/examples/toast';
 import ToastProps from '@/generated/props/ToastProps';
+import ToastRootProps from '@/generated/props/ToastRootProps';
+import ToastTriggerProps from '@/generated/props/ToastTriggerProps';
+import ToastCloseProps from '@/generated/props/ToastCloseProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Toast — Cladd" description="Toast component props.">
+  <DocsLayout
+    title="Toast — Cladd"
+    description="Compact, auto-dismissing notification anchored to the corner of the viewport — with both a compound JSX API and an imperative useToast hook."
+  >
     {children}
   </DocsLayout>
 );
 
 # Toast
 
+`Toast` is the corner-anchored notification — the quick "saved", "copied", "build failed" line that appears, holds for a few seconds, then slides away. It renders into the overlay portal at `right-4 bottom-4`, stacks when more than one is open, and auto-dismisses after `timeout` ms (default 5000).
+
+There are three ways to use it. The **compound API** — `ToastRoot` + `ToastTrigger` + `Toast` + `ToastClose` — wires a toast to a specific trigger element in JSX, the way `DialogRoot` does. **Controlled mode** drives `Toast` directly via `open` / `onOpenChange` — reach for it when the toast tracks state your app already owns. The imperative **`useToast` hook** fires a toast from anywhere in your app without writing any JSX for it — preferable for app-wide notifications like "Saved" or "Copied to clipboard" that aren't tied to a trigger button.
+
+<OverviewExample />
+
+## Usage
+
+### Compound API
+
+```tsx
+import { Button, Toast, ToastRoot, ToastTrigger } from '@cladd-ui/react';
+
+<ToastRoot>
+  <ToastTrigger>
+    <Button>Notify</Button>
+  </ToastTrigger>
+  <Toast title="Saved" text="Your changes are synced." />
+</ToastRoot>;
+```
+
+`ToastRoot` owns the open state (uncontrolled by default). `ToastTrigger` **clones** its single child to attach an `onClick` that toggles the root — point it at any [`Button`](/react/components/button/) or other clickable element. `Toast` reads the root's open state automatically, renders the surface into the overlay portal, and dismisses itself after `timeout`.
+
+### Controlled
+
+```tsx
+import { Button, Toast } from '@cladd-ui/react';
+
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>Save</Button>
+<Toast
+  open={open}
+  onOpenChange={setOpen}
+  title="Saved"
+  text="Your changes are synced."
+/>;
+```
+
+Drop `ToastRoot`/`ToastTrigger` and drive `Toast` directly through `open` / `onOpenChange`. Use this when the toast represents state your app already owns — a network response, a long-running job — rather than a click on a specific button.
+
+### useToast hook
+
+```tsx
+import { useToast } from '@cladd-ui/react';
+
+function CopyButton() {
+  const toast = useToast();
+  return (
+    <Button
+      onClick={() => {
+        navigator.clipboard.writeText(url);
+        toast({ title: 'Copied', text: 'Share link is in your clipboard.' });
+      }}
+    >
+      Copy link
+    </Button>
+  );
+}
+```
+
+`useToast` returns a function that queues a new toast on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/). Each call pushes a fresh entry; multiple toasts stack at the corner. The shape mirrors `Toast`'s props (`title`, `text`, `color`, `icon`, `iconProps`, `closeButton`, `onClosed`). Use this for one-off, fire-and-forget notifications.
+
+## Examples
+
+### Compound with custom action
+
+`ToastClose` clones its child to attach an `onClick` that closes the surrounding `ToastRoot`. Use it to put an **"Undo"** or **"View"** action inside a toast — clicking the action dismisses the toast, just like the built-in close button would.
+
+<CompoundExample />
+
+### Controlled
+
+Pass `open` and `onOpenChange` directly to `Toast` to drive it from external state — useful when the toast represents a state your app already owns (e.g. "sync failed" tied to a network request, not to a button click). When `open` is provided, the surrounding `ToastRoot` is bypassed; you can drop `ToastRoot`/`ToastTrigger` entirely.
+
+<ControlledExample />
+
+### Colors
+
+`color` sets the accent token (`cladd-color-{name}`) applied to the toast surface — read by the gradient/solid fill, the icon tint, and the outline ring. Use it to signal severity: `green` for success, `red` for errors, `yellow` for warnings, `brand` (default-ish) for neutral product notifications. Defaults to `'neutral'`.
+
+<ColorExample />
+
+### Variants
+
+`variant` picks the [`Surface`](/react/components/surface/) treatment of the toast shell. `'gradient'` (default) gives the slight angled-light look that reads well against any backdrop; `'solid'` is flatter and more utilitarian; the `*-fill` variants flood the toast with the accent color — louder, harder to miss, right for error or success toasts you really don't want users to scroll past.
+
+<VariantExample />
+
+### With icon
+
+`icon` is an `ElementType` rendered before the text content. Pair it with `color` for the canonical severity treatment — a green check for success, a red cross for failure. The icon component receives `iconProps` if you need to forward className or other props.
+
+<IconExample />
+
+### Rich content
+
+`title` and `text` are both optional — when you need a layout the default title/text slots can't express (an avatar + name + action buttons, a thumbnail with metadata, an inline progress bar), drop them entirely and render whatever you want into `children`. Children render between the icon and the close button, so you have the full surface to fill. Wrap actions in `ToastClose` to dismiss on click; pair with `closeButton={false}` when your custom actions already carry the dismiss behavior.
+
+<RichContentExample />
+
+### Timeout
+
+`timeout` controls auto-dismiss in milliseconds. Default `5000`. Pass `0` to disable auto-close — only the close button (or a `ToastClose`-wrapped action) will dismiss it. Use `0` sparingly: persistent toasts are easy to forget, and a [`Dialog`](/react/components/dialog/) is usually a better fit when the user must respond.
+
+<TimeoutExample />
+
+### useToast
+
+`useToast` is the easiest way to fire a toast from anywhere — event handlers, effects, network callbacks — without thinking about open state at all. It depends on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/), so make sure that's at the root of your tree. Each call pushes a new toast onto the stack; they auto-dismiss independently.
+
+<UseToastExample />
+
 ## Props
 
+### Toast
+
 <ToastProps />
+
+### ToastRoot
+
+State container for the surrounding compound — owns the open state and provides it to `ToastTrigger`, `Toast`, and `ToastClose` through context.
+
+<ToastRootProps />
+
+### ToastTrigger
+
+**Clones** its single child to attach an `onClick` that toggles the surrounding `ToastRoot`'s open state — composed with any existing `onClick` on the child. No-ops (renders the child as-is) when used outside a `ToastRoot`.
+
+<ToastTriggerProps />
+
+### ToastClose
+
+**Clones** its single child to attach an `onClick` that flips the surrounding `ToastRoot`'s open state to `false`. Use it to wrap action buttons (Undo, View, Decline, Accept) so they dismiss the toast on click.
+
+<ToastCloseProps />
+
+### useToast
+
+`useToast()` returns a function `(options) => void`. Options: `title`, `text`, `color`, `icon`, `iconProps`, `closeButton`, `onClosed` — same shape as the matching `Toast` props. The hook is a thin wrapper over the portal queue mounted by [`UIProvider`](/react/components/ui-provider/).

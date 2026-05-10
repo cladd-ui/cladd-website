@@ -1,10 +1,4 @@
-import {
-  Surface,
-  SurfaceContent,
-  Toolbar,
-  ToolbarButton,
-  type Color,
-} from '@cladd-ui/react';
+import { Surface, Toolbar, ToolbarButton, type Color } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
@@ -59,8 +53,8 @@ export function VariantsExample() {
       <Surface
         variant={variant}
         outline
-        className="rounded-xl"
-        contentClassName="px-10 py-8 font-medium"
+        className="w-48 rounded-xl"
+        contentClassName="px-10 py-8 font-medium text-center"
       >
         {variant}
       </Surface>
@@ -84,8 +78,8 @@ export function ColorsExample() {
         color={color}
         variant="gradient-fill"
         outline
-        className="rounded-xl"
-        contentClassName="px-10 py-8 font-medium"
+        className="w-48 rounded-xl"
+        contentClassName="px-10 py-8 font-medium text-center"
       >
         {color}
       </Surface>
@@ -387,24 +381,6 @@ export function TransparentNestingExample() {
             Child Surface — still level 2
           </Surface>
         </Surface>
-      </Surface>
-    </Example>
-  );
-}
-
-export function CompositionExample() {
-  return (
-    <Example source={EXAMPLE_SOURCE.CompositionExample}>
-      <Surface outline className="w-72 rounded-2xl" wrapContent={false}>
-        <SurfaceContent className="flex items-center justify-between p-4 text-cladd-fg-soft">
-          <span>Header</span>
-          <span className="font-mono">3 items</span>
-        </SurfaceContent>
-        <div className="relative border-t border-cladd-outline" />
-        <SurfaceContent className="p-4 leading-relaxed">
-          With <code>wrapContent={'{false}'}</code> you compose{' '}
-          <code>SurfaceContent</code> slots yourself.
-        </SurfaceContent>
       </Surface>
     </Example>
   );

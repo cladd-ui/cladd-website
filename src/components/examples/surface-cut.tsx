@@ -22,7 +22,7 @@ export function OverviewExample() {
       <Surface
         outline
         className="w-80 rounded-2xl"
-        contentClassName="flex flex-col gap-3 p-5"
+        contentClassName="flex flex-col gap-4 p-4"
       >
         <div className="flex flex-col gap-1">
           <div className="font-semibold">SurfaceCut</div>
@@ -33,7 +33,7 @@ export function OverviewExample() {
         </div>
         <SurfaceCut
           className="rounded-xl"
-          contentClassName="flex items-center justify-between px-3 py-2"
+          contentClassName="flex items-center justify-between px-4 py-2"
         >
           <span className="font-mono text-cladd-fg-soft">PORT</span>
           <span className="font-mono">3000</span>
@@ -49,7 +49,7 @@ export function SurfaceVsCutExample() {
       <Surface
         outline
         className="w-96 rounded-2xl"
-        contentClassName="grid grid-cols-2 gap-3 p-4"
+        contentClassName="grid grid-cols-2 gap-4 p-4"
       >
         <Surface
           outline
@@ -201,26 +201,6 @@ export function PolymorphicExample() {
           contentClassName="px-8 py-4 font-medium"
         >
           Open the cladd repo →
-        </SurfaceCut>
-      </Surface>
-    </Example>
-  );
-}
-
-export function CompositionExample() {
-  return (
-    <Example source={EXAMPLE_SOURCE.CompositionExample}>
-      <Surface outline className="w-80 rounded-2xl" contentClassName="p-4">
-        <SurfaceCut className="rounded-xl" wrapContent={false}>
-          <SurfaceCutContent className="flex items-center justify-between p-4 text-cladd-fg-soft">
-            <span>Header</span>
-            <span className="font-mono">3 items</span>
-          </SurfaceCutContent>
-          <div className="relative border-t border-cladd-outline" />
-          <SurfaceCutContent className="p-4 leading-relaxed">
-            With <code>wrapContent={'{false}'}</code> you compose{' '}
-            <code>SurfaceCutContent</code> slots yourself.
-          </SurfaceCutContent>
         </SurfaceCut>
       </Surface>
     </Example>

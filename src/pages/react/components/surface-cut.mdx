@@ -1,7 +1,6 @@
 import { DocsLayout } from '@/components/DocsLayout';
 import {
   ColorsExample,
-  CompositionExample,
   FieldExample,
   FullHeightExample,
   InteractiveExample,
@@ -35,20 +34,35 @@ This page covers `SurfaceCut` together with its content slot, `SurfaceCutContent
 ```tsx
 import { SurfaceCut } from '@cladd-ui/react';
 
-<SurfaceCut className="rounded-xl" contentClassName="px-3 py-2">
-  3000
+<SurfaceCut className="rounded-xl" contentClassName="flex gap-2 px-4 py-2">
+  <span>PORT</span>
+  <span>3000</span>
 </SurfaceCut>;
 ```
 
-By default `SurfaceCut` renders a `div`, draws an inset outline ring, and wraps `children` in a `SurfaceCutContent` flex wrapper. Pass `as` to render a different element, `wrapContent={false}` to opt out of the inner wrapper, or `contentClassName` to style the inner wrapper directly.
+`SurfaceCut` is built from the same three-layer model as [`Surface`](/react/components/surface/) — see [Anatomy](#anatomy) below. The short version: `className` styles the outer box (size, corner radius, accent color), `contentClassName` styles the inner content area (padding, `flex`, `grid`). Putting `flex p-4` on `className` won't lay out the children, because the children live one wrapper deeper.
+
+## Anatomy
+
+A `SurfaceCut` renders three layers, in this order:
+
+1. **Root element** — the polymorphic node (`div` by default, swappable via `as`). Carries `className`, the accent-color class (`cladd-color-{name}`), and any forwarded element props. Positioned `relative` so the other layers can sit inside it.
+2. **Background layer** — an absolutely-positioned `div` sized to the root. Paints the recessed fill (`bg-cladd-surface-cut`), the inset outline ring (when `outline`), and the hover/pressed overlays. There's no `bgClassName` here — the cut's fill is fixed, by design.
+3. **Content wrapper** — a `relative h-full` `div` (`SurfaceCutContent`) that wraps `children`. The `relative` positioning lifts the content above the absolute bg layer so the children render on top of the recessed fill. It has no padding or layout of its own — that's `contentClassName`'s job.
+
+This split is why `className` and `contentClassName` are separate props. `className` shapes the **box**: width, rounded corners, accent token. `contentClassName` shapes the **content layout**: padding, `flex`, `grid`, gap, alignment. The two never collide.
+
+Unlike `Surface`, `SurfaceCut` has no level prop and no variants — its fill is fixed, and it doesn't participate in depth stacking. Internally it publishes `parent − 1` to its descendants, so a default `Surface` rendered inside a cut auto-bumps back to the parent's level rather than continuing to climb.
+
+### Bypassing the content wrapper
+
+Pass `wrapContent={false}` to render `children` directly instead of wrapping them in `SurfaceCutContent`. You rarely need this — the default wrapper is invisible until you put styles on it via `contentClassName`. Reach for it only when you want multiple stacked content slots (e.g. header / divider / body, each in its own `SurfaceCutContent`), or you want to opt out of the default `h-full` behavior via `SurfaceCutContent`'s `fullHeight` prop (see the [full height example](#full-height)).
 
 ## Surface vs SurfaceCut
 
 `Surface` and `SurfaceCut` are visual opposites built from the same primitive. Use `Surface` when content should feel raised, `SurfaceCut` when it should feel sunken. They compose: a cut slot inside a raised panel is the canonical "inset field on a card" pattern.
 
 <SurfaceVsCutExample />
-
-Unlike `Surface`, `SurfaceCut` has **no level prop and no variants** — its fill is fixed, and it doesn't participate in depth stacking. Internally it actually publishes `parent − 1` to its descendants, so a default `Surface` rendered inside a cut auto-bumps back to the parent's level rather than continuing to climb.
 
 ## Examples
 
@@ -77,12 +91,6 @@ You can also set `color` directly on the `SurfaceCut` if you want the cut to dif
 `SurfaceCut` is polymorphic. Render it as a button, anchor, or any custom component — props of the target element are forwarded automatically.
 
 <PolymorphicExample />
-
-### Composition
-
-Like `Surface`, `SurfaceCut` ships with an inner content wrapper and wraps its `children` in one by default. For richer layouts — header/body, multiple slots split by a divider — pass `wrapContent={false}` and compose `SurfaceCutContent` slots yourself.
-
-<CompositionExample />
 
 ### Full height
 
