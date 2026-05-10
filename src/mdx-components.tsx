@@ -37,6 +37,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           </pre>
           <Button
             variant="transparent"
+            outline={false}
             rounded
             className="absolute top-1 right-1 z-1"
             onClick={copy}
