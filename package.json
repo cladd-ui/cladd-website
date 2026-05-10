@@ -17,7 +17,7 @@
     "extract-example-source": "node scripts/extract-example-source.mjs"
   },
   "dependencies": {
-    "@cladd-ui/react": "^0.0.23",
+    "@cladd-ui/react": "^0.0.24",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.4",
