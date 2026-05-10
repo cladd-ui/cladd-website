@@ -69,7 +69,7 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
   const hasExtends = extendsList && extendsList.length > 0;
 
   return (
-    <div className="my-6 flex flex-col gap-3">
+    <div className="my-4 flex flex-col gap-4">
       {(hasGenerics || hasExtends) && (
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-cladd-fg-soft">
           {hasGenerics && (
@@ -105,19 +105,15 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
           <table className="props-table w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-cladd-outline text-xs tracking-wide text-cladd-fg-soft uppercase">
-                <th className="w-1/6 px-4 py-3 font-medium">Name</th>
-                <th className="w-1/6 px-4 py-3 font-medium">Type</th>
-                <th className="w-1/6 px-4 py-3 font-medium">Default</th>
-                <th className="w-3/6 px-4 py-3 font-medium">Description</th>
+                <th className="w-1/4 p-4 font-medium">Name: Type</th>
+                <th className="w-1/4 p-4 font-medium">Default</th>
+                <th className="w-1/2 p-4 font-medium">Description</th>
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={4}
-                    className="px-4 py-4 text-cladd-fg-soft italic"
-                  >
+                  <td colSpan={3} className="p-4 text-cladd-fg-soft italic">
                     No own props — see inherited types above.
                   </td>
                 </tr>
@@ -128,29 +124,33 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
                   className={cn(
                     idx % 2 === 1 && 'bg-cladd-surface-plus',
                     idx < rows.length - 1
-                      ? 'border-b border-cladd-outline/60 align-top'
+                      ? 'border-b border-cladd-outline align-top'
                       : 'align-top',
                   )}
                 >
-                  <td className="cladd-color-blue w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
-                    {row.name}
-                    {!row.optional && (
-                      <span
-                        className="ml-1 text-cladd-fg-softer"
-                        aria-label="required"
-                        title="required"
-                      >
-                        *
-                      </span>
-                    )}
+                  <td className="w-1/6 p-4 font-mono text-xs">
+                    <span className="cladd-color-blue text-cladd-primary">
+                      {row.name}
+                      {!row.optional && (
+                        <span
+                          className="ml-1 text-cladd-fg-softer"
+                          aria-label="required"
+                          title="required"
+                        >
+                          *
+                        </span>
+                      )}
+                    </span>
+                    :{' '}
+                    <span className="cladd-color-orange wrap-break-word text-cladd-primary">
+                      {row.type}
+                    </span>
                   </td>
-                  <td className="cladd-color-orange w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
-                    <span className="break-words">{row.type}</span>
-                  </td>
-                  <td className="cladd-color-green w-1/6 px-4 py-3 font-mono text-xs text-cladd-primary">
+
+                  <td className="cladd-color-green w-1/6 p-4 font-mono text-xs text-cladd-primary">
                     {row.default ?? '—'}
                   </td>
-                  <td className="w-3/6 px-4 py-3 leading-relaxed text-cladd-fg">
+                  <td className="w-3/6 p-4 leading-relaxed text-cladd-fg">
                     {renderDescription(row.description)}
                   </td>
                 </tr>

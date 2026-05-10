@@ -7,15 +7,10 @@
  * The surface treatment around <pre> is provided by the <SurfaceCut> wrapper
  * in `mdx-components.tsx`, not CSS. */
 
-.prose pre > code {
+.prose pre > code:not(.not-prose *) {
   @apply block bg-transparent p-0 text-[0.875em] leading-relaxed opacity-100;
   font-family: var(--font-mono);
   counter-reset: line;
-}
-
-.prose :not(pre) > code {
-  @apply text-[0.875em] bg-transparent p-0;
-  font-family: var(--font-mono);
 }
 
 /* Shiki tokens: default to the light theme. */

@@ -15,7 +15,7 @@
     "extract-props": "node scripts/extract-props.mjs"
   },
   "dependencies": {
-    "@cladd-ui/react": "^0.0.22",
+    "@cladd-ui/react": "^0.0.23",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.4",

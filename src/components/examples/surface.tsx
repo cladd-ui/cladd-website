@@ -48,7 +48,7 @@ function PreviewCard(props: React.ComponentProps<typeof Surface>) {
     <Surface
       outline
       className="rounded-xl"
-      contentClassName="px-10 py-8 text-sm font-medium"
+      contentClassName="px-10 py-8 font-medium"
       {...props}
     />
   );
@@ -59,7 +59,7 @@ export function OverviewExample() {
     <Example>
       <Surface
         outline
-        className="w-80 rounded-2xl text-sm"
+        className="w-80 rounded-2xl"
         contentClassName="flex flex-col gap-3 p-5"
       >
         <div className="flex flex-col gap-1">
@@ -73,7 +73,7 @@ export function OverviewExample() {
           className="rounded-xl"
           contentClassName="flex items-center justify-between px-3 py-2"
         >
-          <span className="text-sm text-cladd-fg-soft">Nested surface</span>
+          <span className="text-cladd-fg-soft">Nested surface</span>
           <span className="text-cladd-fg-softer">level +1</span>
         </Surface>
       </Surface>
@@ -142,7 +142,7 @@ export function OutlineExample() {
   return (
     <Example
       controls={
-        <label className="flex cursor-pointer items-center gap-2 text-sm">
+        <label className="flex cursor-pointer items-center gap-2">
           <Switch checked={outline} onChange={setOutline} />
           <span>outline</span>
         </label>
@@ -244,7 +244,7 @@ export function PlaygroundExample() {
               ))}
             </Segmented>
             <ToolbarSeparator />
-            <label className="flex cursor-pointer items-center gap-2 px-2 text-sm">
+            <label className="flex cursor-pointer items-center gap-2 px-2">
               <Switch checked={outline} onChange={setOutline} />
               <span>outline</span>
             </label>
@@ -256,45 +256,43 @@ export function PlaygroundExample() {
         variant={variant}
         color={color}
         outline={outline}
-        className="w-80 rounded-2xl text-sm"
+        className="w-80 rounded-2xl"
         contentClassName="flex flex-col gap-3 p-4"
       >
-        <div className="flex flex-col gap-1 px-1 pt-1">
-          <div className="font-semibold capitalize">
-            {variant} · {color}
-          </div>
-          <div className="text-xs opacity-75">
-            Each nested surface auto-bumps one level deeper.
-          </div>
+        <div className="font-semibold capitalize">
+          {variant} · {color}
+        </div>
+        <div className="text-cladd-fg-soft">
+          Each nested surface auto-bumps one level deeper.
         </div>
         <Surface
           variant={variant}
           outline={outline}
           className="rounded-xl"
-          contentClassName="flex flex-col gap-3 p-3"
+          contentClassName="flex flex-col gap-4 p-4"
         >
-          <span className="font-mono text-xs opacity-75">level 2</span>
+          <span>level 2</span>
           <Surface
             variant={variant}
             outline={outline}
             className="rounded-lg"
-            contentClassName="flex flex-col gap-3 p-3"
+            contentClassName="flex flex-col gap-4 p-4"
           >
-            <span className="font-mono text-xs opacity-75">level 3</span>
+            <span>level 3</span>
             <Surface
               variant={variant}
               outline={outline}
               className="rounded-md"
-              contentClassName="flex flex-col gap-3 p-3"
+              contentClassName="flex flex-col gap-4 p-4"
             >
-              <span className="font-mono text-xs opacity-75">level 4</span>
+              <span>level 4</span>
               <Surface
                 variant={variant}
                 outline={outline}
                 className="rounded-md"
-                contentClassName="p-3"
+                contentClassName="p-4"
               >
-                <span className="font-mono text-xs opacity-75">level 5</span>
+                <span>level 5</span>
               </Surface>
             </Surface>
           </Surface>
@@ -316,7 +314,7 @@ export function PolymorphicExample() {
         hoverable
         outline
         className="rounded-xl text-cladd-primary"
-        contentClassName="px-6 py-4 text-sm font-medium"
+        contentClassName="px-8 py-4 font-medium"
       >
         Open the cladd repo →
       </Surface>
@@ -326,14 +324,14 @@ export function PolymorphicExample() {
 
 export function LevelsGridExample() {
   return (
-    <Example previewClassName="min-h-[160px] gap-3 p-6 flex-wrap">
+    <Example previewClassName="min-h-[160px] gap-4 p-4 flex-wrap">
       {[1, 2, 3, 4, 5].map((level) => (
         <Surface
           key={level}
           level={level}
           outline
           className="rounded-lg"
-          contentClassName="p-4 text-xs font-mono text-cladd-fg"
+          contentClassName="p-4 text-cladd-fg"
         >
           Level {level}
         </Surface>
@@ -348,25 +346,25 @@ export function NestedLevelsExample() {
       <Surface
         outline
         className="rounded-2xl"
-        contentClassName="p-4 flex flex-col gap-3 text-xs font-mono"
+        contentClassName="p-4 flex flex-col gap-4 font-mono"
       >
         <span>Level 1</span>
         <Surface
           outline
           className="rounded-xl"
-          contentClassName="p-4 flex flex-col gap-3"
+          contentClassName="p-4 flex flex-col gap-4"
         >
           <span>Level 2</span>
           <Surface
             outline
             className="rounded-lg"
-            contentClassName="p-4 flex flex-col gap-2"
+            contentClassName="p-4 flex flex-col gap-4"
           >
             <span>Level 3</span>
             <Surface
               outline
               className="rounded-md"
-              contentClassName="p-4 flex flex-col gap-2"
+              contentClassName="p-4 flex flex-col gap-4"
             >
               <span>Level 4</span>
               <Surface outline className="rounded-md" contentClassName="p-4">
@@ -387,26 +385,26 @@ export function RelativeLevelsExample() {
         level={3}
         outline
         className="rounded-2xl"
-        contentClassName="p-4 flex flex-col gap-3 text-xs font-mono text-cladd-fg-soft"
+        contentClassName="p-4 flex flex-col gap-4 font-mono text-cladd-fg-soft"
       >
-        <span>Level={'{3}'}</span>
-        <div className="flex flex-wrap gap-3">
+        <span>level={'{3}'}</span>
+        <div className="flex flex-wrap gap-4">
           <Surface
             level="-1"
             outline
             className="rounded-lg"
-            contentClassName="px-4 py-3"
+            contentClassName="p-4"
           >
             level=&quot;-1&quot; → 2
           </Surface>
-          <Surface outline className="rounded-lg" contentClassName="px-4 py-3">
+          <Surface outline className="rounded-lg" contentClassName="p-4">
             (default) → 4
           </Surface>
           <Surface
             level="+2"
             outline
             className="rounded-lg"
-            contentClassName="px-4 py-3"
+            contentClassName="p-4"
           >
             level=&quot;+2&quot; → 5
           </Surface>
@@ -423,22 +421,16 @@ export function TransparentNestingExample() {
         level={2}
         outline
         className="rounded-2xl"
-        contentClassName="p-4 flex flex-col gap-3"
+        contentClassName="p-4 flex flex-col gap-4"
       >
-        <span className="font-mono text-xs text-cladd-fg-soft">
-          Parent (level 2)
-        </span>
+        <span className="text-cladd-fg-soft">Parent (level 2)</span>
         <Surface
           variant="transparent"
-          className="rounded-xl border border-dashed border-cladd-outline/60"
-          contentClassName="p-3 flex flex-col gap-3"
+          className="rounded-xl border border-dashed border-cladd-outline"
+          contentClassName="p-4 flex flex-col gap-4"
         >
-          <span className="text-sm">transparent wrapper</span>
-          <Surface
-            outline
-            className="rounded-lg"
-            contentClassName="px-4 py-3 font-mono text-xs"
-          >
+          <span>transparent wrapper</span>
+          <Surface outline className="rounded-lg" contentClassName="p-4">
             Child Surface — still level 2
           </Surface>
         </Surface>
@@ -451,18 +443,14 @@ export function CompositionExample() {
   return (
     <Example>
       <Surface outline className="w-72 rounded-2xl" wrapContent={false}>
-        <SurfaceContent className="flex items-center justify-between p-4 text-sm text-cladd-fg-soft">
+        <SurfaceContent className="flex items-center justify-between p-4 text-cladd-fg-soft">
           <span>Header</span>
-          <span className="font-mono text-xs">3 items</span>
+          <span className="font-mono">3 items</span>
         </SurfaceContent>
         <div className="relative border-t border-cladd-outline" />
-        <SurfaceContent className="px-4 py-4 text-sm leading-relaxed">
-          With{' '}
-          <code className="rounded bg-cladd-surface-cut px-1 py-px font-mono text-xs">
-            wrapContent={'{false}'}
-          </code>{' '}
-          you compose <code className="font-mono text-xs">SurfaceContent</code>{' '}
-          slots yourself.
+        <SurfaceContent className="p-4 leading-relaxed">
+          With <code>wrapContent={'{false}'}</code> you compose{' '}
+          <code>SurfaceContent</code> slots yourself.
         </SurfaceContent>
       </Surface>
     </Example>

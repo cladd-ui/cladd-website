@@ -1,4 +1,4 @@
-import { cn, SurfaceCut } from '@cladd-ui/react';
+import { cn, Surface } from '@cladd-ui/react';
 import type { ReactNode } from 'react';
 
 interface ExampleProps {
@@ -22,14 +22,19 @@ export function Example({
   controlsClassName,
 }: ExampleProps) {
   return (
-    <SurfaceCut
-      className={cn('my-6 rounded-2xl', className)}
+    <Surface
+      variant="transparent"
+      className={cn(
+        'not-prose my-6 rounded-2xl text-sm [&_.font-mono]:text-[13px] [&_code]:text-[13px]',
+        className,
+      )}
       wrapContent={false}
+      outline
     >
       <div className="flex flex-col">
         <div
           className={cn(
-            'flex min-h-[220px] flex-1 items-center justify-center p-8',
+            'flex min-h-55 flex-1 items-center justify-center p-8',
             previewClassName,
           )}
         >
@@ -46,6 +51,6 @@ export function Example({
           </div>
         ) : null}
       </div>
-    </SurfaceCut>
+    </Surface>
   );
 }
