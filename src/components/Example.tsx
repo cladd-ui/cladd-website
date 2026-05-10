@@ -56,7 +56,7 @@ export function Example({
         {controls ? (
           <div
             className={cn(
-              'flex flex-wrap items-center justify-center gap-3 border-t border-cladd-outline/60 px-3 py-3',
+              'flex flex-wrap items-center justify-center gap-1 border-t border-cladd-outline/60 p-4',
               controlsClassName,
             )}
           >

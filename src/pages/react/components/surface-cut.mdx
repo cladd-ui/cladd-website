@@ -1,10 +1,22 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorsExample,
+  CompositionExample,
+  FieldExample,
+  FullHeightExample,
+  InteractiveExample,
+  OutlineExample,
+  OverviewExample,
+  PolymorphicExample,
+  SurfaceVsCutExample,
+} from '@/components/examples/surface-cut';
 import SurfaceCutProps from '@/generated/props/SurfaceCutProps';
+import SurfaceCutContentProps from '@/generated/props/SurfaceCutContentProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="SurfaceCut — Cladd"
-    description="SurfaceCut component props."
+    description="SurfaceCut is the recessed counterpart to Surface — for inset slots, fields, code blocks, and any UI that should read as carved into the parent."
   >
     {children}
   </DocsLayout>
@@ -12,6 +24,84 @@ export default ({ children }) => (
 
 # SurfaceCut
 
+`SurfaceCut` is the recessed counterpart to [`Surface`](/react/components/surface/). Where `Surface` reads as a panel sitting **on top of** its container, `SurfaceCut` reads as a slot **carved into** it — darker fill, an inset outline, no depth level of its own. Reach for it whenever a region should feel inset rather than raised: input wrappers, code blocks, status pills, settings rows, and the troughs that hold sliders, scrubbers, and toolbars.
+
+This page covers `SurfaceCut` together with its content slot, `SurfaceCutContent`.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { SurfaceCut } from '@cladd-ui/react';
+
+<SurfaceCut className="rounded-xl" contentClassName="px-3 py-2">
+  3000
+</SurfaceCut>;
+```
+
+By default `SurfaceCut` renders a `div`, draws an inset outline ring, and wraps `children` in a `SurfaceCutContent` flex wrapper. Pass `as` to render a different element, `wrapContent={false}` to opt out of the inner wrapper, or `contentClassName` to style the inner wrapper directly.
+
+## Surface vs SurfaceCut
+
+`Surface` and `SurfaceCut` are visual opposites built from the same primitive. Use `Surface` when content should feel raised, `SurfaceCut` when it should feel sunken. They compose: a cut slot inside a raised panel is the canonical "inset field on a card" pattern.
+
+<SurfaceVsCutExample />
+
+Unlike `Surface`, `SurfaceCut` has **no level prop and no variants** — its fill is fixed, and it doesn't participate in depth stacking. Internally it actually publishes `parent − 1` to its descendants, so a default `Surface` rendered inside a cut auto-bumps back to the parent's level rather than continuing to climb.
+
+## Examples
+
+### Outline
+
+`outline` is **on by default** — the inset ring is what sells the "carved" look. Turning it off leaves only the darker fill, useful when the cut is bordered by something else (a divider, another surface) or when you want a softer well.
+
+<OutlineExample />
+
+### Colors
+
+The accent token (`cladd-color-{name}`) flows down through context, so the cut picks up its color from any ancestor that sets one. In the demo below, `color` is set on the wrapping `Surface` and the inner `SurfaceCut` inherits it — most visible on the hover and pressed overlays since the cut itself is `hoverable` and `clickable`.
+
+You can also set `color` directly on the `SurfaceCut` if you want the cut to differ from its parent — same eleven tokens (`neutral`, `brand`, `red`, `pink`, `purple`, `blue`, `cyan`, `lime`, `green`, `yellow`, `orange`).
+
+<ColorsExample />
+
+### Interactive states
+
+`hoverable` reveals a hover overlay; `clickable` adds an active scale + pressed background; `pressed` forces the pressed state regardless of pointer activity (controlled press). Combine them to turn a cut into a fully interactive target. Use `as="button"` (or `as="a"`) so the cut itself is the interactive element.
+
+<InteractiveExample />
+
+### Polymorphic root
+
+`SurfaceCut` is polymorphic. Render it as a button, anchor, or any custom component — props of the target element are forwarded automatically.
+
+<PolymorphicExample />
+
+### Composition
+
+Like `Surface`, `SurfaceCut` ships with an inner content wrapper and wraps its `children` in one by default. For richer layouts — header/body, multiple slots split by a divider — pass `wrapContent={false}` and compose `SurfaceCutContent` slots yourself.
+
+<CompositionExample />
+
+### Full height
+
+`SurfaceCutContent` defaults to `h-full` so the cut fills its container — handy when cuts sit side-by-side in a flex or grid and need to align. Set `fullHeight={false}` when you'd rather the content size to its intrinsic height.
+
+<FullHeightExample />
+
+### Field rows
+
+A common application of `SurfaceCut` is the inset field row — labelled values stacked inside a raised `Surface`. The recessed slots read as data, the surrounding card as chrome.
+
+<FieldExample />
+
 ## Props
 
+### SurfaceCut
+
 <SurfaceCutProps />
+
+### SurfaceCutContent
+
+<SurfaceCutContentProps />

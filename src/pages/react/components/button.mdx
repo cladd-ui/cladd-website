@@ -1,11 +1,22 @@
-import { Button } from '@cladd-ui/react';
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  DisabledExample,
+  MultilineExample,
+  OverviewExample,
+  PlaygroundExample,
+  ReadOnlyExample,
+  RoundedExample,
+  SizeExample,
+  VariantExample,
+  WithSpinnerExample,
+} from '@/components/examples/button';
 import ButtonProps from '@/generated/props/ButtonProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="Button — Cladd"
-    description="Polymorphic, surface-backed Button component. Sizes 2xs → 2xl, eleven accent colors, every Surface variant."
+    description="Polymorphic, surface-backed Button — sizes 2xs → 2xl, eleven accent colors, every Surface variant."
   >
     {children}
   </DocsLayout>
@@ -13,15 +24,9 @@ export default ({ children }) => (
 
 # Button
 
-`Button` is a polymorphic surface-backed control. It supports sizes from `2xs`
-through `2xl`, the full set of accent colors, and any `Surface` variant.
+`Button` is a polymorphic, surface-backed control. It inherits the full [`Surface`](/react/components/surface/) palette — every variant, every accent color, the same outline ring — and layers on the application-grade bits a button actually needs: a consistent `2xs → 2xl` size scale, automatic focus ring, `multiline` for wrapping labels, `rounded` for pill shapes, and `disabled` / `readOnly` states that suppress interaction without losing the visual.
 
-<div className="flex items-center gap-3 my-6">
-  <Button color="brand">Primary</Button>
-  <Button>Neutral</Button>
-  <Button variant="solid">Solid</Button>
-  <Button disabled>Disabled</Button>
-</div>
+<OverviewExample />
 
 ## Usage
 
@@ -33,7 +38,64 @@ import { Button } from '@cladd-ui/react';
 </Button>;
 ```
 
+By default `Button` renders a `<button>` element with `variant="gradient"`, `outline`, and the medium size. Pass `as="a"` (or any component) to render as a link while keeping the same look — pointer cursor flips on automatically.
+
+## Examples
+
+### Sizes
+
+`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. `Chip`, `Shortcut`, and `Spinner` share the same scale, so when you nest one inside a button you can pass the matching `size` token and it sits at the right proportion — see the [spinner example](#with-spinner) below.
+
+<SizeExample />
+
+### With spinner
+
+A common loading-state composition: drop a `Spinner` inside a button and pass the matching `size` token to both. The spinner sits at the right proportion at every step of the scale, and pairing the loading state with `readOnly` keeps the button visually intact while suppressing clicks. Same trick works for `Chip` or `Shortcut` — anything that consumes the same size scale.
+
+<WithSpinnerExample />
+
+### Variants
+
+`variant` is the same surface variant token used by [`Surface`](/react/components/surface/). `gradient` is the default — slight diagonal highlight, the most "button-like" look. `solid` is a flat fill; `transparent` removes the background entirely (pair it with `outline={false}` for a true ghost button); `solid-fill` and `gradient-fill` paint the accent color across the entire surface with inverted text — the loud, primary-action treatment.
+
+<VariantExample />
+
+### Colors
+
+`color` accepts any of the eleven cladd accent tokens. On the non-fill variants the accent tints the text and the outline ring; on `solid-fill` and `gradient-fill` it floods the whole button. Try the variant control alongside the color picker to see how the same accent reads across treatments.
+
+<ColorExample />
+
+### Multiline
+
+By default a button is a single fixed-height row — the label is truncated to one line. Set `multiline` to let long labels wrap; the height switches to `min-h-*` and the corner radii adjust to a pill shape that stays correct at any height.
+
+<MultilineExample />
+
+### Rounded
+
+`rounded` swaps the size-specific corner radius for `rounded-full` — useful for pill-shaped CTAs, icon buttons, and toolbar chips. With `multiline`, it picks a matching pill radius that works at any line count.
+
+<RoundedExample />
+
+### Disabled
+
+`disabled` dims the button to 40% opacity and disables pointer events. The native `disabled` attribute is forwarded to the underlying `<button>`, so it correctly suppresses clicks, focus, and form submission.
+
+<DisabledExample />
+
+### Read-only
+
+`readOnly` blocks clicks (and the `onClick` handler) while keeping the button visually enabled — no dimming, full opacity. It's the right state for controls that read as active but shouldn't react: the currently-selected segmented option, a "current page" pagination button, or a button locked while a parallel action is in flight.
+
+<ReadOnlyExample />
+
+### Playground
+
+`variant`, `color`, `size`, `outline`, and `rounded` are designed to compose. Try combinations — a `2xs` `solid-fill` pill in `red` for a tiny destructive chip, an `xl` `gradient` outlined button in `brand` for a hero CTA, a `transparent` button with no outline as a quiet ghost.
+
+<PlaygroundExample />
+
 ## Props
 
 <ButtonProps />
-

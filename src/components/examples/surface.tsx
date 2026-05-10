@@ -1,50 +1,21 @@
 import {
-  Button,
-  Segmented,
-  SegmentedButton,
   Surface,
   SurfaceContent,
-  Switch,
   Toolbar,
   ToolbarButton,
-  ToolbarSeparator,
-  Tooltip,
   type Color,
 } from '@cladd-ui/react';
 import { useState } from 'react';
 
+import {
+  ExampleControlColor,
+  ExampleControlSwitch,
+  ExampleControlVariant,
+  type SurfaceVariant,
+} from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/surface';
 
 import { Example } from '../Example';
-
-type SurfaceVariant =
-  | 'transparent'
-  | 'solid'
-  | 'gradient'
-  | 'solid-fill'
-  | 'gradient-fill';
-
-const VARIANTS: SurfaceVariant[] = [
-  'transparent',
-  'solid',
-  'gradient',
-  'solid-fill',
-  'gradient-fill',
-];
-
-const COLORS: Color[] = [
-  'neutral',
-  'brand',
-  'red',
-  'pink',
-  'purple',
-  'blue',
-  'cyan',
-  'lime',
-  'green',
-  'yellow',
-  'orange',
-];
 
 export function OverviewExample() {
   return (
@@ -52,7 +23,7 @@ export function OverviewExample() {
       <Surface
         outline
         className="w-80 rounded-2xl"
-        contentClassName="flex flex-col gap-3 p-5"
+        contentClassName="flex flex-col gap-4 p-4"
       >
         <div className="flex flex-col gap-1">
           <div className="font-semibold">Surface</div>
@@ -63,7 +34,7 @@ export function OverviewExample() {
         <Surface
           outline
           className="rounded-xl"
-          contentClassName="flex items-center justify-between px-3 py-2"
+          contentClassName="flex items-center justify-between px-4 py-2"
         >
           <span className="text-cladd-fg-soft">Nested surface</span>
           <span className="text-cladd-fg-softer">level +1</span>
@@ -81,17 +52,7 @@ export function VariantsExample() {
       state={{ variant }}
       controls={
         <Toolbar>
-          <Segmented>
-            {VARIANTS.map((v) => (
-              <SegmentedButton
-                key={v}
-                active={variant === v}
-                onClick={() => setVariant(v)}
-              >
-                {v}
-              </SegmentedButton>
-            ))}
-          </Segmented>
+          <ExampleControlVariant value={variant} onChange={setVariant} />
         </Toolbar>
       }
     >
@@ -115,21 +76,7 @@ export function ColorsExample() {
       state={{ color }}
       controls={
         <Toolbar>
-          <Segmented activeColor={color}>
-            {COLORS.map((c) => (
-              <Tooltip key={c} tooltip={c}>
-                <SegmentedButton
-                  active={color === c}
-                  onClick={() => setColor(c)}
-                  aria-label={c}
-                >
-                  <span
-                    className={`size-3 rounded-full bg-cladd-primary cladd-color-${c}`}
-                  />
-                </SegmentedButton>
-              </Tooltip>
-            ))}
-          </Segmented>
+          <ExampleControlColor value={color} onChange={setColor} />
         </Toolbar>
       }
     >
@@ -153,17 +100,13 @@ export function OutlineExample() {
       source={EXAMPLE_SOURCE.OutlineExample}
       state={{ outline }}
       controls={
-        <Button
-          rounded
-          as="label"
-          className="flex cursor-pointer items-center gap-2"
-          variant="transparent"
-          outline={false}
-          contentClassName="pl-1"
-        >
-          <Switch as="span" size="sm" checked={outline} onChange={setOutline} />
-          <span>outline</span>
-        </Button>
+        <Toolbar>
+          <ExampleControlSwitch
+            label="outline"
+            checked={outline}
+            onChange={setOutline}
+          />
+        </Toolbar>
       }
     >
       <Surface
@@ -242,55 +185,21 @@ export function PlaygroundExample() {
       source={EXAMPLE_SOURCE.PlaygroundExample}
       state={{ variant, color, outline }}
       controls={
-        <div className="flex flex-col items-center gap-2">
+        <>
           <Toolbar>
-            <Segmented>
-              {VARIANTS.map((v) => (
-                <SegmentedButton
-                  key={v}
-                  active={variant === v}
-                  onClick={() => setVariant(v)}
-                >
-                  {v}
-                </SegmentedButton>
-              ))}
-            </Segmented>
+            <ExampleControlVariant value={variant} onChange={setVariant} />
           </Toolbar>
           <Toolbar>
-            <Segmented activeColor={color}>
-              {COLORS.map((c) => (
-                <Tooltip key={c} tooltip={c}>
-                  <SegmentedButton
-                    active={color === c}
-                    onClick={() => setColor(c)}
-                    aria-label={c}
-                  >
-                    <span
-                      className={`size-3 rounded-full bg-cladd-primary cladd-color-${c}`}
-                    />
-                  </SegmentedButton>
-                </Tooltip>
-              ))}
-            </Segmented>
-            <ToolbarSeparator />
-            <Button
-              rounded
-              as="label"
-              className="flex cursor-pointer items-center gap-2"
-              variant="transparent"
-              outline={false}
-              contentClassName="pl-1"
-            >
-              <Switch
-                as="span"
-                size="sm"
-                checked={outline}
-                onChange={setOutline}
-              />
-              <span>outline</span>
-            </Button>
+            <ExampleControlColor value={color} onChange={setColor} />
           </Toolbar>
-        </div>
+          <Toolbar>
+            <ExampleControlSwitch
+              label="outline"
+              checked={outline}
+              onChange={setOutline}
+            />
+          </Toolbar>
+        </>
       }
     >
       <Surface
@@ -298,7 +207,7 @@ export function PlaygroundExample() {
         color={color}
         outline={outline}
         className="w-80 rounded-2xl"
-        contentClassName="flex flex-col gap-3 p-4"
+        contentClassName="flex flex-col gap-4 p-4"
       >
         <div className="font-semibold capitalize">
           {variant} · {color}

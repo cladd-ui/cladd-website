@@ -44,7 +44,6 @@ const componentNames = [
   'Spinner',
   'Surface',
   'SurfaceCut',
-  'SurfaceCutContent',
   'Switch',
   'Textarea',
   'Toast',

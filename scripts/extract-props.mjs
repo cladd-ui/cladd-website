@@ -4,9 +4,16 @@
 // `next dev` / `next build` so docs pages can `import ButtonProps from
 // '@/generated/props/ButtonProps'` and render a typed table.
 
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import ts from 'typescript';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -20,12 +27,7 @@ function parseFile(filePath) {
   let cached = fileCache.get(filePath);
   if (cached) return cached;
   const source = readFileSync(filePath, 'utf8');
-  cached = ts.createSourceFile(
-    filePath,
-    source,
-    ts.ScriptTarget.ESNext,
-    true,
-  );
+  cached = ts.createSourceFile(filePath, source, ts.ScriptTarget.ESNext, true);
   fileCache.set(filePath, cached);
   return cached;
 }
@@ -203,7 +205,8 @@ function rewriteTypeParams(typeStr, paramMap) {
 //    common phrasings inside the description ("Default `…`", "Defaults to `…`").
 function extractDoc(node, sourceFile) {
   const fullText = sourceFile.getFullText();
-  const ranges = ts.getLeadingCommentRanges(fullText, node.getFullStart()) || [];
+  const ranges =
+    ts.getLeadingCommentRanges(fullText, node.getFullStart()) || [];
   let description = '';
   let defaultValue = null;
   for (const range of ranges) {
@@ -225,7 +228,8 @@ function extractDoc(node, sourceFile) {
     for (const line of cleaned.split('\n')) {
       const m = line.match(/^@(\w+)\s*(.*)$/);
       if (m) {
-        if (curTag) tags.push({ tag: curTag, content: curLines.join('\n').trim() });
+        if (curTag)
+          tags.push({ tag: curTag, content: curLines.join('\n').trim() });
         curTag = m[1];
         curLines = [m[2]];
       } else if (curTag) {
@@ -285,7 +289,10 @@ function extractPropsFromMembers(members, typeParameters, sourceFile) {
       ? printer.printNode(ts.EmitHint.Unspecified, member.type, sourceFile)
       : 'unknown';
     type = rewriteTypeParams(type, paramMap).replace(/\s+/g, ' ').trim();
-    const { description, default: defaultValue } = extractDoc(member, sourceFile);
+    const { description, default: defaultValue } = extractDoc(
+      member,
+      sourceFile,
+    );
     rows.push({
       name,
       type,
