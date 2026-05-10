@@ -47,8 +47,6 @@ const componentNames = [
   'Textarea',
   'Toast',
   'Toolbar',
-  'ToolbarButton',
-  'ToolbarSeparator',
   'Tooltip',
   'TooltipPrimitive',
   'UIProvider',

@@ -1,13 +1,109 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ClickableExample,
+  ColorExample,
+  IconExample,
+  InsideButtonExample,
+  OutlineExample,
+  OverviewExample,
+  PlaygroundExample,
+  PolymorphicExample,
+  RoundedExample,
+  SizeExample,
+  SurfaceLevelExample,
+} from '@/components/examples/chip';
 import ChipProps from '@/generated/props/ChipProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Chip — Cladd" description="Chip component props.">
+  <DocsLayout
+    title="Chip — Cladd"
+    description="Compact, surface-backed Chip — sizes 2xs → 2xl, eleven accent colors, optional icon, polymorphic root."
+  >
     {children}
   </DocsLayout>
 );
 
 # Chip
+
+`Chip` is a compact, surface-backed label — the right primitive for status badges, tags, version markers, filter pills, and inline metadata. It shares the same accent palette and sizing scale as the rest of the application controls, so chips line up with [`Button`](/react/components/button/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/) without any extra plumbing. By default it renders as a non-interactive `<span>`; pass `as="button"` or `as="a"` and it becomes clickable automatically.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Chip } from '@cladd-ui/react';
+
+<Chip color="green" outline>
+  Active
+</Chip>;
+```
+
+A bare `Chip` renders a small filled-gradient label sized `md`. Pass `outline` for the more common "tag" treatment — a transparent surface with a colored ring. Pass `as="button"` (or any element/component) to make it interactive: pointer cursor, hover overlay, and pressed state turn on automatically.
+
+## Examples
+
+### Sizes
+
+`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. The same scale is used by [`Button`](/react/components/button/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/), so a chip lined up with one of those controls reads at the right proportion when both share the size token.
+
+In practice, stick to `sm` and up for standalone chips. `2xs` and `xs` exist for the rare case where a chip is nested inside something denser (a tight inline indicator, a table cell label) — at those sizes the glyph and label proportions get tight enough that the chip starts to look fragile rather than legible.
+
+<SizeExample />
+
+### Inside a button
+
+Chips and buttons are designed to nest. Pass the same `size` token to both and the chip sits one step smaller than the button's content row — the right proportion for a count, status pill, or shortcut indicator riding alongside the label. Same trick works for [`Spinner`](/react/components/spinner/) and [`Shortcut`](/react/components/shortcut/).
+
+<InsideButtonExample />
+
+### Outline
+
+`outline` switches the surface treatment. With `outline` (the typical chip look), the background is transparent and a colored ring traces the edge — the chip reads as a label on top of whatever surface it's sitting on. Without `outline` (the default), the chip uses a filled `gradient` surface — louder, more "pill button" than "tag". The accent `color` drives the text and the ring in both modes; on the gradient version it tints the fill as well.
+
+<OutlineExample />
+
+### Colors
+
+`color` accepts any of the eleven cladd accent tokens. The accent always tints the text; on outlined chips it also tints the ring; on filled chips it tints the gradient. Pair the toggle with the color picker to see how the two modes read.
+
+<ColorExample />
+
+### With icon
+
+The `icon` prop takes a component (not an element) — `Chip` renders it ahead of `children` and applies a size-matched glyph dimension. Forward extra props through `iconProps`. The icon size is locked to the chip's `size`, so you don't pass dimensions yourself.
+
+<IconExample />
+
+### Rounded
+
+`rounded` swaps the size-specific corner radius for `rounded-full` — the pill shape used for tags, filter chips, and "subscribed"-style toggles. The size-specific default keeps a softer, app-shell feel; `rounded` is the right call for free-standing tags.
+
+<RoundedExample />
+
+### Clickable
+
+When `as` is `'button'` or `'a'`, `clickable` flips on automatically — the chip picks up a pointer cursor, hover overlay, and pressed-state animation. Use this for filter chips, removable tags, or any interactive label. You can also force a `<span>` to be clickable by passing `clickable` explicitly, or suppress the default for an `<a>` used purely as a navigation anchor.
+
+<ClickableExample />
+
+### Polymorphic root
+
+`as` swaps the underlying element — `'span'` (default), `'button'`, `'a'`, or any component. Forwarded props are typed against the chosen element, so `href` is valid on `as="a"` and `onClick` is valid on `as="button"` without any extra typing on your side.
+
+<PolymorphicExample />
+
+### On nested surfaces
+
+Chips read correctly across nesting depth — the underlying [`Surface`](/react/components/surface/) picks up the contextual level, so a chip inside a nested surface stays distinct from its background without you having to pick a level by hand. Override with `surfaceLevel` if you need to push the chip up or down explicitly (e.g. `surfaceLevel="+1"` to lift it off a recessed parent).
+
+<SurfaceLevelExample />
+
+### Playground
+
+`size`, `color`, `outline`, `rounded`, and the icon slot compose freely. Try a `2xs` outlined red chip for an inline error count, a `lg` rounded brand chip with an icon for a "subscribed" pill, or a default `md` neutral chip as a quiet metadata tag.
+
+<PlaygroundExample />
 
 ## Props
 
