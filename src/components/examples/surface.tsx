@@ -324,7 +324,7 @@ export function PolymorphicExample() {
 
 export function LevelsGridExample() {
   return (
-    <Example previewClassName="min-h-[160px] gap-4 p-4 flex-wrap">
+    <Example previewClassName="min-h-40 gap-4 p-4 flex-wrap">
       {[1, 2, 3, 4, 5].map((level) => (
         <Surface
           key={level}
