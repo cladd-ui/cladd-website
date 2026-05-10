@@ -122,10 +122,9 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
                 <tr
                   key={row.name}
                   className={cn(
-                    idx % 2 === 1 && 'bg-cladd-surface-plus',
-                    idx < rows.length - 1
-                      ? 'border-b border-cladd-outline align-top'
-                      : 'align-top',
+                    'align-top',
+                    idx % 2 === 0 && 'bg-cladd-surface-plus',
+                    idx < rows.length - 1 && 'border-b border-cladd-outline',
                   )}
                 >
                   <td className="w-1/6 p-4 font-mono text-xs">

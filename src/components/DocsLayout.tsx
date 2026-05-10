@@ -26,6 +26,7 @@ const componentNames = [
   'ListSeparator',
   'ListTitle',
   'NumberField',
+  'NumberScrubber',
   'OTPField',
   'OTPFieldInput',
   'OTPFieldSeparator',
@@ -105,7 +106,7 @@ export function DocsLayout({ children, title, description }: DocsLayoutProps) {
             </div>
           ))}
         </aside>
-        <article className="prose max-w-none">{children}</article>
+        <article className="prose max-w-none min-w-0">{children}</article>
       </div>
     </SiteLayout>
   );

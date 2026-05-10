@@ -32,6 +32,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
             ref={preRef}
             {...rest}
             className={`relative overflow-x-auto py-4 text-sm leading-relaxed ${className ?? ''}`}
+            tabIndex={-1}
           >
             {children}
           </pre>

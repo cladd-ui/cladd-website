@@ -1,4 +1,5 @@
 import {
+  Button,
   Segmented,
   SegmentedButton,
   Surface,
@@ -11,6 +12,8 @@ import {
   type Color,
 } from '@cladd-ui/react';
 import { useState } from 'react';
+
+import { EXAMPLE_SOURCE } from '@/generated/example-source/surface';
 
 import { Example } from '../Example';
 
@@ -43,20 +46,9 @@ const COLORS: Color[] = [
   'orange',
 ];
 
-function PreviewCard(props: React.ComponentProps<typeof Surface>) {
-  return (
-    <Surface
-      outline
-      className="rounded-xl"
-      contentClassName="px-10 py-8 font-medium"
-      {...props}
-    />
-  );
-}
-
 export function OverviewExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.OverviewExample}>
       <Surface
         outline
         className="w-80 rounded-2xl"
@@ -85,6 +77,8 @@ export function VariantsExample() {
   const [variant, setVariant] = useState<SurfaceVariant>('solid');
   return (
     <Example
+      source={EXAMPLE_SOURCE.VariantsExample}
+      state={{ variant }}
       controls={
         <Toolbar>
           <Segmented>
@@ -101,7 +95,14 @@ export function VariantsExample() {
         </Toolbar>
       }
     >
-      <PreviewCard variant={variant}>{variant}</PreviewCard>
+      <Surface
+        variant={variant}
+        outline
+        className="rounded-xl"
+        contentClassName="px-10 py-8 font-medium"
+      >
+        {variant}
+      </Surface>
     </Example>
   );
 }
@@ -110,6 +111,8 @@ export function ColorsExample() {
   const [color, setColor] = useState<Color>('brand');
   return (
     <Example
+      source={EXAMPLE_SOURCE.ColorsExample}
+      state={{ color }}
       controls={
         <Toolbar>
           <Segmented activeColor={color}>
@@ -130,9 +133,15 @@ export function ColorsExample() {
         </Toolbar>
       }
     >
-      <PreviewCard color={color} variant="gradient-fill">
+      <Surface
+        color={color}
+        variant="gradient-fill"
+        outline
+        className="rounded-xl"
+        contentClassName="px-10 py-8 font-medium"
+      >
         {color}
-      </PreviewCard>
+      </Surface>
     </Example>
   );
 }
@@ -141,16 +150,30 @@ export function OutlineExample() {
   const [outline, setOutline] = useState(true);
   return (
     <Example
+      source={EXAMPLE_SOURCE.OutlineExample}
+      state={{ outline }}
       controls={
-        <label className="flex cursor-pointer items-center gap-2">
-          <Switch checked={outline} onChange={setOutline} />
+        <Button
+          rounded
+          as="label"
+          className="flex cursor-pointer items-center gap-2"
+          variant="transparent"
+          outline={false}
+          contentClassName="pl-1"
+        >
+          <Switch as="span" size="sm" checked={outline} onChange={setOutline} />
           <span>outline</span>
-        </label>
+        </Button>
       }
     >
-      <PreviewCard outline={outline} variant="solid">
+      <Surface
+        outline={outline}
+        variant="solid"
+        className="rounded-xl"
+        contentClassName="px-10 py-8 font-medium"
+      >
         Surface
-      </PreviewCard>
+      </Surface>
     </Example>
   );
 }
@@ -164,6 +187,8 @@ export function InteractiveExample() {
 
   return (
     <Example
+      source={EXAMPLE_SOURCE.InteractiveExample}
+      state={{ clickable, hoverable, pressed }}
       controls={
         <Toolbar>
           <ToolbarButton
@@ -193,15 +218,17 @@ export function InteractiveExample() {
         </Toolbar>
       }
     >
-      <PreviewCard
+      <Surface
         as="button"
         clickable={clickable}
         hoverable={hoverable}
         pressed={pressed}
         variant="solid"
+        className="rounded-xl"
+        contentClassName="px-10 py-8 font-medium"
       >
         Try me
-      </PreviewCard>
+      </Surface>
     </Example>
   );
 }
@@ -212,6 +239,8 @@ export function PlaygroundExample() {
   const [outline, setOutline] = useState(true);
   return (
     <Example
+      source={EXAMPLE_SOURCE.PlaygroundExample}
+      state={{ variant, color, outline }}
       controls={
         <div className="flex flex-col items-center gap-2">
           <Toolbar>
@@ -244,10 +273,22 @@ export function PlaygroundExample() {
               ))}
             </Segmented>
             <ToolbarSeparator />
-            <label className="flex cursor-pointer items-center gap-2 px-2">
-              <Switch checked={outline} onChange={setOutline} />
+            <Button
+              rounded
+              as="label"
+              className="flex cursor-pointer items-center gap-2"
+              variant="transparent"
+              outline={false}
+              contentClassName="pl-1"
+            >
+              <Switch
+                as="span"
+                size="sm"
+                checked={outline}
+                onChange={setOutline}
+              />
               <span>outline</span>
-            </label>
+            </Button>
           </Toolbar>
         </div>
       }
@@ -304,7 +345,7 @@ export function PlaygroundExample() {
 
 export function PolymorphicExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.PolymorphicExample}>
       <Surface
         as="a"
         href="https://github.com/cladd-ui"
@@ -324,7 +365,10 @@ export function PolymorphicExample() {
 
 export function LevelsGridExample() {
   return (
-    <Example previewClassName="min-h-40 gap-4 p-4 flex-wrap">
+    <Example
+      source={EXAMPLE_SOURCE.LevelsGridExample}
+      previewClassName="min-h-40 gap-4 p-4 flex-wrap"
+    >
       {[1, 2, 3, 4, 5].map((level) => (
         <Surface
           key={level}
@@ -342,7 +386,7 @@ export function LevelsGridExample() {
 
 export function NestedLevelsExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.NestedLevelsExample}>
       <Surface
         outline
         className="rounded-2xl"
@@ -380,7 +424,7 @@ export function NestedLevelsExample() {
 
 export function RelativeLevelsExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.RelativeLevelsExample}>
       <Surface
         level={3}
         outline
@@ -416,7 +460,7 @@ export function RelativeLevelsExample() {
 
 export function TransparentNestingExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.TransparentNestingExample}>
       <Surface
         level={2}
         outline
@@ -441,7 +485,7 @@ export function TransparentNestingExample() {
 
 export function CompositionExample() {
   return (
-    <Example>
+    <Example source={EXAMPLE_SOURCE.CompositionExample}>
       <Surface outline className="w-72 rounded-2xl" wrapContent={false}>
         <SurfaceContent className="flex items-center justify-between p-4 text-cladd-fg-soft">
           <span>Header</span>

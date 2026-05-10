@@ -4,15 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm run extract-props && next dev",
-    "build": "npm run extract-props && next build",
+    "dev": "npm run codegen && next dev",
+    "build": "npm run codegen && next build",
     "start": "next start",
     "worker:dev": "next build && wrangler dev",
     "cf-typegen": "wrangler types ./src/worker/worker-configuration.d.ts",
     "check-types": "tsc --noEmit",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "extract-props": "node scripts/extract-props.mjs"
+    "codegen": "npm run extract-props && npm run extract-example-source",
+    "extract-props": "node scripts/extract-props.mjs",
+    "extract-example-source": "node scripts/extract-example-source.mjs"
   },
   "dependencies": {
     "@cladd-ui/react": "^0.0.23",
