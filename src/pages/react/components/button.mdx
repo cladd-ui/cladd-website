@@ -44,13 +44,13 @@ By default `Button` renders a `<button>` element with `variant="gradient"`, `out
 
 ### Sizes
 
-`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. `Chip`, `Shortcut`, and `Spinner` share the same scale, so when you nest one inside a button you can pass the matching `size` token and it sits at the right proportion — see the [spinner example](#with-spinner) below.
+`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/) share the same scale, so when you nest one inside a button you can pass the matching `size` token and it sits at the right proportion — see the [spinner example](#with-spinner) below.
 
 <SizeExample />
 
 ### With spinner
 
-A common loading-state composition: drop a `Spinner` inside a button and pass the matching `size` token to both. The spinner sits at the right proportion at every step of the scale, and pairing the loading state with `readOnly` keeps the button visually intact while suppressing clicks. Same trick works for `Chip` or `Shortcut` — anything that consumes the same size scale.
+A common loading-state composition: drop a [`Spinner`](/react/components/spinner/) inside a button and pass the matching `size` token to both. The spinner sits at the right proportion at every step of the scale, and pairing the loading state with `readOnly` keeps the button visually intact while suppressing clicks. Same trick works for [`Chip`](/react/components/chip/) or [`Shortcut`](/react/components/shortcut/) — anything that consumes the same size scale.
 
 <WithSpinnerExample />
 
