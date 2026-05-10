@@ -37,7 +37,6 @@ const componentNames = [
   'SearchField',
   'SectionTitle',
   'Segmented',
-  'SegmentedButton',
   'Select',
   'Shortcut',
   'Slider',

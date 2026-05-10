@@ -1,10 +1,21 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ActiveStyleExample,
+  ContainerExample,
+  DisabledExample,
+  InactiveStyleExample,
+  OverviewExample,
+  PlaygroundExample,
+  RoundedExample,
+  SizeExample,
+} from '@/components/examples/segmented';
 import SegmentedProps from '@/generated/props/SegmentedProps';
+import SegmentedButtonProps from '@/generated/props/SegmentedButtonProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="Segmented — Cladd"
-    description="Segmented component props."
+    description="Single-select segmented control built from Segmented + SegmentedButton — pairs naturally with Toolbar."
   >
     {children}
   </DocsLayout>
@@ -12,6 +23,82 @@ export default ({ children }) => (
 
 # Segmented
 
+`Segmented` is a single-select group of buttons — the canonical "view switcher" control. The group is the `Segmented` element; each option is a `SegmentedButton` with an `active` flag on the selected one. cladd handles the active-vs-inactive styling difference via context, so individual buttons stay terse.
+
+This page covers `Segmented` together with its child, `SegmentedButton`.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Segmented, SegmentedButton, Toolbar } from '@cladd-ui/react';
+
+<Toolbar>
+  <Segmented>
+    <SegmentedButton active>List</SegmentedButton>
+    <SegmentedButton>Grid</SegmentedButton>
+    <SegmentedButton>Calendar</SegmentedButton>
+  </Segmented>
+</Toolbar>;
+```
+
+`Segmented` is **layout only** — it renders a flex row of buttons with no fill, outline, or padding of its own. Pair it with a container that supplies the visual housing; [`Toolbar`](/react/components/toolbar/) is the canonical match (it sets `size`, `rounded`, and accent context that `Segmented` reads automatically).
+
+`SegmentedButton` extends [`Button`](/react/components/button/) — every `Button` prop works on it. The only addition is `active`. When set, it switches the button to the surrounding `Segmented`'s `activeColor` / `activeVariant` / `activeOutline`, lifts it one surface level for visual elevation, and sets `readOnly` so the already-selected option isn't pressable again.
+
+## Examples
+
+### Inside a container
+
+`Segmented` doesn't draw a wrapper — bare, it's just three buttons floating in the parent. Wrap it in [`Toolbar`](/react/components/toolbar/) for the standard pill-toolbar look, or inside any [`Surface`](/react/components/surface/) when you want a custom shell.
+
+<ContainerExample />
+
+Inside `Toolbar`, `Segmented` reads the toolbar's `size` from context — so you only need to set `size` on the toolbar (or omit it for the `md` default), and the segments follow. Same goes for accent color set on the toolbar.
+
+### Sizes
+
+`size` accepts the standard `2xs → 2xl` scale. The value is forwarded to every child `SegmentedButton` through context, so individual buttons stay clean. Inside a `Toolbar`, you can omit `size` on `Segmented` and it'll pick up the toolbar's size instead.
+
+<SizeExample />
+
+### Active segment style
+
+`activeVariant`, `activeColor`, and `activeOutline` control the look of the **selected** segment. The defaults — `gradient` variant with the theme accent and an outline ring — make the active option pop against the muted inactive ones. Try a `solid-fill` for a louder selection state, or pick a color that matches the page's accent.
+
+<ActiveStyleExample />
+
+### Inactive segment style
+
+`variant`, `color`, and `outline` control the **unselected** segments. The default `transparent` variant with no outline lets inactive options fade into the parent surface — when paired with a `Toolbar`, only the selected segment reads as a real button. Switch to `solid` if you want every option to look pressable, or add `outline` to make inactive segments look like buttons sitting in their own slots.
+
+<InactiveStyleExample />
+
+### Rounded
+
+`rounded` controls the corner shape of the segments — pill (`true`, default) or matching the size-specific radius. The flag is forwarded via context just like `size`, so each segment picks it up automatically.
+
+<RoundedExample />
+
+### Disabled
+
+`disabled` dims the entire group to 40% opacity and disables pointer events. For per-segment disabling, use the [`Button`](/react/components/button/) `disabled` or `readOnly` props directly on a `SegmentedButton`.
+
+<DisabledExample />
+
+### Playground
+
+`Segmented` exposes two parallel sets of style props — one for active, one for inactive — plus the shared layout knobs. They compose freely; the playground below combines them all.
+
+<PlaygroundExample />
+
 ## Props
 
+### Segmented
+
 <SegmentedProps />
+
+### SegmentedButton
+
+<SegmentedButtonProps />

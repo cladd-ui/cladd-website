@@ -18,12 +18,13 @@ import { PlusIcon } from '@/components/icons/PlusIcon';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/button';
 
 import { Example } from '../Example';
+import { CheckIcon } from '../icons/CheckIcon';
 
 export function OverviewExample() {
   return (
     <Example
       source={EXAMPLE_SOURCE.OverviewExample}
-      previewClassName="gap-4 flex-wrap"
+      previewClassName="gap-4 flex-wrap content-center"
     >
       <Button color="brand">Save changes</Button>
       <Button>Cancel</Button>
@@ -32,6 +33,14 @@ export function OverviewExample() {
       </Button>
       <Button variant="transparent" outline={false}>
         Ghost
+      </Button>
+      <Button rounded color="green" size="sm">
+        <PlusIcon />
+        Add
+      </Button>
+      <Button color="orange" size="sm" outline={false}>
+        Done
+        <CheckIcon />
       </Button>
       <Button rounded color="brand" size="sm">
         <PlusIcon />

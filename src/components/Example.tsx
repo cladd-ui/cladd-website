@@ -80,12 +80,10 @@ function fillTemplate(template: string, state?: Record<string, unknown>) {
   }
   for (const [name, value] of Object.entries(state)) {
     if (typeof value === 'boolean') {
-      if (value) {
-        out = out.replace(attrPattern(name), '$1');
-      } else {
-        // Drop the whole attribute, including its leading whitespace/newline.
-        out = out.replace(new RegExp(`\\s*\\b\\w+=\\{${name}\\}`, 'g'), '');
-      }
+      // True → flag attribute (idiomatic JSX). False → explicit `prop={false}`
+      // so toggles read correctly when the prop's default is `true`
+      // (e.g. Toolbar/Segmented `rounded`).
+      out = out.replace(attrPattern(name), value ? '$1' : '$1={false}');
     } else if (typeof value === 'string') {
       out = out.replace(attrPattern(name), `$1="${value}"`);
     } else if (typeof value === 'number') {
