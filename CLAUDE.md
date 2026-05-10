@@ -53,6 +53,7 @@ next.config.mjs    output: 'export', MDX + rehype-pretty-code wiring.
 - **Use real cladd primitives wherever possible**, not CSS that mimics them. Code blocks, for example, are wrapped in `<SurfaceCut>` via `mdx-components.tsx` — not styled with hand-rolled border/background classes. Same goes for layouts: prefer `Surface`, `SurfaceCut`, `Toolbar`, `SectionTitle`, etc., over plain divs.
 - **Use the actual cladd Tailwind color tokens.** The exposed ones are: `bg-cladd-bg`, `bg-cladd-surface`, `bg-cladd-surface-cut`, `bg-cladd-surface-minus`, `bg-cladd-surface-plus`, `text-cladd-fg`, `text-cladd-fg-soft`/`fg-softer`/`fg-softest`, `border-cladd-outline`, `text-cladd-primary`. Don't invent suffixes (no `surface-2`, no `fg-2`) — they don't exist.
 - **Trailing slashes everywhere** — `output: 'export'` requires `trailingSlash: true` to keep links working from the worker's static asset binding.
+- **2x-grid spacing.** For Tailwind `p-*`, `gap-*`, `m-*`, and other spacing-scale props, prefer powers-of-two values: `1`, `2`, `4`, `8`, `16`. Avoid odd intermediates like `3`, `5`, `6`, `7`, `10` unless there's a specific reason. Same goes for sizes (`size-*`, `w-*`, `h-*`).
 
 ## Commands
 
