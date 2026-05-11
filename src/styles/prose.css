@@ -141,4 +141,25 @@
     content: "";
     display: none;
   }
+
+  :is(h1, h2, h3, h4):not(.not-prose *) {
+    @apply scroll-mt-16;
+  }
+  a.heading-anchor:not(.not-prose *) {
+    @apply text-inherit no-underline opacity-100!;
+  }
+  a.heading-anchor:not(.not-prose *)::after {
+    content: "#";
+    @apply ml-2 inline-block align-middle font-mono text-[0.7em] font-normal text-cladd-fg-softer opacity-0 transition-opacity;
+  }
+  a.heading-anchor:not(.not-prose *):hover::after,
+  a.heading-anchor:not(.not-prose *):focus-visible::after {
+    @apply text-cladd-primary opacity-100;
+  }
+  h1 a.heading-anchor:not(.not-prose *) {
+    @apply pointer-events-none cursor-text;
+  }
+  h1 a.heading-anchor:not(.not-prose *)::after {
+    @apply hidden;
+  }
 }

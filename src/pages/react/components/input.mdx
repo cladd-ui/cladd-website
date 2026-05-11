@@ -1,13 +1,96 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ClearButtonExample,
+  DisplayValueExample,
+  IconExample,
+  OverviewExample,
+  PlaygroundExample,
+  PrefixSuffixExample,
+  SizeExample,
+  StatesExample,
+  ValidationExample,
+} from '@/components/examples/input';
 import InputProps from '@/generated/props/InputProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Input — Cladd" description="Input component props.">
+  <DocsLayout
+    title="Input — Cladd"
+    description="Surface-backed text input — sizes sm → 2xl, prefix/suffix slots, display values, validation, and a built-in clear button."
+  >
     {children}
   </DocsLayout>
 );
 
 # Input
+
+`Input` is the workhorse text field. It wraps a native `<input>` in a [`SurfaceCut`](/react/components/surface-cut/) so it inherits the cladd recess, hover, and focus-ring treatments, then layers on the bits a real form needs: `prefix` / `suffix` / `icon` slots, an opt-in `clearButton`, a separate `displayValue` for formatted display, validation with floating `infoMessage` / `errorMessage`, and the standard `sm → 2xl` size scale.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Input } from '@cladd-ui/react';
+
+<Input
+  value={name}
+  onChange={setName}
+  placeholder="Project name"
+  infoMessage="Visible to your team"
+/>;
+```
+
+`Input` is controlled — pass `value` and an `onChange` handler. The handler receives `(value, event)` so you usually just need the first argument. By default it renders a `<div>` wrapping an `<input type="text">`; swap the wrapper with `as` or the inner control with `inputComponent` (e.g. for a masked-input library) while keeping the cladd chrome.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md`, `lg` (default), `xl`, `2xl`. The font stays compact at every step — the height is what scales — so dense forms stay legible without redesigning labels. (Note: `Input` doesn't go down to `2xs` / `xs` — those steps are reserved for sub-controls like the inline clear button, which sizes itself one step smaller automatically.) [`Chip`](/react/components/chip/), [`Spinner`](/react/components/spinner/), and other interactive controls share this scale, so when you nest one in `prefix` or `suffix` you can pass the matching `size` token and it sits at the right proportion — see the [prefix/suffix example](#prefix-and-suffix) below.
+
+<SizeExample />
+
+### Icon
+
+`icon` renders an absolutely-positioned glyph on the left and shifts the input padding to make room. It's the classic search/email/lookup affordance — purely decorative, not interactive. For an interactive trailing element (a clear button, a status chip, a unit toggle) reach for `suffix` instead.
+
+<IconExample />
+
+### Prefix and suffix
+
+`prefix` and `suffix` render inside the surface, before and after the input element — perfect for currency symbols, unit labels, status chips, or inline spinners. When you put a [`Chip`](/react/components/chip/) or [`Spinner`](/react/components/spinner/) in either slot, pass the matching `size` token so it tracks the input's height. Add a small horizontal margin (`ml-2` / `mr-2`) and trim the input's own padding with `inputClassName="pl-1"` / `"pr-1"` so the slot reads as part of the field instead of floating.
+
+<PrefixSuffixExample />
+
+### Clear button
+
+`clearButton` renders an inline `×` button on the right that fires `onClear`. It's automatically hidden (with a small scale-out transition) when `value` is empty, so the field stays clean until there's something to clear. The button sits one step below the input on the size scale, so an `lg` input gets an `sm` clear button — drop it in next to a search [`icon`](#icon) and the proportions look right at any size.
+
+<ClearButtonExample />
+
+### Display value
+
+`displayValue` renders a custom node in place of the raw `value` while the input is unfocused (or `readOnly`). On focus the real value comes back so the user can edit it. Use it for currency that should read as `$1,234.56` but store as `1234.56`, phone numbers that format as `(555) 123-4567` but store as digits, dates, IDs, anything where the display form differs from the edit form.
+
+<DisplayValueExample />
+
+### Validation
+
+Set `valid={false}` to switch the focus ring to red and surface `errorMessage` as a floating chip above the field — visible always, no focus required. `infoMessage` is the calmer counterpart: a floating hint that appears on focus and uses the input's accent `color`. Pair them on the same field and the right one shows for the current state.
+
+<ValidationExample />
+
+### Disabled and read-only
+
+`disabled` dims the field to 50% and disables interaction entirely. `readOnly` is the subtler one: the field stays at full opacity and remains focusable (so the user can select and copy the value) but rejects edits and hides any `infoMessage`. Use `readOnly` for values that read as live but shouldn't change right now — a locked slug while a deploy is in flight, a generated key, a computed total.
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, `rounded`, `icon`, and `clearButton` are designed to compose. Try a `rounded` `xl` input with `color="green"` for a hero search, or a compact `sm` input with both an icon and a clear button for a sidebar filter.
+
+<PlaygroundExample />
 
 ## Props
 

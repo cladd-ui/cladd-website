@@ -28,7 +28,6 @@ const componentNames = [
   'OTPFieldSeparator',
   'Popover',
   'Popup',
-  'PopupContent',
   'Radio',
   'SearchField',
   'SectionTitle',

@@ -22,6 +22,10 @@ interface ExampleProps {
   previewClassName?: string;
   /** Extra classes on the controls strip. */
   controlsClassName?: string;
+  /** Wrap the preview children in a raised `<Surface outline>` so recessed
+   *  controls (Input, SurfaceCut, etc.) read against a lifted background.
+   *  Visual chrome only — not included in the extracted source. */
+  previewSurface?: boolean;
 }
 
 export function Example({
@@ -32,8 +36,33 @@ export function Example({
   className,
   previewClassName,
   controlsClassName,
+  previewSurface,
 }: ExampleProps) {
   const code = source ? fillTemplate(source, state) : null;
+  const preview = previewSurface ? (
+    <div className="flex min-h-55 flex-1 items-center justify-center p-8">
+      <Surface
+        outline
+        className="rounded-2xl"
+        variant="gradient"
+        contentClassName={cn(
+          'flex items-center justify-center p-4',
+          previewClassName,
+        )}
+      >
+        {children}
+      </Surface>
+    </div>
+  ) : (
+    <div
+      className={cn(
+        'flex min-h-55 flex-1 items-center justify-center p-8',
+        previewClassName,
+      )}
+    >
+      {children}
+    </div>
+  );
   return (
     <Surface
       variant="transparent"
@@ -45,14 +74,7 @@ export function Example({
       outline
     >
       <div className="flex flex-col">
-        <div
-          className={cn(
-            'flex min-h-55 flex-1 items-center justify-center p-8',
-            previewClassName,
-          )}
-        >
-          {children}
-        </div>
+        {preview}
         {controls ? (
           <div
             className={cn(

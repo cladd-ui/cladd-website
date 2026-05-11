@@ -16,12 +16,24 @@ const prettyCodeOptions = {
   },
 };
 
+/** @type {import('rehype-autolink-headings').Options} */
+const autolinkOptions = {
+  behavior: 'wrap',
+  properties: {
+    className: ['heading-anchor'],
+  },
+};
+
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
     // Plugins are passed as module specifier strings so Turbopack can
     // serialize the loader options (Next 16 default bundler).
-    rehypePlugins: [['rehype-pretty-code', prettyCodeOptions]],
+    rehypePlugins: [
+      'rehype-slug',
+      ['rehype-autolink-headings', autolinkOptions],
+      ['rehype-pretty-code', prettyCodeOptions],
+    ],
   },
 });
 

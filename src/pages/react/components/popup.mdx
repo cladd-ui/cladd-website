@@ -1,14 +1,180 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  CompoundExample,
+  ControlledExample,
+  CustomCloseExample,
+  CustomSizeExample,
+  MultipleContentExample,
+  NestedExample,
+  OverviewExample,
+  PopupContentVariantExample,
+  ScrollableExample,
+} from '@/components/examples/popup';
 import PopupProps from '@/generated/props/PopupProps';
+import PopupRootProps from '@/generated/props/PopupRootProps';
+import PopupTriggerProps from '@/generated/props/PopupTriggerProps';
+import PopupCloseProps from '@/generated/props/PopupCloseProps';
+import PopupContentProps from '@/generated/props/PopupContentProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Popup — Cladd" description="Popup component props.">
+  <DocsLayout
+    title="Popup — Cladd"
+    description="Full-screen scrollable overlay for dense, multi-section views — task editors, settings panels, detail sheets — built on a portalled, focus-trapping Surface with stackable PopupContent cards."
+  >
     {children}
   </DocsLayout>
 );
 
 # Popup
 
+`Popup` is the **full-screen scrollable overlay** — the surface you reach for when there's too much content for a [`Dialog`](/react/components/dialog/) or [`Popover`](/react/components/popover/), but you still want the rest of the app to step out of the way. Task detail views, file inspectors, settings panels, multi-section forms — anything that wants a column of stacked cards over a dimmed app shell. It's powering the task-edit sheets and similar long-form views in [**t0ggles**](https://t0ggles.com), [**Swiper Studio**](https://studio.swiperjs.com) and [**PaneFlow**](https://paneflow.com).
+
+It sits next to the other overlays as the "biggest hammer":
+
+- [`Toast`](/react/components/toast/) — corner notification, auto-dismisses, doesn't block.
+- [`Popover`](/react/components/popover/) — small, anchored to a trigger, dismisses on outside-click.
+- [`Dialog`](/react/components/dialog/) — centered, focus-trapping, blocks the page until the user picks a button.
+- **`Popup`** — full-height column over the app shell, **scrollable**, focus-trapped, built to hold a lot of content.
+
+A popup portals into the overlay root, `inert`s the app shell while open (default selector `.app-container`), traps focus inside its tree, and centers a vertically-scrolling content column. Children stack inside that column — usually as one or more `PopupContent` cards — and a built-in header (with `headerLeft`, `headerRight`, and an auto close button) rides at the top.
+
+There are two ways to drive it. The **compound API** — `PopupRoot` + `PopupTrigger` + `Popup` (+ optional `PopupClose`) — wires a popup to a trigger element in JSX. **Controlled mode** drives `Popup` directly via `open` / `onOpenChange` for state owned outside the popup tree.
+
+<OverviewExample />
+
+## Usage
+
+### Compound API
+
+```tsx
+import {
+  Button,
+  Popup,
+  PopupContent,
+  PopupRoot,
+  PopupTrigger,
+} from '@cladd-ui/react';
+
+<PopupRoot>
+  <PopupTrigger>
+    <Button>Open task</Button>
+  </PopupTrigger>
+  <Popup headerLeft={<span>Task</span>}>
+    <PopupContent>…</PopupContent>
+  </Popup>
+</PopupRoot>;
+```
+
+`PopupRoot` owns the open state (uncontrolled by default). `PopupTrigger` **clones** its single child to attach an `onClick` that toggles the root — point it at any [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), or other clickable element. `Popup` reads the root's open state automatically, portals into the overlay root, and renders its header + scrollable content column.
+
+### Controlled
+
+```tsx
+import { Button, Popup, PopupContent } from '@cladd-ui/react';
+
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>Open</Button>
+<Popup open={open} onOpenChange={setOpen}>
+  <PopupContent>…</PopupContent>
+</Popup>;
+```
+
+Drop `PopupRoot`/`PopupTrigger` and drive `Popup` directly through `open` / `onOpenChange`. Use this when the popup represents state your app already owns — opening a record from a URL param, surfacing a detail panel from a board cell click, a programmatic walkthrough.
+
+### Composing with PopupContent
+
+```tsx
+<Popup headerLeft={<span>Task</span>}>
+  <PopupContent>{/* header row, title, fields */}</PopupContent>
+  <PopupContent>{/* description */}</PopupContent>
+  <PopupContent>{/* attachments */}</PopupContent>
+  <PopupContent>{/* comments */}</PopupContent>
+</Popup>
+```
+
+`PopupContent` is the **card surface** you stack inside a popup — a rounded [`Surface`](/react/components/surface/) with padded content area, tuned to read as one of several sibling cards in the popup's scroll column. Use one for short popups; stack two or three for task editors, settings panels, and the like. Anything that fits in a regular Surface fits in a `PopupContent`.
+
+You don't have to use it — `children` is any `ReactNode`, so you can render whatever surface treatment you want — but `PopupContent` is the sized-and-spaced default, and it's what the rest of the cladd app shell (t0ggles, Swiper Studio) uses for these views.
+
+## Examples
+
+### Compound
+
+The canonical shape — `PopupRoot` wraps the trigger and the popup as siblings. The root owns the open state, so trigger and popup stay in sync through context without prop-drilling. `PopupClose` (used here) wraps any child you want to dismiss on click — the same shape as [`DialogClose`](/react/components/dialog/) and [`PopoverClose`](/react/components/popover/).
+
+<CompoundExample />
+
+### Controlled
+
+Pass `open` and `onOpenChange` directly to `Popup` to drive it from external state. The surrounding `PopupRoot` is bypassed when `open` is provided, so you can drop it entirely. Useful when the popup represents app state — `/tasks/:id` deep links, "open last task on Cmd+K", a save-conflict response — rather than a click on a specific button.
+
+<ControlledExample />
+
+### Multiple PopupContent cards
+
+A popup's `children` render inside a vertical scrollable column — stack as many `PopupContent` cards as the view needs and they'll flow naturally with a consistent gap. This is the dominant pattern: one card for the header/title, one for properties, one for description, one for comments. The scroll wrap caps at the viewport height with safe-area padding so the column never gets clipped.
+
+<MultipleContentExample />
+
+### PopupContent variant
+
+`variant` on `PopupContent` is forwarded straight to the underlying [`Surface`](/react/components/surface/) — same five values: `transparent`, `solid` (default), `gradient`, `solid-fill`, `gradient-fill`. Combine with a `cladd-color-*` class on the same element (or with a parent that sets the accent token) to tint the fill and outline. `surfaceLevel` bumps the elevation step; `outline` toggles the ring.
+
+<PopupContentVariantExample />
+
+### Custom close + action buttons
+
+Drop the auto close button with `closeButton={false}` and put your own actions in `headerRight`. Wrap each in `PopupClose` so they dismiss the popup on click. This is the right shape for editor-style popups where "Cancel" and "Save" are the two real actions and the X glyph would be redundant. You can also override only the glyph via `closeButtonContent` (string or `ReactNode`) and the accent via `closeButtonColor`.
+
+<CustomCloseExample />
+
+### Custom size
+
+The popup's content column defaults to `max-w-162` (~648px) — wide enough for a task editor with two-column fields, narrow enough not to swim on a big monitor. Override with `contentClassName`: drop in `max-w-96` for a tight confirm-style prompt, `max-w-240` for a wider workspace, or `max-w-full` to fill the viewport. Width is the only thing you'd usually want to change — height comes from content and caps at the viewport's safe-area-padded max-height automatically.
+
+<CustomSizeExample />
+
+### Full-screen scrollable
+
+A popup is built to **hold a lot**. The scroll wrap caps at the viewport height with safe-area padding, and any overflow inside it scrolls naturally — so you can stack as many `PopupContent` cards as the view needs without worrying about clipping. This is why a popup beats a [`Dialog`](/react/components/dialog/) for task detail sheets, changelogs, multi-section settings, file inspectors: the user can read top-to-bottom without dismissing first.
+
+<ScrollableExample />
+
+### Nested popups
+
+Open a popup from inside a popup and the previous one slides back and shrinks slightly — the cladd surface stack reads as a visible depth ladder, the way native iOS sheets do. Drill three levels deep and you get three layers stacked behind the active one. Each popup gets its own focus trap and its own `inert` on what's underneath, so keyboard and screen-reader users still land on the right surface as they navigate down.
+
+`closeOnEscape` is suppressed automatically on the popup that's been pushed back, so Escape always dismisses the **top** popup first — no accidental top-down close.
+
+<NestedExample />
+
 ## Props
 
+### Popup
+
 <PopupProps />
+
+### PopupContent
+
+A pre-styled [`Surface`](/react/components/surface/) card sized for the popup column — rounded, padded, outlined by default. Use one for a single section; stack multiple for the [t0ggles](https://t0ggles.com)-style task-detail layout (header → properties → description → attachments → comments).
+
+<PopupContentProps />
+
+### PopupRoot
+
+State container for the surrounding compound — owns the open state and provides it to `PopupTrigger`, `Popup`, and `PopupClose` through context.
+
+<PopupRootProps />
+
+### PopupTrigger
+
+**Clones** its single child to attach an `onClick` that toggles the surrounding `PopupRoot`'s open state — composed with any existing `onClick` on the child. No-ops (renders the child as-is) when used outside a `PopupRoot`. Unlike [`PopoverTrigger`](/react/components/popover/), this does **not** register an anchor ref — popups fill the viewport, not a slot next to the trigger.
+
+<PopupTriggerProps />
+
+### PopupClose
+
+**Clones** its single child to attach an `onClick` that flips the surrounding `PopupRoot`'s open state to `false`. Wrap inner action buttons (Cancel, Save, Done) so they dismiss the popup on click.
+
+<PopupCloseProps />

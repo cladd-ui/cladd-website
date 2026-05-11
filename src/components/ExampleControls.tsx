@@ -63,15 +63,22 @@ export function ExampleControlVariant({
   );
 }
 
-interface SizeControlProps {
-  value: ButtonSize;
-  onChange: (next: ButtonSize) => void;
+interface SizeControlProps<S extends string = ButtonSize> {
+  value: S;
+  onChange: (next: S) => void;
+  sizes?: readonly S[];
 }
 
-export function ExampleControlSize({ value, onChange }: SizeControlProps) {
+export function ExampleControlSize<S extends string = ButtonSize>({
+  value,
+  onChange,
+  sizes,
+}: SizeControlProps<S>) {
+  const items = (sizes ??
+    (SIZES as readonly string[] as readonly S[])) as readonly S[];
   return (
     <Segmented>
-      {SIZES.map((s) => (
+      {items.map((s) => (
         <SegmentedButton
           key={s}
           active={value === s}

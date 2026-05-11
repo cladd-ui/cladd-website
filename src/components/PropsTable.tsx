@@ -23,8 +23,15 @@ export interface PropsTableProps {
   extendsList?: string[];
 }
 
+// Polymorphic components export an `XxxOwnProps` interface alongside the
+// public `XxxProps` type. Only the public form has a docs page, so collapse
+// `OwnProps` to `Props` for both the displayed name and the link target.
+function normalizeExtendsName(propsType: string): string {
+  return propsType.replace(/OwnProps$/, 'Props');
+}
+
 function propsTypeToKebab(propsType: string): string {
-  return propsType
+  return normalizeExtendsName(propsType)
     .replace(/Props$/, '')
     .replace(/([a-z\d])([A-Z])/g, '$1-$2')
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
@@ -92,20 +99,23 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
             </span>
           )}
           {hasExtends && (
-            <span>
-              Inherits from{' '}
-              {extendsList!.map((p, i) => (
-                <Fragment key={p}>
-                  {i > 0 ? ', ' : null}
-                  <Link
-                    href={`/react/components/${propsTypeToKebab(p)}/`}
-                    className="font-mono text-cladd-fg underline-offset-2 hover:underline"
-                  >
-                    {p}
-                  </Link>
-                </Fragment>
-              ))}
-            </span>
+            <>
+              <span>/</span>
+              <span>
+                Inherits from{' '}
+                {extendsList!.map((p, i) => (
+                  <Fragment key={p}>
+                    {i > 0 ? ', ' : null}
+                    <Link
+                      href={`/react/components/${propsTypeToKebab(p)}/`}
+                      className="font-mono text-cladd-fg underline-offset-2 hover:underline"
+                    >
+                      {normalizeExtendsName(p)}
+                    </Link>
+                  </Fragment>
+                ))}
+              </span>
+            </>
           )}
         </div>
       )}
