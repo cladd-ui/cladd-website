@@ -1,16 +1,93 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ButtonVariantExample,
+  InputModeExample,
+  MinMaxStepExample,
+  OverviewExample,
+  PlaygroundExample,
+  RoundedExample,
+  SizeExample,
+  StatesExample,
+  VariantExample,
+} from '@/components/examples/number-field';
 import NumberFieldProps from '@/generated/props/NumberFieldProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="NumberField — Cladd"
-    description="NumberField component props."
+    description="Stepper-style numeric input with −/value/+ layout, clamped to min/max, configurable step, sizes sm → 2xl."
   >
     {children}
   </DocsLayout>
 );
 
 # NumberField
+
+`NumberField` is the stepper-style numeric control: a [`Surface`](/react/components/surface/) container with a `−` [`Button`](/react/components/button/) on the left, the current value in the middle, and a `+` [`Button`](/react/components/button/) on the right. Each press fires `onChange` with the new value, already clamped to `[min, max]` and offset by `step`. It's the right pick for quantities in a cart, a zoom level in an inspector, a tip percentage — anywhere the value moves in discrete increments and the user mostly nudges rather than types.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { NumberField } from '@cladd-ui/react';
+
+<NumberField value={qty} onChange={setQty} min={1} max={99} />;
+```
+
+`NumberField` is controlled — pass `value` and an `onChange` handler. Increments happen via the `+` / `−` buttons; the value is clamped to `[min, max]` (defaults `0` and `1_000_000`) and offset by `step` (default `1`) before `onChange` fires. The buttons auto-disable when `value` is already at `min` or `max`, so you don't need to gate them yourself.
+
+The middle slot renders the value in an [`Input`](/react/components/input/) by default — focusable and selectable so the user can copy the value out — but the stepper buttons own the writes. Set [`input={false}`](#input-mode) when you want a read-only chip instead.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md` (default), `lg`, `xl`, `2xl` — the same scale as [`Input`](/react/components/input/) and [`Textarea`](/react/components/textarea/), forwarded to both the `+` / `−` [`Button`](/react/components/button/)s and the value display so the whole row scales as one unit. (NumberField doesn't go down to `2xs` / `xs` — those are reserved for sub-controls like the inline clear button on [`Input`](/react/components/input/).)
+
+<SizeExample />
+
+### Container variant
+
+`variant` is the [`Surface`](/react/components/surface/) variant token applied to the **container** — `gradient` (default), `solid`, `transparent`, `solid-fill`, `gradient-fill`. The `*-fill` variants flood the container with the accent color and invert the text, useful when the field is the loud primary control on a settings card.
+
+<VariantExample />
+
+### Button variant
+
+`buttonVariant` controls the surface variant on just the `+` / `−` buttons — `transparent` (default) keeps them as quiet glyphs inside the container, `gradient-fill` / `solid-fill` paints them in the accent color for a punchier stepper. Pair with `buttonOutline` to add an outline ring around each button independently of the container.
+
+<ButtonVariantExample />
+
+### Input mode
+
+`input` toggles how the middle slot is rendered. `input={true}` (default) renders the value in an [`Input`](/react/components/input/) — same recessed [`SurfaceCut`](/react/components/surface-cut/) chrome as a regular text field, focusable so the user can select and copy the value. `input={false}` swaps it for a read-only [`SurfaceCut`](/react/components/surface-cut/) chip — flatter, narrower, no caret. Reach for the chip variant when you don't want a focus ring competing with the buttons (toolbar steppers, sidebar zoom controls, anywhere the value is purely informational between two clicks).
+
+<InputModeExample />
+
+### Min, max, step
+
+`min` (default `0`) and `max` (default `1_000_000`) clamp the value at both ends. The `−` button disables itself once `value <= min` and the `+` button once `value >= max`, so the bounds are visually obvious without extra wiring. `step` (default `1`) is the offset applied on each press — pick `5` for a tip percentage, `10` for a price, `25` for a zoom level.
+
+<MinMaxStepExample />
+
+### Rounded
+
+`rounded` (default `true`) pill-shapes the container and the `+` / `−` buttons; turn it off for a more rectangular, app-shell look. `valueRounded` (default `false`) pill-shapes just the middle value display — useful when you want a pill chip nested inside a squared container.
+
+<RoundedExample />
+
+### Disabled and read-only
+
+`disabled` dims the field to 50% and disables both buttons entirely. `readOnly` is the subtler one: the buttons stay at full opacity but stop responding to clicks, so the field reads as live but won't change — handy when a parallel action is in flight or the value is locked by a higher-level state.
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, `variant`, `rounded`, and `input` are designed to compose. Try a `2xl` `gradient-fill` field in `brand` for a hero quantity selector, or a compact `sm` `transparent` field with `input={false}` as an inline sidebar zoom control.
+
+<PlaygroundExample />
 
 ## Props
 

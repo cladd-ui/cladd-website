@@ -165,6 +165,55 @@ export function ControlledExample() {
   );
 }
 
+export function ContextMenuExample() {
+  const [open, setOpen] = useState(false);
+  const [rect, setRect] = useState<DOMRect | null>(null);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.ContextMenuExample}
+      previewClassName="min-h-72"
+    >
+      <SurfaceCut
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setRect(new DOMRect(e.clientX, e.clientY, 0, 0));
+          setOpen(true);
+        }}
+        className="w-full rounded-2xl"
+        contentClassName="flex min-h-64 items-center justify-center select-none text-sm text-cladd-fg-softer"
+      >
+        Right-click anywhere in this area
+      </SurfaceCut>
+      <Popover
+        open={open}
+        onOpenChange={setOpen}
+        anchorRect={rect ?? undefined}
+        position="bottom-start"
+        className="fixed! w-56"
+      >
+        <List>
+          <ListButton
+            icon={<CopyIcon />}
+            after={<Shortcut size="sm">cmd c</Shortcut>}
+          >
+            Copy
+          </ListButton>
+          <ListButton
+            icon={<PlusIcon />}
+            after={<Shortcut size="sm">cmd d</Shortcut>}
+          >
+            Duplicate
+          </ListButton>
+          <ListButton icon={<EnvelopeIcon />}>Send to…</ListButton>
+          <ListSeparator />
+          <ListButton icon={<ArchiveIcon />}>Archive</ListButton>
+          <ListButton color="red">Delete</ListButton>
+        </List>
+      </Popover>
+    </Example>
+  );
+}
+
 export function WithListExample() {
   return (
     <Example

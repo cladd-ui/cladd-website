@@ -47,7 +47,7 @@ By default the root is a `<label>`, so a click anywhere inside the element toggl
 
 ### Inside a button or list row
 
-`Checkbox`'s two sizes are **nested sizes** — they're calibrated to fit *inside* a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. A `md` checkbox sits a touch smaller than the `md` button's text, which is the right proportion: the checkbox reads as the indicator for the row, not a co-equal control fighting the label.
+`Checkbox`'s two sizes are **nested sizes** — they're calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. A `md` checkbox sits a touch smaller than the `md` button's text, which is the right proportion: the checkbox reads as the indicator for the row, not a co-equal control fighting the label.
 
 Same trick as [`Spinner`](/react/components/spinner/) and [`Chip`](/react/components/chip/): pass the same `size` token to both the wrapping control and the checkbox, and the nested-vs-root sizing math is already baked in. Use `as="span"` on the checkbox so it doesn't render a nested `<label>` inside the parent label.
 

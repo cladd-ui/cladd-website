@@ -1,13 +1,95 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  CustomIconExample,
+  InListExample,
+  NestedSizeExample,
+  OverviewExample,
+  PlaygroundExample,
+  SettingsPanelExample,
+  SizeExample,
+  StatesExample,
+} from '@/components/examples/switch';
 import SwitchProps from '@/generated/props/SwitchProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Switch — Cladd" description="Switch component props.">
+  <DocsLayout
+    title="Switch — Cladd"
+    description="Accent-aware Switch for immediate-effect binary toggles — sliding thumb with a recessed track, native input by default, customizable thumb icon."
+  >
     {children}
   </DocsLayout>
 );
 
 # Switch
+
+`Switch` is the binary toggle for changes that take effect _the moment the user flips it_ — dark mode on, notifications off, beta features enabled. The thumb slides between a recessed off track and a filled-gradient on state that takes the theme accent by default. Like [`Checkbox`](/react/components/checkbox/) it renders a real hidden `<input type="checkbox" role="switch">` for accessibility and form submission, but flips to an ARIA-only mode when the surrounding context already provides a label.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Switch } from '@cladd-ui/react';
+
+<Switch checked={notifications} onChange={setNotifications} />;
+```
+
+By default the root is a `<label>`, so a click anywhere inside the element toggles the hidden input — no extra wiring required. Pair it with text inside the same `<label>` to extend the clickable target, or pass `as="span"` / `as="div"` when the switch already lives inside a label-shaped parent (a [`ListButton`](/react/components/list/) with `as="label"`, for instance).
+
+### Switch or Checkbox?
+
+Reach for `Switch` when toggling the control applies the change immediately — settings panels, feature flags, mode pickers in a [`Toolbar`](/react/components/toolbar/). Reach for [`Checkbox`](/react/components/checkbox/) when the value is part of a form that's submitted as a whole — terms-of-service acceptance, "remember me", a list of filters that only takes effect once the user hits Apply. The visual difference (sliding thumb vs. tick mark) signals the difference in behaviour to the user.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm` (default) and `md`. Like its siblings [`Checkbox`](/react/components/checkbox/) and [`Radio`](/react/components/radio/), `Switch` ships only the two sizes that fit cleanly into a row of controls — the full `2xs → 2xl` scale doesn't make sense for a toggle. `sm` is the inline default; reach for `md` when the switch is the focal point of its row or sits inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below).
+
+<SizeExample />
+
+### Inside a button or list row
+
+`Switch`'s two sizes are **nested sizes** — calibrated to fit _inside_ a [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. Drop a `size="sm"` switch into an `md` button (or `as="label"` list row) and the switch reads as the indicator for the row rather than a co-equal control fighting the label. Use `as="span"` on the switch so it doesn't render a nested `<label>` inside the parent label.
+
+<NestedSizeExample />
+
+### Colors
+
+`color` accepts any of the eleven cladd accent tokens — the accent drives the on-state thumb fill. When unset, the switch inherits the theme accent from [`UIProvider`](/react/components/ui-provider/), so a brand-coloured toggle doesn't usually need a `color` prop. Pass one when the toggle signals severity (`red` for "delete on save") or sits alongside a non-default control that needs to read as a single unit.
+
+<ColorExample />
+
+### Custom thumb icon
+
+Unlike [`Checkbox`](/react/components/checkbox/) and [`Radio`](/react/components/radio/), `Switch` exposes an `icon` slot inside the thumb. Pass a static `ReactNode` for a fixed glyph, or a function `(checked) => ReactNode` to swap the icon based on state — the canonical example is a sun/moon pair for a theme toggle. The thumb keeps its slide and fill animations; only the inner content changes.
+
+<CustomIconExample />
+
+### In a settings list
+
+The canonical immediate-effect pattern: a [`List`](/react/components/list/) of `ListButton as="label"` rows, each with a `Switch` in the `after` slot. The `ListButton` provides the hover overlay, focus ring, and click target — the switch is just the indicator and value. `as="label"` on the row turns the whole row into a label for the nested switch's hidden input, so clicking anywhere in the row toggles it. Use `as="span"` on the switch itself to avoid a nested `<label>`.
+
+<InListExample />
+
+### Settings panel
+
+When a stack of switches _is_ the UI — a workspace preferences panel, a notifications screen, a privacy sheet — pair them with [`SectionTitle`](/react/components/section-title/) groups inside a single [`Surface`](/react/components/surface/). Each row gets a label, an optional supporting paragraph, and a switch on the right; the surface frames the group and the section titles carve it into legible chunks. This is the layout cladd was designed for: dense, but not crowded.
+
+<SettingsPanelExample />
+
+### States
+
+`disabled` dims the switch and blocks all interaction — read as "not available right now" (e.g. a feature that depends on a higher plan tier). `readOnly` blocks toggling without the dim treatment — read as "locked, but the value is real" (e.g. an enforced organisation policy the user can see but not change).
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, and the boolean state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the switch is the focal point of a row or sits inside a `md` button or list row.
+
+<PlaygroundExample />
 
 ## Props
 

@@ -1,14 +1,112 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  GroupingExample,
+  OverviewExample,
+  PatternExample,
+  PlaceholderExample,
+  PlaygroundExample,
+  SizeExample,
+  StatesExample,
+} from '@/components/examples/otp-field';
 import OTPFieldProps from '@/generated/props/OTPFieldProps';
+import OTPFieldInputProps from '@/generated/props/OTPFieldInputProps';
+import OTPFieldSeparatorProps from '@/generated/props/OTPFieldSeparatorProps';
 
 export default ({ children }) => (
-  <DocsLayout title="OTPField — Cladd" description="OTPField component props.">
+  <DocsLayout
+    title="OTPField — Cladd"
+    description="Auto-advancing one-time-code field with paste handling, configurable cell count, and optional separators — drop in for MFA prompts and magic-link confirmations."
+  >
     {children}
   </DocsLayout>
 );
 
 # OTPField
 
+`OTPField` is the one-time-code field — the row of square cells you reach for on SMS confirmations, MFA prompts, and magic-link redemptions. It holds a single string `value` and distributes it across a fixed number of cells: typing advances focus, backspace retreats, paste auto-fills across the row, and characters that don't match the field's `pattern` are silently rejected. Compose it with `OTPFieldInput` for each cell and `OTPFieldSeparator` for the dash between groups, or skip the children entirely and pass `maxLength` to generate them for you.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { OTPField } from '@cladd-ui/react';
+
+const [code, setCode] = useState('');
+
+<OTPField maxLength={6} value={code} onChange={setCode} />;
+```
+
+For the common case — N identical cells in a single row — pass `maxLength` and skip children. The field renders that many `OTPFieldInput`s for you, wires their indexes through context, and binds the first cell's `autocomplete` to `'one-time-code'` so iOS surfaces the SMS suggestion bar automatically.
+
+Reach for explicit children when you want a separator, a non-uniform grouping, or per-cell styling overrides:
+
+```tsx
+<OTPField value={code} onChange={setCode}>
+  <OTPFieldInput />
+  <OTPFieldInput />
+  <OTPFieldInput />
+  <OTPFieldSeparator />
+  <OTPFieldInput />
+  <OTPFieldInput />
+  <OTPFieldInput />
+</OTPField>
+```
+
+`maxLength` is inferred from the count of `OTPFieldInput` children when omitted, so you don't have to keep the two in sync.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md`, `lg` (default), `xl`, `2xl` — the same scale as [`Input`](/react/components/input/), with the default one step larger because OTP cells need more presence than an inline form field. Every cell takes the same size, and the [`OTPFieldSeparator`](#otpfieldseparator) scales with the row.
+
+<SizeExample />
+
+### Grouping and separators
+
+The flat row works for most cases, but credit-card-style codes read better when split — `XXX-XXX` for a 6-digit verification, `XXXX XXXX` for a license key, `XX·XX·XX` when you want a softer divider. Drop an `OTPFieldSeparator` between explicit `OTPFieldInput` children to insert a divider; the default is a short horizontal bar, and `children` override it with anything you want (a slash, a dot, a longer dash).
+
+<GroupingExample />
+
+### Placeholders
+
+`placeholder` is a per-cell prop on `OTPFieldInput` — pass an explicit set of children and give each one the same glyph to fill empty cells with a visual hint. A middle dot `·` reads as a quiet "type here" without competing with the real digit; `•` is the louder, more emphatic version; an em-dash `—` evokes a fill-in-the-blank form. The placeholder disappears as soon as the user types into that cell, so partially-filled rows stay legible.
+
+<PlaceholderExample />
+
+### Custom pattern
+
+`pattern` is a regex source that matches a _single_ allowed character — applied both to typed input and to the contents of a paste. The default `'[0-9]'` covers numeric MFA codes; set `'[A-Za-z0-9]'` for the alphanumeric backup codes a password manager would emit, or `'[A-Z]'` for an all-caps redemption code. Pair an alphanumeric pattern with `inputMode="text"` so phones surface the right keyboard.
+
+<PatternExample />
+
+### Validation, disabled, read-only
+
+Set `valid={false}` to flip the field into its error state — a single red focus ring runs around the whole row instead of per-cell, so a failed code reads as one wrong answer rather than six wrong cells. `disabled` dims the row and blocks all interaction. `readOnly` keeps cells focusable so the user can copy the value, but rejects edits — handy for displaying a code your server just minted.
+
+<StatesExample />
+
+### Playground
+
+`size`, `pattern`, `maxLength`, and the boolean state toggles compose freely.
+
+<PlaygroundExample />
+
 ## Props
 
+### OTPField
+
 <OTPFieldProps />
+
+### OTPFieldInput
+
+A single OTP cell, used as a child of `OTPField`. The parent injects each cell's `index` via `cloneElement`, so you never set it yourself — almost everything that controls rendering (`size`, `pattern`, `disabled`, `readOnly`, `inputMode`) lives on the parent and flows down through context. `OTPFieldInput`'s own props are limited to per-cell styling and an optional placeholder.
+
+<OTPFieldInputProps />
+
+### OTPFieldSeparator
+
+The divider between OTP cells — an `aria-hidden` `<div>` with a short horizontal bar by default. Override `children` to substitute a dot, slash, dash glyph, or any other node; the wrapper handles vertical centering and inherits the field's spacing so you don't have to align it yourself.
+
+<OTPFieldSeparatorProps />

@@ -3,6 +3,7 @@ import {
   BackdropExample,
   ColorExample,
   CompoundExample,
+  ContextMenuExample,
   ControlledExample,
   OffsetExample,
   OverviewExample,
@@ -99,6 +100,12 @@ The canonical shape — `PopoverRoot` wraps the trigger and the popover as sibli
 Pass `open` and `onOpenChange` directly to `Popover` to drive it from external state. The surrounding `PopoverRoot` is bypassed when `open` is provided, so you can drop it entirely — but you'll need to supply an `anchorRef` yourself for the popover to find its anchor. Use this when the popover tracks state your app already owns rather than a click on a specific button.
 
 <ControlledExample />
+
+### Context menu
+
+A right-click handler is the canonical use case for `anchorRect`. On `contextmenu`, prevent the browser's native menu, snapshot the pointer position as a zero-size `DOMRect` (`new DOMRect(e.clientX, e.clientY, 0, 0)`), and pass it to `Popover` — the position-area system anchors against the rect the same way it would against a real DOM element. `position="bottom-start"` plus the built-in `flip-block, flip-inline` fallbacks reproduce native context-menu behavior, flipping at viewport edges so the menu always stays in bounds. Drop in a [`List`](/react/components/list/) of [`ListButton`s](/react/components/list/) and you're done.
+
+<ContextMenuExample />
 
 ### With list
 

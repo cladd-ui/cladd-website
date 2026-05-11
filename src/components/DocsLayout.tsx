@@ -24,8 +24,6 @@ const componentNames = [
   'NumberField',
   'NumberScrubber',
   'OTPField',
-  'OTPFieldInput',
-  'OTPFieldSeparator',
   'Popover',
   'Popup',
   'Radio',

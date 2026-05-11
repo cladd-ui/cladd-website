@@ -1,16 +1,99 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  DisplayValueExample,
+  OverviewExample,
+  PlaygroundExample,
+  RangeStepExample,
+  ScrubAndEditExample,
+  SizeExample,
+  StatesExample,
+  TemporaryChangeExample,
+} from '@/components/examples/number-scrubber';
 import NumberScrubberProps from '@/generated/props/NumberScrubberProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="NumberScrubber — Cladd"
-    description="NumberScrubber component props."
+    description="Drag-to-change number control with click-to-edit fallback — the inspector-sidebar input that powers font-size, padding, opacity, and rotation in cladd apps."
   >
     {children}
   </DocsLayout>
 );
 
 # NumberScrubber
+
+`NumberScrubber` is the inspector control — the compact field you drag horizontally to nudge a number and click to type one in. It's what powers the font-size, padding, opacity, and rotation rows in a design-tool sidebar: a single value, no spinner buttons, no slider rail, just a draggable handle that doubles as an editable input. Click the value to edit, drag to scrub, hold <kbd>Shift</kbd> mid-drag for a different precision.
+
+<OverviewExample />
+
+It pairs with [`NumberField`](/react/components/number-field/) — same value shape, different gesture. `NumberField` is the explicit `−/+` stepper for forms and settings (clear affordance, no hidden gesture); `NumberScrubber` is the dense inspector control for apps where the user is going to touch dozens of numeric values and a `±` button per field would crowd the panel.
+
+## Usage
+
+```tsx
+import { NumberScrubber } from '@cladd-ui/react';
+
+<NumberScrubber
+  value={fontSize}
+  onChange={setFontSize}
+  min={8}
+  max={120}
+  displayValue={(v) => `${v}px`}
+/>;
+```
+
+`NumberScrubber` is controlled — pass `value` and an `onChange` handler. `onChange` fires once per gesture: on pointer-up after a drag, on <kbd>Enter</kbd> / blur after an edit. The displayed value updates imperatively during a drag (so the field stays in sync without forcing a re-render per pixel) and then commits the final, clamped, rounded value through `onChange`. If you also need a per-pixel signal for live preview, see [`onTemporaryChange`](#temporary-change).
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md` (default), `lg`, `xl`, `2xl`. The size scale matches [`Input`](/react/components/input/), [`Button`](/react/components/button/), and the rest of the form controls — drop a scrubber into a [`Toolbar`](/react/components/toolbar/) or alongside a sibling control with the same `size` and the heights line up automatically. Default is `md` (not `lg` like `Input`) because the scrubber's home is dense inspector rows where every pixel of height counts.
+
+<SizeExample />
+
+### Scrub and edit
+
+The trigger has two modes. **Drag** horizontally to scrub the value — the cursor switches to `ew-resize`, the value updates imperatively in place, and `onChange` fires once when you release. **Click** without dragging to switch into edit mode — the trigger swaps for an [`Input`](/react/components/input/), the text is auto-selected, and <kbd>Enter</kbd> or blur commits while <kbd>Escape</kbd> cancels. The two are disambiguated by movement: any pointer move past the click threshold counts as a drag, so a click never accidentally opens edit mode after a scrub, and a drag never accidentally commits a typed value.
+
+Hold <kbd>Shift</kbd> mid-drag to switch precision — by default `altDragStep` equals `step` (one pixel per integer step, coarse) and `dragStep` is `step / 5` (five pixels per step, fine). The anchor re-locks the moment <kbd>Shift</kbd> changes, so the precision swap isn't a value jump — the cursor stays where it is and only the rate changes from that point.
+
+<ScrubAndEditExample />
+
+### Display value
+
+`displayValue` formats the number for display only — the underlying `value` stays numeric. Use it for units (`12px`, `45%`, `320ms`), signed values (`+5` / `-5`), degrees (`90°`), or locale-formatted counts (`1,284`). The format applies in both modes: the idle trigger renders `displayValue(value)`, and the same string is what updates imperatively during a drag. Edit mode swaps to the raw numeric string so typing isn't fighting a formatter mid-keystroke.
+
+<DisplayValueExample />
+
+### Range and step
+
+`min` and `max` clamp the value at both ends (defaults are `0` and `1_000_000`). `step` is the keyboard / commit increment — typed values get rounded to the nearest multiple, and drag values do too. The two drag rates are independent of `step`:
+
+- `dragStep` — value per pixel without modifier. Defaults to `step / 5` (slow, fine — five pixels per integer step).
+- `altDragStep` — value per pixel while <kbd>Shift</kbd> is held. Defaults to `step` (fast, coarse — one pixel per integer step).
+
+You can invert the relationship — make the default fast and <kbd>Shift</kbd> precise — by passing `altDragStep` smaller than `dragStep`. This is the right default for fractional values where the integer step is already "fine" and you want <kbd>Shift</kbd> to give you sub-step nudges.
+
+<RangeStepExample />
+
+### Temporary change
+
+`onChange` is commit-only — it fires on pointer-up, not per pixel — so a controlled `value` only re-renders once per gesture. That's the right default for most cases. When you need a live preview (the canvas updating as the user drags, a CSS variable retargeting the actual styled element, an undo stack that should record one entry per gesture), wire up `onTemporaryChange` as well. It fires continuously during the drag with the in-progress value, already clamped and rounded — use it to drive ephemeral UI state, then let `onChange` commit the final value to whatever you persist.
+
+<TemporaryChangeExample />
+
+### Disabled, read-only, and the scrubber icon
+
+`disabled` dims the trigger and disables both drag and edit. `readOnly` is the subtler one — the trigger stays at full opacity and remains focusable (so the value can be read or copied) but neither gesture is wired up. `scrubberIcon` toggles the small chevron on the left that hints at the drag affordance — keep it on inside an inspector panel where the gesture isn't otherwise telegraphed, drop it when the scrubber is read-only or when the field is small enough that the icon would dominate.
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, `variant`, `outline`, `rounded`, and `scrubberIcon` compose freely. The same [`SurfaceVariant`](/react/components/surface/) values that `Surface` and `Button` accept apply here — `transparent` for a flush inspector row, `gradient` (default) for a lifted control, `solid-fill` / `gradient-fill` for a stronger accent presence. `outline` toggles the ring on the idle trigger; in edit mode the inner [`Input`](/react/components/input/) handles its own focus chrome.
+
+<PlaygroundExample />
 
 ## Props
 

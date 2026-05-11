@@ -100,7 +100,8 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
           )}
           {hasExtends && (
             <>
-              <span>/</span>
+              {hasGenerics && <span>/</span>}
+
               <span>
                 Inherits from{' '}
                 {extendsList!.map((p, i) => (
