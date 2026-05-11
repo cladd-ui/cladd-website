@@ -1,13 +1,95 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  DebounceExample,
+  InspectorExample,
+  MinMaxStepExample,
+  OverviewExample,
+  PlaygroundExample,
+  SizeExample,
+  StatesExample,
+  ValueDisplayExample,
+} from '@/components/examples/slider';
 import SliderProps from '@/generated/props/SliderProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Slider — Cladd" description="Slider component props.">
+  <DocsLayout
+    title="Slider — Cladd"
+    description="Accent-aware range slider — recessed track, gradient thumb, floating value bubble, built on a native input[type=range] for keyboard and a11y."
+  >
     {children}
   </DocsLayout>
 );
 
 # Slider
+
+`Slider` is the continuous-range control: a recessed [`SurfaceCut`](/react/components/surface-cut/) track, a gradient thumb that takes the theme accent, and a floating value bubble that lifts above the thumb while the user drags or focuses. Reach for it when the user cares about the _proportion_ more than the exact digit — volume, brightness, opacity, font size, zoom, mix levels. A real `<input type="range">` lives underneath, so arrow keys, Home/End, screen readers, and form submission all work out of the box.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Slider } from '@cladd-ui/react';
+
+<Slider value={volume} onChange={setVolume} />;
+```
+
+`Slider` works in both controlled and uncontrolled modes. Pass `value` + `onChange` for controlled, or `defaultValue` for uncontrolled. `onChange` fires on every step while the user drags or arrows through values — pair it with [`debounce`](#debounce) when the consumer is expensive (a network call, a heavy re-render in a sibling pane).
+
+### Slider, NumberField, or NumberScrubber?
+
+Reach for `Slider` when the value is continuous and the user benefits from seeing where they are in the range — a 30 / 100 brightness reads at a glance from the filled segment. Reach for [`NumberField`](/react/components/number-field/) when the value is _discrete_ and the user mostly nudges in steps (quantity, tip percent, page count) — the `+` / `−` buttons own the writes. Reach for [`NumberScrubber`](/react/components/number-scrubber/) when the value is _arbitrary precision_ and the user wants both a draggable handle and a typeable input in the same compact slot — the inspector pattern from design tools (`16px`, `1.45`, `-0.4`).
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm` (default) and `md`. Like its siblings [`Switch`](/react/components/switch/), [`Checkbox`](/react/components/checkbox/), and [`Radio`](/react/components/radio/), `Slider` ships only the two sizes that fit cleanly into a row of controls — a full `2xs → 2xl` scale doesn't earn its keep on a track-and-thumb control. `sm` is the inline default; reach for `md` when the slider is the focal control of its row or the surrounding controls are `md`-sized.
+
+<SizeExample />
+
+### Colors
+
+`color` accepts any of the eleven cladd accent tokens — the accent drives both the filled segment of the track and the thumb's gradient fill. When unset, the slider inherits the theme accent from [`CladdProvider`](/react/components/cladd-provider/), so a brand-coloured slider doesn't usually need a `color` prop. Pass one when the slider signals semantics (`red` for "destructive volume", `yellow` for brightness) or when it sits alongside a non-default control that needs to read as a single unit.
+
+<ColorExample />
+
+### Min, max, step
+
+`min` (default `0`), `max` (default `100`), and `step` (default `1`) define the value space. The defaults are calibrated for percentage-shaped values; override all three for normalised ranges (`0 → 1` with `step={0.01}` for opacity), wide ranges (`25 → 400` with `step={25}` for zoom levels), or signed ranges (`-2 → 8` for letter spacing). The thumb snaps to `step` on drag and on keyboard arrow presses.
+
+<MinMaxStepExample />
+
+### Value display
+
+The slider renders a floating value bubble above the thumb while the user drags or focuses — handy for confirming the exact landing value mid-gesture. For the resting state, pair the slider with an external readout: a [`SectionTitle`](/react/components/section-title/) label on the left, the formatted value on the right, the track between them. Format the value however the unit calls for — raw integer for volume, `xx%` for normalised opacity, `xxpx` for size.
+
+<ValueDisplayExample />
+
+### Debounce
+
+`debounce` (in ms, default `0`) delays the `onChange` call until the user pauses. The internal value still updates immediately, so the thumb tracks the drag with no visual lag — only the parent's `onChange` callback is throttled. Useful when the consumer is expensive: a colour-picker that re-renders a canvas, a search that hits an API, a Monaco editor that has to relayout. Drag the second slider below to feel the pause — the readout only catches up when you let go.
+
+<DebounceExample />
+
+### Disabled and read-only
+
+`disabled` dims the whole slider to 50% and blocks all pointer and keyboard interaction — read as "not available right now" (the audio source is muted at the OS level, the layer is locked). `readOnly` is the subtler one: the slider keeps full opacity but stops responding to drags and keys — read as "live indicator, but you can't move it from here" (an enforced organisation policy, a value driven by a sibling control).
+
+<StatesExample />
+
+### Inspector row
+
+The canonical design-tool pattern: a [`Surface`](/react/components/surface/) panel with a label column, a slider column, and a value column on a single grid. Each row sets its own `min` / `max` / `step` because the unit is different (px for size, unitless for line-height, em-fractions for letter-spacing). The shared accent colour ties the group together; the value column does the formatting. This is what cladd was designed for: dense, but not crowded.
+
+<InspectorExample />
+
+### Playground
+
+`size`, `color`, and the state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the slider is the focal control of its row.
+
+<PlaygroundExample />
 
 ## Props
 

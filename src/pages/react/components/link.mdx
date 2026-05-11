@@ -1,13 +1,74 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  DisabledExample,
+  InlineExample,
+  OverviewExample,
+  PolymorphicExample,
+  ReadOnlyExample,
+} from '@/components/examples/link';
 import LinkProps from '@/generated/props/LinkProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Link — Cladd" description="Link component props.">
+  <DocsLayout
+    title="Link — Cladd"
+    description="Compact, polymorphic text link — eleven accent colors, keyboard focus ring, button or anchor underneath."
+  >
     {children}
   </DocsLayout>
 );
 
 # Link
+
+`Link` is the small text-link primitive — the right control for "Forgot password?", "Edit profile", inline actions inside prose, and footer-style navigation. It's deliberately minimal: a 12px label, a pointer cursor, an `active:opacity-50` press state, and a keyboard focus ring drawn by the same `FocusableLayer` as the rest of the kit. There's no underline by default — pick a `color` and the text takes on the accent, otherwise it inherits whatever the surrounding text is using.
+
+Polymorphism is automatic: pass `href` and `Link` renders as `<a>`; leave `href` off and it renders as `<button>`. Override with `as` when you need a router-aware component (Next's `Link`, React Router's `Link`) without losing the styling.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Link } from '@cladd-ui/react';
+
+<Link color="brand" onClick={() => signOut()}>
+  Sign out
+</Link>;
+```
+
+A bare `Link` with no `href` renders a `<button type="button">` — semantic, focusable, and won't navigate. Add an `href` and it becomes an `<a>` automatically. Pass `color` to tint the text with one of the eleven accent tokens; without it, the link inherits the surrounding `color` / text color (so a Link inside a `text-cladd-fg-soft` paragraph reads as soft).
+
+## Examples
+
+### Colors
+
+`color` accepts any of the eleven cladd accent tokens and routes through `text-cladd-primary`. Use `brand` for primary inline CTAs, `red` for destructive actions ("Cancel subscription", "Delete account"), and a tinted accent (`cyan`, `purple`, `green`) when you need the link to stand out from body copy. Omit `color` entirely to let the link inherit — useful for footer links or compact toolbars where every link should match the surrounding text.
+
+<ColorExample />
+
+### Inline in prose
+
+`Link` is sized to fit cleanly inside body text — the 12px base reads as a footnote inside a paragraph, and the keyboard focus ring sits clear of the line height. Drop one or more `Link`s between text spans for inline actions: switching accounts, opening a side panel, jumping to a related setting. No surrounding markup needed.
+
+<InlineExample />
+
+### Polymorphic root
+
+By default, `Link` chooses its element from `href`: present → `<a>`, absent → `<button>`. Override with `as` when you need a routing-aware component — pass Next's `Link` (`as={NextLink}`), React Router's `Link`, or any component, and `Link` will forward props through and keep the cladd styling on top.
+
+<PolymorphicExample />
+
+### Disabled
+
+`disabled` dims the link via the native attribute (and `data-disabled` for styling). On the rendered `<button>`, browsers suppress clicks and focus for free; on an `<a>` the attribute is non-standard but the `data-disabled` hook still lets you wire up your own pointer-events rule if you need to lock a navigation link.
+
+<DisabledExample />
+
+### Read-only
+
+`readOnly` blocks the `onClick` handler while keeping the link visually intact — full opacity, focusable, ring still draws. It's the right state for a link that should read as active but shouldn't react: a "current" navigation item, a link locked while a parallel action is in flight, a "verification sent" indicator that you don't want re-pressed before the cooldown.
+
+<ReadOnlyExample />
 
 ## Props
 

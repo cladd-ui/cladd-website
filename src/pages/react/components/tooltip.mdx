@@ -51,7 +51,7 @@ import { Tooltip } from '@cladd-ui/react';
 </Tooltip>;
 ```
 
-Passing the `tooltip` prop switches the component into **wrapper mode**: `children` becomes the trigger (must be a single React element — `Tooltip` clones a ref onto it), and the value of `tooltip` is rendered as the floating content. The wrapper attaches its own pointer listeners — `pointerenter`/`pointerleave` for mouse, `pointerdown`/`pointerup` for touch — and handles the show/hide delay automatically. The tooltip is portaled into the [`UIProvider`](/react/components/ui-provider/) overlays root and anchored to the trigger via CSS anchor positioning.
+Passing the `tooltip` prop switches the component into **wrapper mode**: `children` becomes the trigger (must be a single React element — `Tooltip` clones a ref onto it), and the value of `tooltip` is rendered as the floating content. The wrapper attaches its own pointer listeners — `pointerenter`/`pointerleave` for mouse, `pointerdown`/`pointerup` for touch — and handles the show/hide delay automatically. The tooltip is portaled into the [`CladdProvider`](/react/components/cladd-provider/) overlays root and anchored to the trigger via CSS anchor positioning.
 
 Leave `tooltip` undefined and `Tooltip` switches into **primitive mode** — `children` is now the tooltip _content_, you pass `anchorRef` to point at the trigger, and you drive `open`/`onOpenChange` yourself. The same component is also exported as `TooltipPrimitive` for cases where the distinction matters at the import site. See the [controlled example](#controlled) below.
 

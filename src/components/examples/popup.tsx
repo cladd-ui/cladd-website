@@ -474,7 +474,7 @@ const RELEASES = [
       'New: useDialog() returns { confirm, alert } for imperative confirms.',
       'New: requireConfirmText prop guards destructive actions.',
       'Toast stacks at the corner and dismisses independently.',
-      'useToast() queues toasts via the UIProvider portal.',
+      'useToast() queues toasts via the CladdProvider portal.',
       'Backdrop accepts a transparent prop for click-capture without dim.',
     ],
   },

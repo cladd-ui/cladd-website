@@ -1,16 +1,65 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  InsetExample,
+  OverviewExample,
+  PlaygroundExample,
+  SizeExample,
+} from '@/components/examples/search-field';
 import SearchFieldProps from '@/generated/props/SearchFieldProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="SearchField — Cladd"
-    description="SearchField component props."
+    description="Sticky search bar for dense lists and option menus — built-in glyph and clear button, with a header-bar and an inset pill layout."
   >
     {children}
   </DocsLayout>
 );
 
 # SearchField
+
+`SearchField` is the search input you put at the top of a scrollable list, popover, or command palette. It wraps an [`Input`](/react/components/input/) with the conventions baked in — a left-aligned search glyph, an inline clear button that fades out when the query is empty, and a `sticky top-0` [`Surface`](/react/components/surface/) so the field stays pinned while the list below scrolls. Two layouts: the default **header bar** that sits flush at the top of a panel, and an `inset` **pill** that reads as one item among many inside a [`List`](/react/components/list/) or [`Popover`](/react/components/popover/).
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { List, ListButton, SearchField, Surface } from '@cladd-ui/react';
+
+const [query, setQuery] = useState('');
+
+<Surface outline className="w-72 rounded-3xl">
+  <SearchField
+    value={query}
+    onChange={setQuery}
+    placeholder="Search projects"
+  />
+  <List>{/* …filtered rows… */}</List>
+</Surface>;
+```
+
+`SearchField` is controlled — pass `value` and an `onChange` handler. The handler also fires with `''` when the user presses the inline clear button, so you don't need a separate `onClear`. The wrapper is a [`Surface`](/react/components/surface/), so any extra `SurfaceProps` (`color`, `variant`, `rounded`, …) pass through to the shell.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md`, `lg` (default), `xl`, `2xl` — the same scale as [`Input`](/react/components/input/), [`Button`](/react/components/button/), and the rest of the form controls. Match the field's `size` to the rows of the [`List`](/react/components/list/) underneath so they read as one stack: a `sm` filter for a dense sidebar, an `xl` field for a hero command palette.
+
+<SizeExample />
+
+### Inset
+
+Set `inset` to switch the layout from a flush header bar to a floating pill that sits **inside** the parent surface. The pill uses the same surface level as its parent (instead of stepping up `+1`), drops the outline, rounds to a full pill, and inserts horizontal margins so it reads as one row in the list rather than a separate header. Use it inside a [`Popover`](/react/components/popover/) when you already have a [`SectionTitle`](/react/components/section-title/) above — that's the pattern [`Select`](/react/components/select/) uses for its built-in search.
+
+<InsetExample />
+
+### Playground
+
+`size` and `inset` are the two knobs that matter — flip between them to feel the difference between the sticky header bar and the inset pill. The header variant locks to the surface's top corners (`rounded-t-cladd-popover`), so it expects to live directly inside a rounded [`Surface`](/react/components/surface/). The inset variant floats with horizontal margins, so it can sit anywhere — below a [`SectionTitle`](/react/components/section-title/), between [`ListSeparator`](/react/components/list/)s, or as the first row of an action menu.
+
+<PlaygroundExample />
 
 ## Props
 

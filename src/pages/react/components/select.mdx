@@ -1,13 +1,127 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  CustomRenderExample,
+  KeyboardHintsExample,
+  MultipleExample,
+  ObjectOptionsExample,
+  OverviewExample,
+  PlaygroundExample,
+  SearchExample,
+  SectionsExample,
+  SizeExample,
+  StatesExample,
+  SurfaceExample,
+} from '@/components/examples/select';
 import SelectProps from '@/generated/props/SelectProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Select — Cladd" description="Select component props.">
+  <DocsLayout
+    title="Select — Cladd"
+    description="Application-grade dropdown — single or multi, search, keyboard hints, object options, and a popover you can fully customise."
+  >
     {children}
   </DocsLayout>
 );
 
 # Select
+
+`Select` is the application-grade dropdown — a [`Button`](/react/components/button/) trigger that opens a [`Popover`](/react/components/popover/) full of options. It covers the boring app-shell cases (one-of-many enum pickers, multi-select labels, filterable country lists) and the harder ones too — object options keyed by `id`, custom option rendering with subtext and per-row indicator colours, numeric quick-pick hints, sectioned lists, controlled popovers anchored to your own trigger.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Select } from '@cladd-ui/react';
+
+<Select
+  title="Priority"
+  options={['Low', 'Medium', 'High']}
+  value={priority}
+  onChange={(v) => setPriority(v)}
+/>;
+```
+
+`Select` is controlled — pass `value` plus an `onChange` handler. In single-select mode the handler receives the key (`V`); in [`multiple`](#multi-select) mode it receives an array (`V[]`). Options themselves (`T`) can be any shape — strings (the default, with `V = T`) or objects with `getOptionValue` to extract a stable key (see [object options](#object-options)).
+
+## Examples
+
+### Sizes
+
+`size` runs the standard `2xs → 2xl` scale shared with [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and the rest of the size-aware controls — pass the same token you'd use on a sibling button and the select sits at the matching height. The popover, options list, and keyboard-hint glyphs are independent: they don't scale with the trigger.
+
+<SizeExample />
+
+### Colors
+
+`color` accents the trigger button (forwarded to [`Button.color`](/react/components/button/)). `indicatorColor` sets the default colour for the per-option [`Radio`](/react/components/radio/) (or [`Checkbox`](/react/components/checkbox/) in `multiple` mode) — usually you want both to match. To colour individual options differently — a status badge whose hue depends on the value — use `optionIndicatorColor`, demoed in the [custom rendering](#custom-option-rendering) example.
+
+<ColorExample />
+
+### Surface style
+
+`surface` picks the trigger style. Default `'surface'` reads as a raised button — the right call when the select is a primary action in a toolbar or form. `'cut'` makes the trigger an inset/recessed [`SurfaceCut`](/react/components/surface-cut/) — pairs well with [`Input`](/react/components/input/) and [`Textarea`](/react/components/textarea/) in a form, so the row reads as a single recessed field stack.
+
+<SurfaceExample />
+
+### Multi-select
+
+Set `multiple` to flip the per-option indicator from [`Radio`](/react/components/radio/) to [`Checkbox`](/react/components/checkbox/) and make `onChange` emit a `T[]` array. The popover stays open between picks (`closeOnSelect` has no effect in multi-mode), so users can rapid-fire several options without re-opening. `String(value)` won't render an array sensibly, so pass `children` to render the value display yourself — a row of [`Chip`](/react/components/chip/)s is the canonical pattern.
+
+<MultipleExample />
+
+### Search
+
+Set `search` to mount a [`SearchField`](/react/components/search-field/) at the top of the popover, and pair it with `onSearch(query) => T[]` to do the filtering — `Select` doesn't carry any internal filter state, so the matching logic stays with you (fuzzy match, server-side lookup, whatever). `searchFocus` auto-focuses the input when the popover opens (skipped on iOS/Android to avoid the soft keyboard popping up). Pair with `keyboardHints={false}` so digits can be typed into the search field without selecting options.
+
+<SearchExample />
+
+### Keyboard hints
+
+`keyboardHints` (default `true`) shows numeric quick-pick hints next to each option and binds `0`–`9` to select them. Two layouts:
+
+- **Straight ordering** (default) — `1, 2, 3, …, 9, 0` for the tenth option.
+- **Semantic ordering** — set `noneOptionValue` to the value of your "none/initial" option (e.g. `'None'`, `null`, `0`). That option gets the `0` key and the rest get `1`–`9` in order, so the user can always thumb-pick "clear" with `0`.
+
+Numeric selection is desktop-only — the hints aren't shown on touch devices, and the keydown handler ignores digit keys while the search input is focused (so typing `42` into a country search does the obvious thing). `↑` / `↓` / `Tab` walk the list, `Enter` / `Space` confirms.
+
+<KeyboardHintsExample />
+
+### Object options
+
+`Select<T, V = T>` takes an option type `T` and a key type `V`. Default `V = T` covers string options. For object options, point `getOptionValue` at the field that identifies the row (typically `id`) and store **that key** in state, not the full object — `value`, `onChange`, and `noneOptionValue` all speak in `V`. The render slots (`renderOption`, `renderOptionInfo`, `optionIndicatorColor`, `renderBeforeOption`, `isOptionDisabled`) still receive the full `T`, so you can render names, roles, colours, and anything else off the option.
+
+The trigger button defaults to `String(value)`, which would render the bare key — pass `children` to render the current selection however you like (an avatar, a colour swatch, a [`Chip`](/react/components/chip/) row).
+
+<ObjectOptionsExample />
+
+### Custom option rendering
+
+`renderOption`, `renderOptionInfo`, and `optionIndicatorColor` all accept the same `{ value, index, selected }` params — use them together to build status pickers, member pickers, and other rich rows. The `selected` flag is the same boolean the indicator uses, so you can mirror its treatment in the label too if you want (e.g. bolden the selected row).
+
+<CustomRenderExample />
+
+### Sections and slots
+
+The popover has three extension points around the option list:
+
+- `beforeOptions` / `afterOptions` — slot nodes rendered above and below the entire list, inside the popover. Use for help text, a "create new…" footer, etc.
+- `renderBeforeOption` / `renderAfterOption` — per-option slots. Render a section header before the first option of each group to turn a flat list into a sectioned one (no separate group config required — read the group off the option itself).
+
+<SectionsExample />
+
+### Disabled and read-only
+
+`disabled` dims the trigger and prevents the popover from opening — the canonical "not available right now". `readOnly` keeps the trigger at full opacity and still shows the current value, but blocks the popover from opening — read as "locked, but the value is real" (an enforced setting, a value that's correct but not yours to change right now).
+
+<StatesExample />
+
+### Playground
+
+Most of the props compose freely — `multiple` and `search` are independent of each other, `keyboardHints` works in both single and multi modes, sizes run the full `2xs → 2xl` scale at any colour.
+
+<PlaygroundExample />
 
 ## Props
 

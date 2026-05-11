@@ -3,7 +3,7 @@ import { DocsLayout } from '@/components/DocsLayout';
 export default ({ children }) => (
   <DocsLayout
     title="Installation — Cladd"
-    description="Install Cladd in a React project — npm, stylesheet import, and the UIProvider wrapper."
+    description="Install Cladd in a React project — npm, stylesheet import, and the CladdProvider wrapper."
   >
     {children}
   </DocsLayout>
@@ -24,12 +24,12 @@ Then import the stylesheet from your app entry (alongside your Tailwind setup):
 @import '@cladd-ui/react/css';
 ```
 
-Wrap your app in `UIProvider`:
+Wrap your app in `CladdProvider`:
 
 ```tsx
-import { UIProvider } from '@cladd-ui/react';
+import { CladdProvider } from '@cladd-ui/react';
 
 export default function App({ children }) {
-  return <UIProvider>{children}</UIProvider>;
+  return <CladdProvider>{children}</CladdProvider>;
 }
 ```

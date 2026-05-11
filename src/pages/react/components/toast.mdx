@@ -88,7 +88,7 @@ function CopyButton() {
 }
 ```
 
-`useToast` returns a function that queues a new toast on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/). Each call pushes a fresh entry; multiple toasts stack at the corner. The shape mirrors `Toast`'s props (`title`, `text`, `color`, `icon`, `iconProps`, `closeButton`, `onClosed`). Use this for one-off, fire-and-forget notifications.
+`useToast` returns a function that queues a new toast on the app-wide portal mounted by [`CladdProvider`](/react/components/cladd-provider/). Each call pushes a fresh entry; multiple toasts stack at the corner. The shape mirrors `Toast`'s props (`title`, `text`, `color`, `icon`, `iconProps`, `closeButton`, `onClosed`). Use this for one-off, fire-and-forget notifications.
 
 ## Examples
 
@@ -136,7 +136,7 @@ Pass `open` and `onOpenChange` directly to `Toast` to drive it from external sta
 
 ### useToast
 
-`useToast` is the easiest way to fire a toast from anywhere — event handlers, effects, network callbacks — without thinking about open state at all. It depends on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/), so make sure that's at the root of your tree. Each call pushes a new toast onto the stack; they auto-dismiss independently.
+`useToast` is the easiest way to fire a toast from anywhere — event handlers, effects, network callbacks — without thinking about open state at all. It depends on the app-wide portal mounted by [`CladdProvider`](/react/components/cladd-provider/), so make sure that's at the root of your tree. Each call pushes a new toast onto the stack; they auto-dismiss independently.
 
 <UseToastExample />
 
@@ -166,7 +166,7 @@ State container for the surrounding compound — owns the open state and provide
 
 ### useToast
 
-`useToast()` is a thin wrapper over the portal queue mounted by [`UIProvider`](/react/components/ui-provider/). It returns a function that queues a fresh toast on each call — multiple toasts stack at the corner and auto-dismiss independently.
+`useToast()` is a thin wrapper over the portal queue mounted by [`CladdProvider`](/react/components/cladd-provider/). It returns a function that queues a fresh toast on each call — multiple toasts stack at the corner and auto-dismiss independently.
 
 ```ts
 function useToast(): (options: UseToastOptions) => void;

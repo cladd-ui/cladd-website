@@ -1,0 +1,225 @@
+import {
+  Button,
+  List,
+  ListButton,
+  ListItem,
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+  SectionTitle,
+  SearchField,
+  Surface,
+  Toolbar,
+  type InputSize,
+} from '@cladd-ui/react';
+import { useState } from 'react';
+
+import {
+  ExampleControlSize,
+  ExampleControlSwitch,
+} from '@/components/ExampleControls';
+import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon';
+import { NoteIcon } from '@/components/icons/NoteIcon';
+import { EXAMPLE_SOURCE } from '@/generated/example-source/search-field';
+
+import { Example } from '../Example';
+
+const SEARCH_FIELD_SIZES: readonly InputSize[] = [
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  '2xl',
+];
+
+const PROJECTS = [
+  'acme-marketing',
+  'acme-docs',
+  'acme-api',
+  'panel-prototype',
+  'panel-shipping',
+  'kanban-sketch',
+  'inbox-rewrite',
+  'studio-onboarding',
+  'studio-billing',
+  'studio-search-index',
+  'editor-scrollbars',
+  'editor-quick-open',
+];
+
+const COMMANDS = [
+  { id: 'inbox', label: 'Open inbox', kbd: '1' },
+  { id: 'drafts', label: 'Open drafts', kbd: '2' },
+  { id: 'archive', label: 'Open archive', kbd: '3' },
+  { id: 'new-project', label: 'New project', kbd: 'N' },
+  { id: 'duplicate', label: 'Duplicate selection', kbd: 'D' },
+  { id: 'invite', label: 'Invite teammates', kbd: 'I' },
+  { id: 'logout', label: 'Sign out', kbd: 'Q' },
+];
+
+function matches(query: string, value: string) {
+  return value.toLowerCase().includes(query.trim().toLowerCase());
+}
+
+export function OverviewExample() {
+  const [query, setQuery] = useState('');
+  const filtered = PROJECTS.filter((p) => matches(query, p));
+  return (
+    <Example source={EXAMPLE_SOURCE.OverviewExample}>
+      <Surface outline className="w-72 rounded-3xl">
+        <div className="max-h-72 overflow-auto">
+          <SearchField
+            value={query}
+            onChange={setQuery}
+            placeholder="Search projects"
+          />
+          <List>
+            {filtered.length === 0 ? (
+              <ListItem className="text-cladd-fg-softer">No matches</ListItem>
+            ) : (
+              filtered.map((p) => (
+                <ListButton key={p} icon={<NoteIcon />}>
+                  {p}
+                </ListButton>
+              ))
+            )}
+          </List>
+        </div>
+      </Surface>
+    </Example>
+  );
+}
+
+export function SizeExample() {
+  const [size, setSize] = useState<InputSize>('lg');
+  const [query, setQuery] = useState('panel');
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.SizeExample}
+      state={{ size }}
+      controls={
+        <Toolbar>
+          <ExampleControlSize
+            value={size}
+            onChange={setSize}
+            sizes={SEARCH_FIELD_SIZES}
+          />
+        </Toolbar>
+      }
+    >
+      <Surface outline className="w-80 rounded-3xl">
+        <SearchField
+          size={size}
+          value={query}
+          onChange={setQuery}
+          placeholder="Search projects"
+        />
+        <List>
+          {PROJECTS.filter((p) => matches(query, p))
+            .slice(0, 3)
+            .map((p) => (
+              <ListButton key={p} icon={<NoteIcon />}>
+                {p}
+              </ListButton>
+            ))}
+        </List>
+      </Surface>
+    </Example>
+  );
+}
+
+export function InsetExample() {
+  const [query, setQuery] = useState('');
+  const filtered = COMMANDS.filter((c) => matches(query, c.label));
+  return (
+    <Example source={EXAMPLE_SOURCE.InsetExample} previewClassName="min-h-96">
+      <PopoverRoot defaultOpen>
+        <PopoverTrigger>
+          <Button>Run command</Button>
+        </PopoverTrigger>
+        <Popover className="w-64" offset={8} closeOnBackdropClick={false}>
+          <SectionTitle className="px-4 pt-4">Commands</SectionTitle>
+          <SearchField
+            inset
+            value={query}
+            onChange={setQuery}
+            placeholder="Filter commands"
+            className="mt-2"
+          />
+          <List>
+            {filtered.length === 0 ? (
+              <ListItem className="text-cladd-fg-softer">No matches</ListItem>
+            ) : (
+              filtered.map((c) => (
+                <ListButton
+                  key={c.id}
+                  after={
+                    <span className="font-mono text-cladd-fg-softer">
+                      {c.kbd}
+                    </span>
+                  }
+                >
+                  {c.label}
+                </ListButton>
+              ))
+            )}
+          </List>
+        </Popover>
+      </PopoverRoot>
+    </Example>
+  );
+}
+
+export function PlaygroundExample() {
+  const [size, setSize] = useState<InputSize>('lg');
+  const [inset, setInset] = useState(false);
+  const [query, setQuery] = useState('');
+  const filtered = PROJECTS.filter((p) => matches(query, p));
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.PlaygroundExample}
+      state={{ size, inset }}
+      previewClassName="min-h-80"
+      controls={
+        <>
+          <Toolbar>
+            <ExampleControlSize
+              value={size}
+              onChange={setSize}
+              sizes={SEARCH_FIELD_SIZES}
+            />
+          </Toolbar>
+          <Toolbar>
+            <ExampleControlSwitch
+              label="inset"
+              checked={inset}
+              onChange={setInset}
+            />
+          </Toolbar>
+        </>
+      }
+    >
+      <Surface outline className="w-72 rounded-3xl">
+        {inset && <SectionTitle className="px-4 pt-4">Search</SectionTitle>}
+        <SearchField
+          size={size}
+          inset={inset}
+          value={query}
+          onChange={setQuery}
+          placeholder="Search projects"
+          className={inset ? 'mt-2' : ''}
+        />
+        <List>
+          {filtered.slice(0, 4).map((p) => (
+            <ListButton key={p} size={size} icon={<EnvelopeIcon />}>
+              {p}
+            </ListButton>
+          ))}
+          {filtered.length === 0 && (
+            <ListItem className="text-cladd-fg-softer">No matches</ListItem>
+          )}
+        </List>
+      </Surface>
+    </Example>
+  );
+}

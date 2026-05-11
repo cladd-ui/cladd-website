@@ -1,5 +1,6 @@
 import { ListButton, SectionTitle } from '@cladd-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import type { ReactNode } from 'react';
 
 import { SiteLayout } from './SiteLayout';
@@ -41,7 +42,7 @@ const componentNames = [
   'Toast',
   'Toolbar',
   'Tooltip',
-  'UIProvider',
+  'CladdProvider',
 ];
 
 function toKebab(s: string) {
@@ -70,6 +71,8 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
   ];
 
 export function DocsLayout({ children, title, description }: DocsLayoutProps) {
+  const router = useRouter();
+  const currentPath = router.asPath.split(/[?#]/)[0];
   return (
     <SiteLayout title={title} description={description}>
       <div className="mx-auto grid max-w-7xl grid-cols-[220px_1fr] gap-10 px-6 py-10">
@@ -83,6 +86,7 @@ export function DocsLayout({ children, title, description }: DocsLayoutProps) {
                     <ListButton
                       as={Link}
                       href={link.href}
+                      selected={currentPath === link.href}
                       className="cursor-pointer"
                       contentClassName="font-normal text-sm"
                     >

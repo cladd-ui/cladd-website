@@ -105,7 +105,7 @@ function DeleteButton({ name }) {
 }
 ```
 
-`useDialog()` returns `{ confirm, alert }` — two helpers that pop a dialog on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/), without writing any JSX for it. `confirm()` builds the standard cancel + confirm row; `alert()` builds a single-button "Ok" dialog for fire-and-forget notices. Both forward the standard `Dialog` props (`title`, `text`, `requireConfirmText`, `confirmButtonColor`, callbacks, …).
+`useDialog()` returns `{ confirm, alert }` — two helpers that pop a dialog on the app-wide portal mounted by [`CladdProvider`](/react/components/cladd-provider/), without writing any JSX for it. `confirm()` builds the standard cancel + confirm row; `alert()` builds a single-button "Ok" dialog for fire-and-forget notices. Both forward the standard `Dialog` props (`title`, `text`, `requireConfirmText`, `confirmButtonColor`, callbacks, …).
 
 ## Examples
 
@@ -153,7 +153,7 @@ The `buttons` slot replaces the auto-generated cancel/confirm row entirely — d
 
 ### useDialog
 
-`useDialog` is the easiest way to fire a confirm or alert from anywhere — event handlers, effects, callbacks — without writing JSX. It depends on the app-wide portal mounted by [`UIProvider`](/react/components/ui-provider/). `alert()` renders a single-button "Ok" dialog; `confirm()` renders the standard cancel + confirm pair and accepts the same `requireConfirmText` guard as the JSX form.
+`useDialog` is the easiest way to fire a confirm or alert from anywhere — event handlers, effects, callbacks — without writing JSX. It depends on the app-wide portal mounted by [`CladdProvider`](/react/components/cladd-provider/). `alert()` renders a single-button "Ok" dialog; `confirm()` renders the standard cancel + confirm pair and accepts the same `requireConfirmText` guard as the JSX form.
 
 <UseDialogExample />
 
@@ -183,7 +183,7 @@ State container for the surrounding compound — owns the open state and provide
 
 ### useDialog
 
-`useDialog()` is a thin wrapper over the portal queue mounted by [`UIProvider`](/react/components/ui-provider/). Call it once in your component to get `{ confirm, alert }`, then fire either helper from any event handler, effect, or callback.
+`useDialog()` is a thin wrapper over the portal queue mounted by [`CladdProvider`](/react/components/cladd-provider/). Call it once in your component to get `{ confirm, alert }`, then fire either helper from any event handler, effect, or callback.
 
 ```ts
 function useDialog(options?: UseDialogOptions): {

@@ -1,4 +1,4 @@
-import { UIProvider } from '@cladd-ui/react';
+import { CladdProvider } from '@cladd-ui/react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -27,8 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <UIProvider theme="dark">
+    <CladdProvider theme="dark">
       <Component {...pageProps} />
-    </UIProvider>
+    </CladdProvider>
   );
 }
