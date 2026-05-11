@@ -1,14 +1,173 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  BackdropExample,
+  ColorExample,
+  CompoundExample,
+  ControlledExample,
+  OffsetExample,
+  OverviewExample,
+  PositionExample,
+  RichContentExample,
+  SizeExample,
+  VariantExample,
+  WithListExample,
+} from '@/components/examples/popover';
 import PopoverProps from '@/generated/props/PopoverProps';
+import PopoverRootProps from '@/generated/props/PopoverRootProps';
+import PopoverTriggerProps from '@/generated/props/PopoverTriggerProps';
+import PopoverCloseProps from '@/generated/props/PopoverCloseProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Popover — Cladd" description="Popover component props.">
+  <DocsLayout
+    title="Popover — Cladd"
+    description="Anchored, portalled floating surface for menus, option sheets, and inline editors — built on CSS anchor positioning with auto-flip and an optional dismiss backdrop."
+  >
     {children}
   </DocsLayout>
 );
 
 # Popover
 
+`Popover` is the anchored floating surface — the one you reach for when the user has a **secondary** decision to make next to the thing that triggered it. Sort pickers, action menus, account dropdowns, properties inspectors, hover cards, inline editors: anywhere a button or row should reveal extra controls without taking the user away from the page. Unlike [`Dialog`](/react/components/dialog/), which centers on the viewport and blocks the page until the user responds, a popover anchors to its trigger via CSS anchor positioning, auto-flips when it would overflow, and dismisses on outside-click without inert-ing the rest of the page.
+
+There are two ways to drive it. The **compound API** — `PopoverRoot` + `PopoverTrigger` + `Popover` (+ optional `PopoverClose`) — wires a popover to a specific trigger element in JSX. **Controlled mode** drives `Popover` directly via `open` / `onOpenChange` — reach for it when the open state is owned by your app, or when the trigger lives outside the React subtree (a canvas hit, a context-menu pointer position via `anchorRect`, a programmatic walkthrough).
+
+The popover composes naturally with [`List`](/react/components/list/) and its row primitives — `ListButton`, `ListTitle`, `ListSeparator`, `ListItem` — which is how you build the dense option menus and action sheets that dominate real app UIs.
+
+<OverviewExample />
+
+## Usage
+
+### Compound API
+
+```tsx
+import {
+  Button,
+  List,
+  ListButton,
+  ListTitle,
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+} from '@cladd-ui/react';
+
+<PopoverRoot>
+  <PopoverTrigger>
+    <Button>Sort by</Button>
+  </PopoverTrigger>
+  <Popover className="w-56" offset={8}>
+    <List>
+      <ListTitle>Sort by</ListTitle>
+      <ListButton size="md">Last updated</ListButton>
+      <ListButton size="md">Date created</ListButton>
+      <ListButton size="md">Name</ListButton>
+    </List>
+  </Popover>
+</PopoverRoot>;
+```
+
+`PopoverRoot` owns the open state (uncontrolled by default) and the anchor ref. `PopoverTrigger` **clones** its single child to register the element as the anchor and attach an `onClick` that toggles the root — point it at any [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), or other clickable element. `Popover` reads the root's open state and anchor ref automatically, then renders a portalled [`Surface`](/react/components/surface/) anchored against the trigger via CSS anchor positioning.
+
+### Controlled
+
+```tsx
+import { Button, Popover } from '@cladd-ui/react';
+
+const [open, setOpen] = useState(false);
+const anchorRef = useRef<HTMLButtonElement>(null);
+
+<Button ref={anchorRef} onClick={() => setOpen((o) => !o)}>
+  Open
+</Button>
+<Popover open={open} onOpenChange={setOpen} anchorRef={anchorRef}>
+  ...
+</Popover>;
+```
+
+Drop `PopoverRoot`/`PopoverTrigger` and drive `Popover` directly through `open` / `onOpenChange`. You also pass `anchorRef` yourself when there's no surrounding root. Use this when the popover represents state your app already owns (a hover-card opened from a keyboard event, an inline editor toggled from a save-conflict response), or when the trigger lives outside the React subtree — pass an `anchorRect` instead of `anchorRef` to anchor against a static pointer position (e.g. a right-click context menu).
+
+## Examples
+
+### Compound
+
+The canonical shape — `PopoverRoot` wraps the trigger and the popover as siblings. The root owns the open state and the anchor ref, so trigger and popover stay in sync through context without prop-drilling. `PopoverClose` (used in this example) wraps any child you want to dismiss on click, the same way `PopoverTrigger` works for opening.
+
+<CompoundExample />
+
+### Controlled
+
+Pass `open` and `onOpenChange` directly to `Popover` to drive it from external state. The surrounding `PopoverRoot` is bypassed when `open` is provided, so you can drop it entirely — but you'll need to supply an `anchorRef` yourself for the popover to find its anchor. Use this when the popover tracks state your app already owns rather than a click on a specific button.
+
+<ControlledExample />
+
+### With list
+
+[`List`](/react/components/list/) and its row primitives drop straight into a popover — this is the workhorse pattern for action menus, sort pickers, navigation dropdowns, and command palettes. Use [`ListTitle`](/react/components/list/) for section eyebrows, [`ListSeparator`](/react/components/list/) to group rows, and the `after` slot on `ListButton` for a right-aligned [`Shortcut`](/react/components/shortcut/) hint or [`Chip`](/react/components/chip/). Drop `ListButton`'s `size` to `md` (or `sm`) — the default `lg` is tuned for sidebars, not popover menus.
+
+<WithListExample />
+
+### Rich content
+
+Not every popover is a list — `children` is any `ReactNode`, so you can drop in a [`SectionTitle`](/react/components/section-title/), a stack of [`Switch`es](/react/components/switch/), inline [`Input`s](/react/components/input/), or any combination. Workspace settings, quick filters, mini account panels — all live happily inside a popover.
+
+<RichContentExample />
+
+### Custom width
+
+The default `Popover` surface is `w-40`. Override it with a Tailwind width on `className` (`w-56`, `w-64`, `w-72`, `w-96`, or any arbitrary value). The popover caps at `max-w-[calc(100vw-16px)]` so it never overflows the viewport, and the inner content area scrolls vertically past `max-h-[70vh]` — adjust either via `contentClassName` when you need to.
+
+<SizeExample />
+
+### Position
+
+`position` accepts twelve values — four sides (`top`, `bottom`, `left`, `right`) and three alignments per side (`-start`, center, `-end`), giving you fine-grained control over both which edge of the anchor the popover sits on and which corner of the anchor it lines up with. The bare-side values (`top`, `bottom`, `left`, `right`) center along the anchor's perpendicular axis. Default is `'bottom'`. Position is a _preference_: a `positionTryFallbacks` of `flip-block, flip-inline, flip-block flip-inline` means the popover automatically flips to the opposite side when it would overflow the viewport.
+
+<PositionExample />
+
+### Offset
+
+`offset` controls the gap between the anchor and the popover. A single number/string sets the **main-axis** spacing (push away from the anchor); a `[main, cross]` tuple also shifts the popover along the anchor's edge. Numbers are pixels; strings pass through (so `'8px'`, `'1rem'`, or `'50%'` all work — `%` resolves against `anchor-size(width|height)` depending on the position).
+
+<OffsetExample />
+
+### Backdrop
+
+`backdrop` adds a dimming layer behind the popover that captures clicks for dismiss. Use it for popovers that _demand_ attention before the user does anything else — a quick-action confirm, a "name your file" prompt — where you want to lock the rest of the page out without the full [`Dialog`](/react/components/dialog/) treatment. `backdropTransparent` keeps the click-capturing layer but drops the visual dim — handy when you want easy outside-click dismiss without darkening the page.
+
+<BackdropExample />
+
+### Color
+
+`color` sets the `cladd-color-{name}` token on the popover surface. It tints the gradient fill, the outline ring, and propagates to any color-aware children (Chips, ListButtons, Buttons set to `color={undefined}` inheriting from context). Keep it neutral for most menus; bring color in when the popover represents a decision tied to a specific accent (an error-tinted "what went wrong" popover, a brand-colored upsell).
+
+<ColorExample />
+
+### Surface variant
+
+`variant` picks the [`Surface`](/react/components/surface/) treatment of the popover shell. `'gradient'` (default in dark theme) gives the slight angled-light look that reads as elevated; `'solid'` is flatter and more utilitarian; the `*-fill` variants flood the surface with the accent — louder, harder to miss, right for popovers that need to read as a single semantic block.
+
+<VariantExample />
+
 ## Props
 
+### Popover
+
 <PopoverProps />
+
+### PopoverRoot
+
+State container for the surrounding compound — owns the open state and the anchor ref, and provides both to `PopoverTrigger`, `Popover`, and `PopoverClose` through context.
+
+<PopoverRootProps />
+
+### PopoverTrigger
+
+**Clones** its single child to attach (1) a `ref` callback that registers the element as the popover's anchor, and (2) an `onClick` handler that toggles the surrounding `PopoverRoot`'s open state. Both are composed with any existing `ref` / `onClick` on the child, not replaced. No-ops (renders the child as-is) when used outside a `PopoverRoot`.
+
+<PopoverTriggerProps />
+
+### PopoverClose
+
+**Clones** its single child to attach an `onClick` that flips the surrounding `PopoverRoot`'s open state to `false` — the popover equivalent of [`DialogClose`](/react/components/dialog/). Wrap any inner button or row that should dismiss the popover on click.
+
+<PopoverCloseProps />

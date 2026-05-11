@@ -1,16 +1,69 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  EndSlotExample,
+  FormGroupExample,
+  InPopoverExample,
+  OverviewExample,
+  RichSurfaceExample,
+} from '@/components/examples/section-title';
 import SectionTitleProps from '@/generated/props/SectionTitleProps';
 
 export default ({ children }) => (
   <DocsLayout
     title="SectionTitle — Cladd"
-    description="SectionTitle component props."
+    description="Uppercase eyebrow label for grouping content inside surfaces, popovers, settings panels, and dense app shells."
   >
     {children}
   </DocsLayout>
 );
 
 # SectionTitle
+
+`SectionTitle` is the small uppercase eyebrow label cladd uses to break a dense panel into named groups — the line that sits above a cluster of form fields, the heading on a popover section, the divider between unrelated rows in a settings sheet. It renders a `<div>` with cladd's tuned typography (`text-cladd-xs`, `font-medium`, `text-cladd-fg-soft`, `uppercase`, non-selectable) and a `flex items-end gap-4` layout so you can drop a count chip, a status badge, or an inline action next to the title without any extra wrapper.
+
+It's intentionally minimal — no levels, no sizes, no variants. The point is consistency: every section header across a cladd app reads the same way, so the eye picks them out instantly in information-rich UIs.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { SectionTitle } from '@cladd-ui/react';
+
+<SectionTitle>Notifications</SectionTitle>;
+```
+
+Drop it ahead of a group of rows, fields, or list items. Pair it with a [`Surface`](/react/components/surface/) for a panel layout, with a [`Popover`](/react/components/popover/) to label sections inside a dropdown, or with a stack of [`Input`](/react/components/input/) and [`Switch`](/react/components/switch/) controls to head a settings group.
+
+The component is `flex items-end gap-4`, so anything you put alongside the title text — a [`Chip`](/react/components/chip/) count, a small inline action — lines up with the baseline of the label automatically. Push extras to the right with `ml-auto`.
+
+## Examples
+
+### Inside a popover
+
+`SectionTitle` is the natural way to organize a multi-group popover — workspace metadata in one section, notification toggles in another, without falling back to ad-hoc headings or extra dividers. Add `contentClassName="p-4"` to [`Popover`](/react/components/popover/) to give the sections breathing room (the popover surface ships unpadded so [`List`](/react/components/list/)-style content can sit flush with the edge), then stack groups with a `flex flex-col gap-6` wrapper.
+
+<InPopoverExample />
+
+### Grouped form fields
+
+In a settings sheet, `SectionTitle` is what tells the eye where one group of fields ends and the next begins. The uppercase eyebrow reads as structural rather than as another field label, so it doesn't fight with the [`Input`](/react/components/input/) labels or [`Switch`](/react/components/switch/) rows below it. Wrap each group in a `flex flex-col gap-2` container and separate groups with the parent's `gap-8` — the rhythm stays predictable even as fields are added or removed.
+
+<FormGroupExample />
+
+### Rich content surface
+
+When a [`Surface`](/react/components/surface/) carries more than one kind of content — a header block, a quick-action row, an activity feed — `SectionTitle` is what holds the structure together. Each section gets a one-line label and the surface's own padding does the spacing. This is the cladd-app pattern: dense, multi-section panels that stay legible because the section headers are consistent and quiet.
+
+<RichSurfaceExample />
+
+### End slot
+
+Because the root is `flex items-end gap-4`, anything passed as a child sits inline with the title. Drop a [`Chip`](/react/components/chip/) count next to the label, or push an action to the right with `ml-auto`. The container's `items-end` alignment keeps the extras anchored to the baseline of the uppercase label — small chips and short text sit cleanly without per-element tweaking.
+
+The title's `uppercase` cascades to children, so add `normal-case` on any nested element (a "View all" link, a status chip) that should render mixed-case.
+
+<EndSlotExample />
 
 ## Props
 

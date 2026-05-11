@@ -90,7 +90,10 @@
     @apply hover:underline;
   }
   a:not(.text-cladd-primary):not(.not-prose *) {
-    @apply underline opacity-75 hover:no-underline;
+    @apply underline hover:no-underline;
+  }
+  a:not(.text-cladd-primary):not(.not-prose *):not(:has(code)) {
+    @apply opacity-75;
   }
   table:not(.props-table):not(.not-prose *) {
     @apply w-full table-fixed border border-cladd-outline text-sm;

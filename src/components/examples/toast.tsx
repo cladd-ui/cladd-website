@@ -30,7 +30,6 @@ export function OverviewExample() {
         </ToastTrigger>
         <Toast
           icon={CheckIcon}
-          color="green"
           title="Project published"
           text="It’s now live at acme.studio/launch."
         />
