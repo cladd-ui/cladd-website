@@ -13,7 +13,6 @@ import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 
 import { CladdLogo } from './CladdLogo';
-import { EnvelopeIcon } from './icons/EnvelopeIcon';
 import { GithubIcon } from './icons/GithubIcon';
 import { LogoXIcon } from './icons/LogoXIcon';
 import { MoonIcon } from './icons/MoonIcon';
