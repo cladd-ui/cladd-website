@@ -56,7 +56,7 @@ export function ExampleToolbar({
     <Toolbar
       className={cn('max-w-full', className)}
       contentClassName={cn(
-        'no-scrollbar max-w-full justify-start overflow-x-auto',
+        'no-scrollbar max-w-full justify-start overflow-x-auto overflow-y-hidden',
         contentClassName,
       )}
       {...rest}
