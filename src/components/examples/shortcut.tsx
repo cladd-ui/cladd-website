@@ -5,7 +5,6 @@ import {
   ListSeparator,
   Shortcut,
   Surface,
-  Toolbar,
   Tooltip,
   type ButtonSize,
   type Color,
@@ -18,6 +17,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { BoldIcon } from '@/components/icons/BoldIcon';
@@ -53,9 +53,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Shortcut size={size}>cmd shift k</Shortcut>
@@ -70,9 +70,9 @@ export function InsideButtonExample() {
       source={EXAMPLE_SOURCE.InsideButtonExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-4 flex-wrap content-center"
     >
@@ -225,9 +225,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Shortcut variant={variant}>cmd shift s</Shortcut>
@@ -242,13 +242,13 @@ export function OutlineExample() {
       source={EXAMPLE_SOURCE.OutlineExample}
       state={{ outline }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="outline"
             checked={outline}
             onChange={setOutline}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-4 flex-wrap content-center"
     >
@@ -270,9 +270,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Shortcut color={color}>cmd shift k</Shortcut>
@@ -291,22 +291,22 @@ export function PlaygroundExample() {
       state={{ size, variant, color, outline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
               onChange={setOutline}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

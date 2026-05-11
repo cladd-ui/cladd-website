@@ -4,6 +4,11 @@ export default function Document() {
   return (
     <Html lang="en" className="dark">
       <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('cladd-theme');if(t==='light'||t==='dark'){var r=document.documentElement;r.classList.remove('dark','light');r.classList.add(t);}}catch(e){}})();`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

@@ -16,7 +16,6 @@ import {
   Shortcut,
   SurfaceCut,
   Switch,
-  Toolbar,
   type Color,
 } from '@cladd-ui/react';
 import { useRef, useState } from 'react';
@@ -25,6 +24,7 @@ import {
   ExampleControlColor,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { ArchiveIcon } from '@/components/icons/ArchiveIcon';
@@ -339,7 +339,7 @@ export function SizeExample() {
       state={{ width }}
       previewClassName="min-h-80"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <Segmented>
             {SIZE_OPTIONS.map((s) => (
               <SegmentedButton
@@ -351,7 +351,7 @@ export function SizeExample() {
               </SegmentedButton>
             ))}
           </Segmented>
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopoverRoot defaultOpen>
@@ -390,7 +390,7 @@ export function PositionExample() {
       previewClassName="min-h-96"
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <Segmented>
               {SIDES.map((s) => (
                 <SegmentedButton
@@ -402,8 +402,8 @@ export function PositionExample() {
                 </SegmentedButton>
               ))}
             </Segmented>
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <Segmented>
               {ALIGNMENTS.map((a) => (
                 <SegmentedButton
@@ -415,7 +415,7 @@ export function PositionExample() {
                 </SegmentedButton>
               ))}
             </Segmented>
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -450,7 +450,7 @@ export function OffsetExample() {
       state={{ offset }}
       previewClassName="min-h-80"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <Segmented>
             {OFFSETS.map((o) => (
               <SegmentedButton
@@ -462,7 +462,7 @@ export function OffsetExample() {
               </SegmentedButton>
             ))}
           </Segmented>
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopoverRoot defaultOpen>
@@ -488,7 +488,7 @@ export function BackdropExample() {
       source={EXAMPLE_SOURCE.BackdropExample}
       state={{ backdrop, backdropTransparent: transparent }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="Backdrop"
             checked={backdrop}
@@ -499,7 +499,7 @@ export function BackdropExample() {
             checked={transparent}
             onChange={setTransparent}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopoverRoot>
@@ -534,9 +534,9 @@ export function ColorExample() {
       state={{ color }}
       previewClassName="min-h-80"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopoverRoot defaultOpen>
@@ -576,9 +576,9 @@ export function VariantExample() {
       state={{ variant }}
       previewClassName="min-h-80"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopoverRoot defaultOpen>

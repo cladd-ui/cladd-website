@@ -1,16 +1,11 @@
-import {
-  Chip,
-  Textarea,
-  Toolbar,
-  type Color,
-  type TextareaSize,
-} from '@cladd-ui/react';
+import { Chip, Textarea, type Color, type TextareaSize } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { NoteIcon } from '@/components/icons/NoteIcon';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/textarea';
@@ -79,13 +74,13 @@ export function SizeExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={TEXTAREA_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Textarea
@@ -126,13 +121,13 @@ export function IconExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={TEXTAREA_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Textarea
@@ -160,13 +155,13 @@ export function PrefixSuffixExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={TEXTAREA_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Textarea
@@ -232,7 +227,7 @@ export function StatesExample() {
       state={{ readOnly, disabled }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="readOnly"
             checked={readOnly}
@@ -249,7 +244,7 @@ export function StatesExample() {
               if (v) setReadOnly(false);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Textarea
@@ -279,14 +274,14 @@ export function PlaygroundExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={TEXTAREA_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
@@ -297,10 +292,10 @@ export function PlaygroundExample() {
               checked={withIcon}
               onChange={setWithIcon}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import { ThemeModeProvider, useThemeMode } from '@/components/ThemeMode';
 import '@/styles/globals.css';
 
 declare global {
@@ -13,7 +14,16 @@ declare global {
 
 const GA_ID = 'G-BSM0796C9V';
 
-export default function App({ Component, pageProps }: AppProps) {
+function ThemedApp({ Component, pageProps }: AppProps) {
+  const { theme } = useThemeMode();
+  return (
+    <CladdProvider theme={theme}>
+      <Component {...pageProps} />
+    </CladdProvider>
+  );
+}
+
+export default function App(props: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -27,8 +37,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <CladdProvider theme="dark">
-      <Component {...pageProps} />
-    </CladdProvider>
+    <ThemeModeProvider>
+      <ThemedApp {...props} />
+    </ThemeModeProvider>
   );
 }

@@ -128,14 +128,14 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
       >
         <div className="overflow-x-auto">
           <table className="props-table w-full border-collapse text-left text-sm">
-            <thead>
+            <thead className="hidden sm:table-header-group">
               <tr className="border-b border-cladd-outline text-xs tracking-wide text-cladd-fg-soft uppercase">
                 <th className="w-1/4 p-4 font-medium">Name: Type</th>
                 <th className="w-1/4 p-4 font-medium">Default</th>
                 <th className="w-1/2 p-4 font-medium">Description</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="block sm:table-row-group">
               {rows.length === 0 && (
                 <tr>
                   <td colSpan={3} className="p-4 text-cladd-fg-soft italic">
@@ -147,12 +147,12 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
                 <tr
                   key={row.name}
                   className={cn(
-                    'align-top',
+                    'flex flex-row flex-wrap align-top sm:table-row',
                     idx % 2 === 0 && 'bg-cladd-surface-plus',
                     idx < rows.length - 1 && 'border-b border-cladd-outline',
                   )}
                 >
-                  <td className="w-1/6 p-4 font-mono text-xs">
+                  <td className="p-4 font-mono text-xs sm:w-1/6">
                     <span className="cladd-color-blue text-cladd-primary">
                       {row.name}
                       {!row.optional && (
@@ -171,10 +171,10 @@ export function PropsTable({ rows, typeParams, extendsList }: PropsTableProps) {
                     </span>
                   </td>
 
-                  <td className="cladd-color-green w-1/6 p-4 font-mono text-xs text-cladd-primary">
+                  <td className="cladd-color-green p-4 font-mono text-xs text-cladd-primary sm:w-1/6">
                     {row.default ?? '—'}
                   </td>
-                  <td className="w-3/6 p-4 leading-relaxed text-cladd-fg">
+                  <td className="w-full p-4 pt-0 leading-relaxed text-cladd-fg sm:w-3/6 sm:p-4">
                     {renderDescription(row.description)}
                   </td>
                 </tr>

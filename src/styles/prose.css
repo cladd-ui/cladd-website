@@ -4,10 +4,10 @@
     @apply font-semibold tracking-normal light:text-black;
   }
   h1:not(.not-prose *) {
-    @apply mt-0 mb-[0.5em] text-4xl leading-[1.2] tracking-tight text-balance text-white sm:text-5xl;
+    @apply mt-0 mb-[0.5em] text-4xl leading-[1.2] tracking-tight text-balance text-white sm:text-5xl light:text-black;
   }
   h2:not(.not-prose *) {
-    @apply mt-[1.8em] mb-[0.6em] text-3xl leading-[1.125] tracking-tight text-white sm:text-4xl;
+    @apply mt-[1.8em] mb-[0.6em] text-3xl leading-[1.125] tracking-tight text-white sm:text-4xl light:text-black;
   }
   h3:not(.not-prose *) {
     @apply mt-[1.4em] mb-[0.7em] text-2xl leading-tight sm:text-3xl;
@@ -120,7 +120,7 @@
   }
 
   code:not(.not-prose *) {
-    @apply rounded bg-white/7.5 px-1.5 py-0.5 text-[0.875em] text-cladd-fg opacity-90;
+    @apply rounded bg-white/7.5 light:bg-black/10 px-1.5 py-0.5 text-[0.875em] text-cladd-fg opacity-90;
   }
   /*code:not(.not-prose *)::before,
   code:not(.not-prose *)::after {

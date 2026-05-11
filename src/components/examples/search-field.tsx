@@ -9,7 +9,6 @@ import {
   SectionTitle,
   SearchField,
   Surface,
-  Toolbar,
   type InputSize,
 } from '@cladd-ui/react';
 import { useState } from 'react';
@@ -17,6 +16,7 @@ import { useState } from 'react';
 import {
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon';
 import { NoteIcon } from '@/components/icons/NoteIcon';
@@ -98,13 +98,13 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={SEARCH_FIELD_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface outline className="w-80 rounded-3xl">
@@ -182,20 +182,20 @@ export function PlaygroundExample() {
       previewClassName="min-h-80"
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={SEARCH_FIELD_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="inset"
               checked={inset}
               onChange={setInset}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

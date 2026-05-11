@@ -16,7 +16,6 @@ import {
   SegmentedButton,
   Switch,
   Textarea,
-  Toolbar,
   type Color,
 } from '@cladd-ui/react';
 import { useState } from 'react';
@@ -24,6 +23,7 @@ import { useState } from 'react';
 import {
   ExampleControlColor,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { ArchiveIcon } from '@/components/icons/ArchiveIcon';
@@ -53,7 +53,7 @@ export function OverviewExample() {
             </div>
           }
           headerRight={
-            <Toolbar rounded>
+            <ExampleToolbar rounded>
               <Button rounded variant="transparent" outline={false}>
                 <EnvelopeIcon />
               </Button>
@@ -63,7 +63,7 @@ export function OverviewExample() {
               <Button rounded variant="transparent" outline={false}>
                 <CopyIcon />
               </Button>
-            </Toolbar>
+            </ExampleToolbar>
           }
         >
           <PopupContent>
@@ -241,10 +241,10 @@ export function PopupContentVariantExample() {
       state={{ variant, color }}
       previewClassName="min-h-60"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopupRoot>
@@ -302,7 +302,7 @@ export function CustomCloseExample() {
           }
           closeButton={false}
           headerRight={
-            <Toolbar>
+            <ExampleToolbar>
               <PopupClose>
                 <Button variant="transparent" rounded outline={false}>
                   Cancel
@@ -313,7 +313,7 @@ export function CustomCloseExample() {
                   Save
                 </Button>
               </PopupClose>
-            </Toolbar>
+            </ExampleToolbar>
           }
         >
           <PopupContent>
@@ -344,7 +344,7 @@ export function CustomSizeExample() {
       state={{ size }}
       previewClassName="min-h-60"
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <Segmented>
             {SIZE_OPTIONS.map((s) => (
               <SegmentedButton
@@ -356,7 +356,7 @@ export function CustomSizeExample() {
               </SegmentedButton>
             ))}
           </Segmented>
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <PopupRoot>

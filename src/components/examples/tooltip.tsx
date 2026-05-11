@@ -15,6 +15,7 @@ import { useRef, useState } from 'react';
 import {
   ExampleControlColor,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { BoldIcon } from '@/components/icons/BoldIcon';
 import { CopyIcon } from '@/components/icons/CopyIcon';
@@ -93,7 +94,7 @@ export function PositionExample() {
       source={EXAMPLE_SOURCE.PositionExample}
       state={{ position }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <Segmented>
             {POSITIONS.map((p) => (
               <SegmentedButton
@@ -105,7 +106,7 @@ export function PositionExample() {
               </SegmentedButton>
             ))}
           </Segmented>
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Tooltip tooltip="Hello from a tooltip" position={position}>
@@ -122,9 +123,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Tooltip tooltip={color} color={color}>
@@ -143,13 +144,13 @@ export function TimeoutExample() {
       source={EXAMPLE_SOURCE.TimeoutExample}
       state={{ timeout }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="timeout"
             checked={timeout}
             onChange={setTimeoutValue}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Tooltip

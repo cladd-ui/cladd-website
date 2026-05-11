@@ -2,7 +2,6 @@ import {
   Chip,
   Input,
   Spinner,
-  Toolbar,
   type Color,
   type InputSize,
 } from '@cladd-ui/react';
@@ -12,6 +11,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon';
@@ -94,13 +94,13 @@ export function SizeExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={INPUT_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Input
@@ -123,13 +123,13 @@ export function IconExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={INPUT_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Input
@@ -156,20 +156,20 @@ export function PrefixSuffixExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={INPUT_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="checking"
               checked={pending}
               onChange={setPending}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
       previewClassName="flex-col gap-4"
@@ -215,13 +215,13 @@ export function ClearButtonExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={INPUT_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Input
@@ -325,7 +325,7 @@ export function StatesExample() {
       state={{ readOnly, disabled }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="readOnly"
             checked={readOnly}
@@ -342,7 +342,7 @@ export function StatesExample() {
               if (v) setReadOnly(false);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Input
@@ -372,14 +372,14 @@ export function PlaygroundExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={INPUT_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
@@ -395,10 +395,10 @@ export function PlaygroundExample() {
               checked={withClear}
               onChange={setWithClear}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

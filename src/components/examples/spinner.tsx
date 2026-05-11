@@ -9,7 +9,6 @@ import {
   Toast,
   ToastRoot,
   ToastTrigger,
-  Toolbar,
   useToast,
   type Color,
   type InputSize,
@@ -21,6 +20,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/spinner';
 
@@ -50,9 +50,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Spinner size={size} color="brand" />
@@ -67,9 +67,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Spinner size="xl" color={color} />
@@ -86,16 +86,16 @@ export function InsideButtonExample() {
       state={{ size, loading }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="loading"
               checked={loading}
               onChange={setLoading}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
       previewClassName="gap-4 flex-wrap content-center"
@@ -130,9 +130,9 @@ export function InsideChipExample() {
       source={EXAMPLE_SOURCE.InsideChipExample}
       state={{ size, spinnerSize }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-2 flex-wrap content-center"
     >
@@ -170,7 +170,7 @@ export function InsideInputExample() {
       state={{ size, checking }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <Segmented>
               {INPUT_SIZES.map((s) => (
                 <SegmentedButton
@@ -182,14 +182,14 @@ export function InsideInputExample() {
                 </SegmentedButton>
               ))}
             </Segmented>
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="checking"
               checked={checking}
               onChange={setChecking}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -268,12 +268,12 @@ export function PlaygroundExample() {
       state={{ size, color }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

@@ -1,7 +1,6 @@
 import {
   SectionTitle,
   Slider,
-  Toolbar,
   type Color,
   type SliderSize,
 } from '@cladd-ui/react';
@@ -11,6 +10,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/slider';
 
@@ -59,13 +59,13 @@ export function SizeExample() {
       previewSurface
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={SLIDER_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="flex-col gap-8 content-center"
     >
@@ -84,9 +84,9 @@ export function ColorExample() {
       previewSurface
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="content-center"
     >
@@ -292,14 +292,14 @@ export function PlaygroundExample() {
       previewClassName="content-center"
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={SLIDER_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="disabled"
               checked={disabled}
@@ -316,10 +316,10 @@ export function PlaygroundExample() {
                 if (v) setDisabled(false);
               }}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

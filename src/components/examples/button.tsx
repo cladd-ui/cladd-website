@@ -1,10 +1,4 @@
-import {
-  Button,
-  Spinner,
-  Toolbar,
-  type ButtonSize,
-  type Color,
-} from '@cladd-ui/react';
+import { Button, Spinner, type ButtonSize, type Color } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
@@ -12,6 +6,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { PlusIcon } from '@/components/icons/PlusIcon';
@@ -56,9 +51,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Button size={size} color="brand">
@@ -77,16 +72,16 @@ export function WithSpinnerExample() {
       state={{ size, loading }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="loading"
               checked={loading}
               onChange={setLoading}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -105,9 +100,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Button variant={variant} color="brand" className="w-32">
@@ -126,12 +121,12 @@ export function ColorExample() {
       state={{ color, variant }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -149,13 +144,13 @@ export function MultilineExample() {
       source={EXAMPLE_SOURCE.MultilineExample}
       state={{ multiline }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="multiline"
             checked={multiline}
             onChange={setMultiline}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Button multiline={multiline} color="brand" className="max-w-64">
@@ -172,13 +167,13 @@ export function RoundedExample() {
       source={EXAMPLE_SOURCE.RoundedExample}
       state={{ rounded }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="rounded"
             checked={rounded}
             onChange={setRounded}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <div className="flex flex-wrap items-center justify-center gap-4">
@@ -204,7 +199,7 @@ export function DisabledExample() {
       source={EXAMPLE_SOURCE.DisabledExample}
       state={{ disabled }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="disabled"
             checked={disabled}
@@ -213,7 +208,7 @@ export function DisabledExample() {
               setCount(0);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <div className="flex flex-col items-center gap-4">
@@ -238,7 +233,7 @@ export function ReadOnlyExample() {
       source={EXAMPLE_SOURCE.ReadOnlyExample}
       state={{ readOnly }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="readOnly"
             checked={readOnly}
@@ -247,7 +242,7 @@ export function ReadOnlyExample() {
               setCount(0);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <div className="flex flex-col items-center gap-4">
@@ -276,13 +271,13 @@ export function PlaygroundExample() {
       state={{ variant, color, size, outline, rounded }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
@@ -293,10 +288,10 @@ export function PlaygroundExample() {
               checked={rounded}
               onChange={setRounded}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

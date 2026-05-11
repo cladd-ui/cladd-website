@@ -19,6 +19,12 @@ html,
 body {
   font-family: var(--font-sans);
   @apply bg-cladd-bg text-cladd-fg;
+  color-scheme: dark;
+}
+
+.no-transition, .no-transition * {
+  transition: none !important;
+  transition-duration: 0s !important;
 }
 
 code,
@@ -26,4 +32,12 @@ kbd,
 pre,
 samp {
   font-family: var(--font-mono);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  opacity: 0;
 }

@@ -5,7 +5,6 @@ import {
   DialogRoot,
   DialogTrigger,
   Input,
-  Toolbar,
   useDialog,
   type Color,
 } from '@cladd-ui/react';
@@ -14,6 +13,7 @@ import { useState } from 'react';
 import {
   ExampleControlColor,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/dialog';
@@ -162,9 +162,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <DialogRoot>
@@ -190,9 +190,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <DialogRoot>

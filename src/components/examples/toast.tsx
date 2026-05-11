@@ -5,7 +5,6 @@ import {
   ToastClose,
   ToastRoot,
   ToastTrigger,
-  Toolbar,
   useToast,
   type Color,
 } from '@cladd-ui/react';
@@ -15,6 +14,7 @@ import {
   ExampleControlColor,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/toast';
@@ -86,9 +86,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <ToastRoot>
@@ -108,9 +108,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <ToastRoot>
@@ -195,13 +195,13 @@ export function TimeoutExample() {
       source={EXAMPLE_SOURCE.TimeoutExample}
       state={{ timeout: persistent ? 0 : 4000 }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="persistent"
             checked={persistent}
             onChange={setPersistent}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <ToastRoot>

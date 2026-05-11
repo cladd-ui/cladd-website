@@ -1,8 +1,6 @@
 import {
   NumberScrubber,
   SectionTitle,
-  Surface,
-  Toolbar,
   type Color,
   type NumberScrubberSize,
 } from '@cladd-ui/react';
@@ -13,6 +11,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/number-scrubber';
@@ -33,17 +32,8 @@ export function OverviewExample() {
   const [tracking, setTracking] = useState(0);
   const [rotation, setRotation] = useState(0);
   return (
-    <Example
-      source={EXAMPLE_SOURCE.OverviewExample}
-      previewSurface
-      previewClassName="!p-0"
-    >
-      <Surface
-        outline
-        variant="solid"
-        className="w-72 rounded-2xl"
-        contentClassName="flex flex-col gap-2 p-4"
-      >
+    <Example source={EXAMPLE_SOURCE.OverviewExample} previewSurface>
+      <div className="flex w-72 flex-col gap-2">
         <SectionTitle>Type</SectionTitle>
         <div className="grid grid-cols-2 gap-2">
           <NumberScrubber
@@ -79,7 +69,7 @@ export function OverviewExample() {
             displayValue={(v) => `${v}°`}
           />
         </div>
-      </Surface>
+      </div>
     </Example>
   );
 }
@@ -93,13 +83,13 @@ export function SizeExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={SCRUBBER_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberScrubber
@@ -260,7 +250,7 @@ export function StatesExample() {
       state={{ scrubberIcon, readOnly, disabled }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="scrubberIcon"
             checked={scrubberIcon}
@@ -282,7 +272,7 @@ export function StatesExample() {
               if (v) setReadOnly(false);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberScrubber
@@ -315,14 +305,14 @@ export function PlaygroundExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={SCRUBBER_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
@@ -338,13 +328,13 @@ export function PlaygroundExample() {
               checked={scrubberIcon}
               onChange={setScrubberIcon}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

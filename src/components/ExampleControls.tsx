@@ -1,8 +1,11 @@
 import {
   Button,
+  cn,
   Segmented,
   SegmentedButton,
   Switch,
+  Toolbar,
+  ToolbarProps,
   Tooltip,
   type ButtonSize,
   type Color,
@@ -43,13 +46,31 @@ interface VariantControlProps {
   value: SurfaceVariant;
   onChange: (next: SurfaceVariant) => void;
 }
-
+export function ExampleToolbar({
+  className,
+  contentClassName,
+  children,
+  ...rest
+}: ToolbarProps) {
+  return (
+    <Toolbar
+      className={cn('max-w-full', className)}
+      contentClassName={cn(
+        'no-scrollbar max-w-full justify-start overflow-auto',
+        contentClassName,
+      )}
+      {...rest}
+    >
+      {children}
+    </Toolbar>
+  );
+}
 export function ExampleControlVariant({
   value,
   onChange,
 }: VariantControlProps) {
   return (
-    <Segmented>
+    <Segmented className="whitespace-nowrap">
       {VARIANTS.map((v) => (
         <SegmentedButton
           key={v}
@@ -77,7 +98,7 @@ export function ExampleControlSize<S extends string = ButtonSize>({
   const items = (sizes ??
     (SIZES as readonly string[] as readonly S[])) as readonly S[];
   return (
-    <Segmented>
+    <Segmented className="whitespace-nowrap">
       {items.map((s) => (
         <SegmentedButton
           key={s}
@@ -98,7 +119,7 @@ interface ColorControlProps {
 
 export function ExampleControlColor({ value, onChange }: ColorControlProps) {
   return (
-    <Segmented activeColor={value}>
+    <Segmented className="whitespace-nowrap" activeColor={value}>
       {COLORS.map((c) => (
         <Tooltip key={c} tooltip={c}>
           <SegmentedButton

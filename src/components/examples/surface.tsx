@@ -1,10 +1,11 @@
-import { Surface, Toolbar, ToolbarButton, type Color } from '@cladd-ui/react';
+import { Surface, ToolbarButton, type Color } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
   ExampleControlColor,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/surface';
@@ -45,9 +46,9 @@ export function VariantsExample() {
       source={EXAMPLE_SOURCE.VariantsExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface
@@ -69,9 +70,9 @@ export function ColorsExample() {
       source={EXAMPLE_SOURCE.ColorsExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface
@@ -94,13 +95,13 @@ export function OutlineExample() {
       source={EXAMPLE_SOURCE.OutlineExample}
       state={{ outline }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="outline"
             checked={outline}
             onChange={setOutline}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface
@@ -127,7 +128,7 @@ export function InteractiveExample() {
       source={EXAMPLE_SOURCE.InteractiveExample}
       state={{ clickable, hoverable, pressed }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ToolbarButton
             variant={clickable ? 'gradient' : 'transparent'}
             outline={clickable}
@@ -152,7 +153,7 @@ export function InteractiveExample() {
           >
             pressed
           </ToolbarButton>
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface
@@ -180,19 +181,19 @@ export function PlaygroundExample() {
       state={{ variant, color, outline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
               onChange={setOutline}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

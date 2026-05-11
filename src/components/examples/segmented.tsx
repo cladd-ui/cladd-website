@@ -2,7 +2,6 @@ import {
   Segmented,
   SegmentedButton,
   Surface,
-  Toolbar,
   type ButtonSize,
   type Color,
 } from '@cladd-ui/react';
@@ -13,6 +12,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/segmented';
@@ -29,7 +29,7 @@ export function OverviewExample() {
   const [view, setView] = useState<View>('Grid');
   return (
     <Example source={EXAMPLE_SOURCE.OverviewExample}>
-      <Toolbar>
+      <ExampleToolbar>
         <Segmented>
           {VIEWS.map((v) => (
             <SegmentedButton
@@ -41,7 +41,7 @@ export function OverviewExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -64,13 +64,13 @@ export function ContainerExample() {
         <span className="font-mono text-cladd-fg-softer">
           inside &lt;Toolbar&gt;
         </span>
-        <Toolbar>
+        <ExampleToolbar>
           <Segmented>
             <SegmentedButton active>List</SegmentedButton>
             <SegmentedButton>Grid</SegmentedButton>
             <SegmentedButton>Calendar</SegmentedButton>
           </Segmented>
-        </Toolbar>
+        </ExampleToolbar>
       </div>
       <div className="flex flex-col items-center gap-2">
         <span className="font-mono text-cladd-fg-softer">
@@ -96,12 +96,12 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
-      <Toolbar>
+      <ExampleToolbar>
         <Segmented size={size}>
           {VIEWS.map((v) => (
             <SegmentedButton
@@ -113,7 +113,7 @@ export function SizeExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -129,22 +129,22 @@ export function ActiveStyleExample() {
       state={{ activeVariant, activeColor }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant
               value={activeVariant}
               onChange={setActiveVariant}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor
               value={activeColor}
               onChange={setActiveColor}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
-      <Toolbar>
+      <ExampleToolbar>
         <Segmented activeVariant={activeVariant} activeColor={activeColor}>
           {VIEWS.map((v) => (
             <SegmentedButton
@@ -156,7 +156,7 @@ export function ActiveStyleExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -172,23 +172,23 @@ export function InactiveStyleExample() {
       state={{ variant, color, outline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
               onChange={setOutline}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
-      <Toolbar>
+      <ExampleToolbar>
         <Segmented variant={variant} color={color} outline={outline}>
           {DENSITIES.map((d) => (
             <SegmentedButton
@@ -200,7 +200,7 @@ export function InactiveStyleExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -213,16 +213,16 @@ export function RoundedExample() {
       source={EXAMPLE_SOURCE.RoundedExample}
       state={{ rounded }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="rounded"
             checked={rounded}
             onChange={setRounded}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
-      <Toolbar rounded={rounded}>
+      <ExampleToolbar rounded={rounded}>
         <Segmented rounded={rounded}>
           {VIEWS.map((v) => (
             <SegmentedButton
@@ -234,7 +234,7 @@ export function RoundedExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -247,16 +247,16 @@ export function DisabledExample() {
       source={EXAMPLE_SOURCE.DisabledExample}
       state={{ disabled }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="disabled"
             checked={disabled}
             onChange={setDisabled}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
-      <Toolbar>
+      <ExampleToolbar>
         <Segmented disabled={disabled}>
           {VIEWS.map((v) => (
             <SegmentedButton
@@ -268,7 +268,7 @@ export function DisabledExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -295,16 +295,16 @@ export function PlaygroundExample() {
       }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
               onChange={setRounded}
             />
-          </Toolbar>
+          </ExampleToolbar>
           <div className="flex flex-wrap justify-center gap-2">
             <Surface
               className="w-fit rounded-2xl"
@@ -314,18 +314,18 @@ export function PlaygroundExample() {
               <span className="font-mono text-xs text-cladd-fg-soft">
                 active
               </span>
-              <Toolbar>
+              <ExampleToolbar>
                 <ExampleControlVariant
                   value={activeVariant}
                   onChange={setActiveVariant}
                 />
-              </Toolbar>
-              <Toolbar>
+              </ExampleToolbar>
+              <ExampleToolbar>
                 <ExampleControlColor
                   value={activeColor}
                   onChange={setActiveColor}
                 />
-              </Toolbar>
+              </ExampleToolbar>
             </Surface>
             <Surface
               className="w-fit rounded-2xl"
@@ -335,18 +335,18 @@ export function PlaygroundExample() {
               <span className="font-mono text-xs text-cladd-fg-soft">
                 inactive
               </span>
-              <Toolbar>
+              <ExampleToolbar>
                 <ExampleControlVariant value={variant} onChange={setVariant} />
-              </Toolbar>
-              <Toolbar>
+              </ExampleToolbar>
+              <ExampleToolbar>
                 <ExampleControlColor value={color} onChange={setColor} />
-              </Toolbar>
+              </ExampleToolbar>
             </Surface>
           </div>
         </>
       }
     >
-      <Toolbar rounded={rounded}>
+      <ExampleToolbar rounded={rounded}>
         <Segmented
           size={size}
           activeVariant={activeVariant}
@@ -365,7 +365,7 @@ export function PlaygroundExample() {
             </SegmentedButton>
           ))}
         </Segmented>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }

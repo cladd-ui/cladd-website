@@ -10,7 +10,6 @@ import {
   PopoverRoot,
   PopoverTrigger,
   Surface,
-  Toolbar,
   type ButtonSize,
   type Color,
 } from '@cladd-ui/react';
@@ -19,6 +18,7 @@ import { useState } from 'react';
 import {
   ExampleControlColor,
   ExampleControlSize,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { ArchiveIcon } from '@/components/icons/ArchiveIcon';
 import { CheckIcon } from '@/components/icons/CheckIcon';
@@ -154,9 +154,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface outline className="w-64 rounded-3xl">
@@ -183,9 +183,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Surface outline className="w-64 rounded-3xl">

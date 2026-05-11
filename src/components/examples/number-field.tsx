@@ -1,9 +1,4 @@
-import {
-  NumberField,
-  Toolbar,
-  type Color,
-  type NumberFieldSize,
-} from '@cladd-ui/react';
+import { NumberField, type Color, type NumberFieldSize } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
@@ -11,6 +6,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/number-field';
@@ -65,13 +61,13 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={NUMBER_FIELD_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberField size={size} value={value} onChange={setValue} />
@@ -87,9 +83,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberField variant={variant} value={value} onChange={setValue} />
@@ -108,19 +104,19 @@ export function ButtonVariantExample() {
       state={{ buttonVariant, buttonOutline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant
               value={buttonVariant}
               onChange={setButtonVariant}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="buttonOutline"
               checked={buttonOutline}
               onChange={setButtonOutline}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -178,7 +174,7 @@ export function RoundedExample() {
       source={EXAMPLE_SOURCE.RoundedExample}
       state={{ rounded, valueRounded }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="rounded"
             checked={rounded}
@@ -189,7 +185,7 @@ export function RoundedExample() {
             checked={valueRounded}
             onChange={setValueRounded}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberField
@@ -211,7 +207,7 @@ export function StatesExample() {
       source={EXAMPLE_SOURCE.StatesExample}
       state={{ readOnly, disabled }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="readOnly"
             checked={readOnly}
@@ -228,7 +224,7 @@ export function StatesExample() {
               if (v) setReadOnly(false);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <NumberField
@@ -255,17 +251,17 @@ export function PlaygroundExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={NUMBER_FIELD_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlVariant value={variant} onChange={setVariant} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
@@ -276,10 +272,10 @@ export function PlaygroundExample() {
               checked={input}
               onChange={setInput}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

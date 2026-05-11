@@ -2,10 +2,10 @@ import {
   Segmented,
   SegmentedButton,
   Surface,
-  Toolbar,
   ToolbarButton,
   ToolbarSeparator,
   Tooltip,
+  Toolbar,
   type ButtonSize,
   type Color,
 } from '@cladd-ui/react';
@@ -16,6 +16,7 @@ import {
   ExampleControlSize,
   ExampleControlSwitch,
   ExampleControlVariant,
+  ExampleToolbar,
   type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { AlignCenterIcon } from '@/components/icons/AlignCenterIcon';
@@ -48,7 +49,7 @@ export function OverviewExample() {
   const toggle = (k: string) => setMarks((m) => ({ ...m, [k]: !m[k] }));
   return (
     <Example source={EXAMPLE_SOURCE.OverviewExample}>
-      <Toolbar>
+      <ExampleToolbar>
         <Tooltip tooltip="Bold">
           <ToolbarButton
             color={marks.bold ? 'brand' : undefined}
@@ -103,7 +104,7 @@ export function OverviewExample() {
           <CheckIcon />
           Publish
         </ToolbarButton>
-      </Toolbar>
+      </ExampleToolbar>
     </Example>
   );
 }
@@ -115,9 +116,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Toolbar size={size}>
@@ -147,9 +148,9 @@ export function VariantExample() {
       source={EXAMPLE_SOURCE.VariantExample}
       state={{ variant, buttonVariant }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlVariant value={variant} onChange={setVariant} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Toolbar variant={variant} buttonVariant={buttonVariant}>
@@ -174,13 +175,13 @@ export function OutlineExample() {
       source={EXAMPLE_SOURCE.OutlineExample}
       state={{ outline }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="outline"
             checked={outline}
             onChange={setOutline}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Toolbar outline={outline}>
@@ -205,9 +206,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Toolbar color={color}>
@@ -237,13 +238,13 @@ export function RoundedExample() {
       source={EXAMPLE_SOURCE.RoundedExample}
       state={{ rounded }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="rounded"
             checked={rounded}
             onChange={setRounded}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Toolbar rounded={rounded}>
@@ -273,19 +274,19 @@ export function ButtonStyleExample() {
       state={{ buttonVariant, buttonOutline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlVariant
               value={buttonVariant}
               onChange={setButtonVariant}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="buttonOutline"
               checked={buttonOutline}
               onChange={setButtonOutline}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -416,19 +417,19 @@ export function PlaygroundExample() {
       }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
               onChange={setRounded}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
           <div className="flex flex-wrap justify-center gap-2">
             <Surface
               className="w-fit rounded-2xl"
@@ -438,16 +439,16 @@ export function PlaygroundExample() {
               <span className="font-mono text-xs text-cladd-fg-soft">
                 container
               </span>
-              <Toolbar>
+              <ExampleToolbar>
                 <ExampleControlVariant value={variant} onChange={setVariant} />
-              </Toolbar>
-              <Toolbar>
+              </ExampleToolbar>
+              <ExampleToolbar>
                 <ExampleControlSwitch
                   label="outline"
                   checked={outline}
                   onChange={setOutline}
                 />
-              </Toolbar>
+              </ExampleToolbar>
             </Surface>
             <Surface
               className="w-fit rounded-2xl"
@@ -457,19 +458,19 @@ export function PlaygroundExample() {
               <span className="font-mono text-xs text-cladd-fg-soft">
                 buttons
               </span>
-              <Toolbar>
+              <ExampleToolbar>
                 <ExampleControlVariant
                   value={buttonVariant}
                   onChange={setButtonVariant}
                 />
-              </Toolbar>
-              <Toolbar>
+              </ExampleToolbar>
+              <ExampleToolbar>
                 <ExampleControlSwitch
                   label="outline"
                   checked={buttonOutline}
                   onChange={setButtonOutline}
                 />
-              </Toolbar>
+              </ExampleToolbar>
             </Surface>
           </div>
         </>

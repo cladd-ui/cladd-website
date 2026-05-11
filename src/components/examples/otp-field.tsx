@@ -3,7 +3,6 @@ import {
   OTPField,
   OTPFieldInput,
   OTPFieldSeparator,
-  Toolbar,
   type InputSize,
 } from '@cladd-ui/react';
 import { useState } from 'react';
@@ -11,6 +10,7 @@ import { useState } from 'react';
 import {
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/otp-field';
 
@@ -59,13 +59,13 @@ export function SizeExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={OTP_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="content-center"
     >
@@ -230,14 +230,14 @@ export function PlaygroundExample() {
       }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={OTP_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             {[4, 6, 8].map((n) => (
               <Button
                 key={n}
@@ -249,8 +249,8 @@ export function PlaygroundExample() {
                 {n} cells
               </Button>
             ))}
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="alphanumeric"
               checked={alphanumeric}
@@ -271,7 +271,7 @@ export function PlaygroundExample() {
               checked={readOnly}
               onChange={setReadOnly}
             />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

@@ -2,7 +2,6 @@ import {
   Button,
   Chip,
   Select,
-  Toolbar,
   type ButtonSize,
   type Color,
 } from '@cladd-ui/react';
@@ -12,6 +11,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import { NoteIcon } from '@/components/icons/NoteIcon';
@@ -176,13 +176,13 @@ export function SizeExample() {
       state={{ size }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={SELECT_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Select
@@ -206,9 +206,9 @@ export function ColorExample() {
       state={{ color }}
       previewSurface
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Select
@@ -507,44 +507,44 @@ export function PlaygroundExample() {
       previewSurface
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={SELECT_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="multiple"
               checked={multiple}
               onChange={setMultiple}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="search"
               checked={search}
               onChange={setSearch}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="keyboardHints"
               checked={keyboardHints}
               onChange={setKeyboardHints}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="rounded"
               checked={rounded}
               onChange={setRounded}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

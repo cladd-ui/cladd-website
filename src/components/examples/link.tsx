@@ -1,9 +1,10 @@
-import { Link, Surface, Toolbar, type Color } from '@cladd-ui/react';
+import { Link, Surface, type Color } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
   ExampleControlColor,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/link';
 
@@ -38,9 +39,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Link color={color}>Continue with {color}</Link>
@@ -94,7 +95,7 @@ export function DisabledExample() {
       source={EXAMPLE_SOURCE.DisabledExample}
       state={{ disabled }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="disabled"
             checked={disabled}
@@ -103,7 +104,7 @@ export function DisabledExample() {
               setCount(0);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <div className="flex flex-col items-center gap-4">
@@ -128,7 +129,7 @@ export function ReadOnlyExample() {
       source={EXAMPLE_SOURCE.ReadOnlyExample}
       state={{ readOnly }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="readOnly"
             checked={readOnly}
@@ -137,7 +138,7 @@ export function ReadOnlyExample() {
               setCount(0);
             }}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <div className="flex flex-col items-center gap-4">

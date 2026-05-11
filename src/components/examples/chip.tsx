@@ -2,7 +2,6 @@ import {
   Button,
   Chip,
   Surface,
-  Toolbar,
   type ButtonSize,
   type Color,
 } from '@cladd-ui/react';
@@ -12,6 +11,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import { PlusIcon } from '@/components/icons/PlusIcon';
@@ -57,9 +57,9 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Chip size={size} color="brand" icon={CheckIcon}>
@@ -76,9 +76,9 @@ export function InsideButtonExample() {
       source={EXAMPLE_SOURCE.InsideButtonExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize value={size} onChange={setSize} />
-        </Toolbar>
+        </ExampleToolbar>
       }
     >
       <Button size={size}>
@@ -100,16 +100,16 @@ export function ColorExample() {
       state={{ color, outline }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
               onChange={setOutline}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
@@ -127,13 +127,13 @@ export function OutlineExample() {
       source={EXAMPLE_SOURCE.OutlineExample}
       state={{ outline }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="outline"
             checked={outline}
             onChange={setOutline}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-2 flex-wrap content-center"
     >
@@ -158,13 +158,13 @@ export function RoundedExample() {
       source={EXAMPLE_SOURCE.RoundedExample}
       state={{ rounded }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSwitch
             label="rounded"
             checked={rounded}
             onChange={setRounded}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-2 flex-wrap content-center"
     >
@@ -309,10 +309,10 @@ export function PlaygroundExample() {
       state={{ color, size, outline, rounded }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="outline"
               checked={outline}
@@ -328,10 +328,10 @@ export function PlaygroundExample() {
               checked={withIcon}
               onChange={setWithIcon}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >

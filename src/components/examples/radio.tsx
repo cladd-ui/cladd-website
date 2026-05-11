@@ -6,7 +6,6 @@ import {
   ListTitle,
   Radio,
   Surface,
-  Toolbar,
   type Color,
   type RadioSize,
 } from '@cladd-ui/react';
@@ -16,6 +15,7 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleToolbar,
 } from '@/components/ExampleControls';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/radio';
 
@@ -56,13 +56,13 @@ export function SizeExample() {
       source={EXAMPLE_SOURCE.SizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={RADIO_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-8 content-center"
     >
@@ -80,13 +80,13 @@ export function NestedSizeExample() {
       source={EXAMPLE_SOURCE.NestedSizeExample}
       state={{ size }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlSize
             value={size}
             onChange={setSize}
             sizes={RADIO_SIZES}
           />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="flex-col gap-2 content-center"
     >
@@ -132,9 +132,9 @@ export function ColorExample() {
       source={EXAMPLE_SOURCE.ColorExample}
       state={{ color }}
       controls={
-        <Toolbar>
+        <ExampleToolbar>
           <ExampleControlColor value={color} onChange={setColor} />
-        </Toolbar>
+        </ExampleToolbar>
       }
       previewClassName="gap-4 content-center"
     >
@@ -288,14 +288,14 @@ export function PlaygroundExample() {
       state={{ checked, size, color, disabled, readOnly }}
       controls={
         <>
-          <Toolbar>
+          <ExampleToolbar>
             <ExampleControlSize
               value={size}
               onChange={setSize}
               sizes={RADIO_SIZES}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlSwitch
               label="checked"
               checked={checked}
@@ -311,10 +311,10 @@ export function PlaygroundExample() {
               checked={readOnly}
               onChange={setReadOnly}
             />
-          </Toolbar>
-          <Toolbar>
+          </ExampleToolbar>
+          <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
-          </Toolbar>
+          </ExampleToolbar>
         </>
       }
     >
