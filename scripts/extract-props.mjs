@@ -41,7 +41,9 @@ function resolveModulePath(fromFile, spec) {
   return null;
 }
 
-// 1. Walk index.d.ts; collect every type-only export whose name ends with "Props".
+// 1. Walk index.d.ts; collect every type-only export whose name ends with
+// "Props" or "Options" (the latter for hook option objects like
+// `UseDialogConfirmOptions`).
 function discoverPropsExports() {
   const source = parseFile(indexFile);
   const exports = []; // { name, file }
@@ -59,7 +61,12 @@ function discoverPropsExports() {
       // `export { Foo as Bar }` — exported name is `name`, original is `propertyName`
       const exportedName = spec.name.text;
       const localName = spec.propertyName?.text ?? spec.name.text;
-      if (!exportedName.endsWith('Props')) continue;
+      if (
+        !exportedName.endsWith('Props') &&
+        !exportedName.endsWith('Options')
+      ) {
+        continue;
+      }
       exports.push({ name: exportedName, localName, file: modPath });
     }
   }

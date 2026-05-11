@@ -14,6 +14,7 @@ import ToastProps from '@/generated/props/ToastProps';
 import ToastRootProps from '@/generated/props/ToastRootProps';
 import ToastTriggerProps from '@/generated/props/ToastTriggerProps';
 import ToastCloseProps from '@/generated/props/ToastCloseProps';
+import UseToastOptions from '@/generated/props/UseToastOptions';
 
 export default ({ children }) => (
   <DocsLayout
@@ -165,4 +166,12 @@ State container for the surrounding compound — owns the open state and provide
 
 ### useToast
 
-`useToast()` returns a function `(options) => void`. Options: `title`, `text`, `color`, `icon`, `iconProps`, `closeButton`, `onClosed` — same shape as the matching `Toast` props. The hook is a thin wrapper over the portal queue mounted by [`UIProvider`](/react/components/ui-provider/).
+`useToast()` is a thin wrapper over the portal queue mounted by [`UIProvider`](/react/components/ui-provider/). It returns a function that queues a fresh toast on each call — multiple toasts stack at the corner and auto-dismiss independently.
+
+```ts
+function useToast(): (options: UseToastOptions) => void;
+```
+
+#### Options
+
+<UseToastOptions />
