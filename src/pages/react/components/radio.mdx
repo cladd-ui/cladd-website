@@ -1,13 +1,97 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  FormGroupExample,
+  InListExample,
+  NestedSizeExample,
+  OverviewExample,
+  PlaygroundExample,
+  SizeExample,
+  StatesExample,
+} from '@/components/examples/radio';
 import RadioProps from '@/generated/props/RadioProps';
 
 export default ({ children }) => (
-  <DocsLayout title="Radio — Cladd" description="Radio component props.">
+  <DocsLayout
+    title="Radio — Cladd"
+    description="Accent-aware Radio for single-select choices — native input by default, ARIA fallback when you need it."
+  >
     {children}
   </DocsLayout>
 );
 
 # Radio
+
+`Radio` is the standard single-select control — a recessed thumb with a filled-gradient selected state that takes the theme accent by default. Like [`Checkbox`](/react/components/checkbox/), it renders a real hidden input for form submission and flips to an ARIA-only mode when the surrounding context already provides a label.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Radio } from '@cladd-ui/react';
+
+const [view, setView] = useState('list');
+
+<Radio
+  name="view"
+  checked={view === 'list'}
+  onChange={() => setView('list')}
+/>
+<Radio
+  name="view"
+  checked={view === 'board'}
+  onChange={() => setView('board')}
+/>
+```
+
+A radio set is just a group of `Radio`s sharing a single source-of-truth value — each radio compares its own option id against that value and fires `onChange` with no argument-driven toggle (you set the value directly). Wrap the set in a `<label>` (or use `as="label"`, the default) and clicking anywhere inside the label activates the hidden input. Pass `as="span"` / `as="div"` when the radio already lives inside a label-shaped parent (a [`ListButton`](/react/components/list/) with `as="label"`, for instance).
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm` (default) and `md`. Unlike [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and [`Spinner`](/react/components/spinner/) — which run the full `2xs → 2xl` scale — `Radio` ships only the two sizes that match its sibling [`Checkbox`](/react/components/checkbox/). `sm` (20px) is the inline default; `md` (24px) is the right call when the radio is the focal point of its row, or when it's nested inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below).
+
+<SizeExample />
+
+### Inside a button or list row
+
+`Radio`'s two sizes are **nested sizes** — calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. Pass the same `size` token to the wrapping control and the radio, and the proportions land. Use `as="span"` on the radio so it doesn't render a nested `<label>` inside the parent label.
+
+The same `name` on every radio in the set is a hint for assistive tech and form serialization — it doesn't enable native exclusive selection (the component renders a hidden checkbox under the hood; the _parent_ enforces single-select by holding one shared value).
+
+<NestedSizeExample />
+
+### Colors
+
+`color` accepts any of the cladd accent tokens — the accent drives the selected-state fill. When unset, the radio inherits the theme accent from [`UIProvider`](/react/components/ui-provider/), so a brand-coloured radio set doesn't usually need a `color` prop. Pass one when the selection signals severity (`red` for a destructive option) or sits alongside a non-default control that needs to read as a single unit.
+
+<ColorExample />
+
+### In a list
+
+The canonical single-select pattern: a [`List`](/react/components/list/) of `ListButton as="label"` rows, each with a `Radio` in the `icon` slot. The `ListButton` already provides the hover overlay, focus ring, and click target — the radio is just the indicator. `as="label"` on the row turns the whole row into a label for the nested radio's hidden input, so clicking anywhere in the row selects it. Use `as="span"` on the radio itself to avoid a nested `<label>`.
+
+<InListExample />
+
+### Form group
+
+When the radios _are_ the form — a settings panel choosing between mutually exclusive options, a pricing tier picker, a survey question — wrap each option in a [`Surface`](/react/components/surface/) `as="label"` and let the surface variant flip on selection. The radio sits in the corner as the indicator; the surface itself is the click target, the affordance, and the visual frame. Share a single `name` across the set so the form submission carries the picked `value`.
+
+<FormGroupExample />
+
+### States
+
+`disabled` dims the radio and blocks all interaction — read as "not available right now". `readOnly` blocks toggling without the dim treatment — read as "locked, but the value is real" (e.g. an enforced organisation policy the user can see but not change). `required` forwards to the native `<input>` so the browser's form validation will catch an empty submission.
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, and the boolean state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the radio is the focal point of a row or sits inside a `md` button or list row.
+
+<PlaygroundExample />
 
 ## Props
 

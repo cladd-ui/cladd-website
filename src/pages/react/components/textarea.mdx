@@ -1,13 +1,90 @@
 import { DocsLayout } from '@/components/DocsLayout';
+import {
+  AutoGrowExample,
+  IconExample,
+  OverviewExample,
+  PlaygroundExample,
+  PrefixSuffixExample,
+  SizeExample,
+  StatesExample,
+  ValidationExample,
+} from '@/components/examples/textarea';
 import TextareaProps from '@/generated/props/TextareaProps';
 
 export default ({ children }) => (
-  <DocsLayout title="TextArea — Cladd" description="TextArea component props.">
+  <DocsLayout
+    title="Textarea — Cladd"
+    description="Multi-line, auto-growing contenteditable editor — sizes sm → 2xl, prefix/suffix slots, validation, and the same surface chrome as Input."
+  >
     {children}
   </DocsLayout>
 );
 
-# TextArea
+# Textarea
+
+`Textarea` is the long-form companion to [`Input`](/react/components/input/) — same [`SurfaceCut`](/react/components/surface-cut/) chrome, same size scale, the same `prefix` / `suffix` / `icon` / validation slots, but built around a `contenteditable` `<div>` instead of a native `<textarea>`. That swap is deliberate: the field grows with its contents instead of needing a manual resize handle, and the editing surface can hold richer markup than plain text — useful when you want to layer formatting, mentions, or inline tags on top.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Textarea } from '@cladd-ui/react';
+
+<Textarea
+  value={notes}
+  onChange={setNotes}
+  placeholder="What changed in this release?"
+/>;
+```
+
+Like [`Input`](/react/components/input/), `Textarea` is controlled — pass `value` and an `onChange` handler that receives `(value, event)`. The string you pass in is synced into the editor's `innerText`, so newlines round-trip just like a native textarea would.
+
+For richer use-cases (a Markdown editor, a mention combobox, a rich-text host on top of tiptap or Lexical), pass `updateContentOnChange={false}` so cladd stops syncing `value → innerText` after the initial render. The wrapper keeps providing the surface, focus ring, and slots; your editor owns the DOM inside and won't have its caret stomped on every keystroke.
+
+## Examples
+
+### Sizes
+
+`size` accepts `sm`, `md`, `lg` (default), `xl`, `2xl`. The size doesn't lock the height — every step sets a `min-height` so the field always opens to a comfortable starting size, then grows downward as the user types. The font stays compact at every step (cladd's dense-but-not-crowded principle); the padding and minimum height are what change.
+
+<SizeExample />
+
+### Auto-grow
+
+Because the editor is a `contenteditable` `<div>` rather than a native `<textarea>`, the height tracks the content natively — no `rows` to guess at, no `ResizeObserver` to wire up, no `auto-grow` library. The field opens at its `size`-derived `min-height` and grows downward as the user types, then shrinks back when content is deleted. Set `inputClassName="max-h-..."` if you need an upper bound; otherwise let it bloom.
+
+<AutoGrowExample />
+
+### Icon
+
+`icon` renders an absolutely-positioned glyph on the left and shifts the editor padding to make room. With a multi-line field you almost always want to add `contentClassName="items-start"` so the icon — and any `prefix` / `suffix` — anchors to the top of the field instead of floating in the vertical middle of the content. Reach for an icon to mark a field as a note, a journal entry, a message; for an interactive trailing element (a status chip, a character counter) use `suffix` instead.
+
+<IconExample />
+
+### Prefix and suffix
+
+`prefix` and `suffix` render inside the surface, before and after the editor. The wrapper is `flex items-center` by default — fine for a single-line value, but with a tall multi-line editor that floats the slot in the middle of the column. Pass `contentClassName="items-start"` to anchor them to the top, then add a `mt-2` to align with the first line of text. They're the natural home for a character counter, a "Markdown supported" tag, or a status [`Chip`](/react/components/chip/).
+
+<PrefixSuffixExample />
+
+### Validation
+
+Same model as [`Input`](/react/components/input/): set `valid={false}` to switch the focus ring to red and surface `errorMessage` as a floating chip that's always visible. `infoMessage` is the calmer counterpart — a floating hint that appears on focus and uses the field's accent `color`. Useful for a length requirement on a bug report, a "supports Markdown" reminder above a freeform field, or a max-length cap.
+
+<ValidationExample />
+
+### Disabled and read-only
+
+`disabled` dims the field to 50% and removes `contenteditable` entirely. `readOnly` is the subtler one: the field stays at full opacity and the user can still select and copy the value (handy for displaying a longer generated note, a one-time message, or a locked release log) but typing is blocked and `infoMessage` is hidden.
+
+<StatesExample />
+
+### Playground
+
+`size`, `color`, `rounded`, and `icon` compose like any other cladd control — pair `rounded` `xl` with `color="brand"` for a hero feedback field, or a compact `sm` Textarea inside a sidebar comment thread.
+
+<PlaygroundExample />
 
 ## Props
 
