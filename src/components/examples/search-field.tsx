@@ -211,7 +211,7 @@ export function PlaygroundExample() {
         />
         <List>
           {filtered.slice(0, 4).map((p) => (
-            <ListButton key={p} size={size} icon={<EnvelopeIcon />}>
+            <ListButton key={p} icon={<EnvelopeIcon />}>
               {p}
             </ListButton>
           ))}
