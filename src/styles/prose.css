@@ -90,7 +90,7 @@
     @apply hover:underline;
   }
   a:not(.text-cladd-primary):not(.not-prose *) {
-    @apply underline hover:no-underline;
+    @apply underline hover:no-underline underline-offset-3 decoration-[0.5px];
   }
   a:not(.text-cladd-primary):not(.not-prose *):not(:has(code)) {
     @apply opacity-75;
@@ -120,7 +120,7 @@
   }
 
   code:not(.not-prose *) {
-    @apply rounded bg-white/7.5 px-1.5 py-0.5 text-[0.875em] text-cladd-fg opacity-90 light:bg-black/10;
+    @apply rounded bg-white/10 px-1.5 py-0.5 text-[0.875em] text-cladd-fg light:bg-black/10;
   }
   /*code:not(.not-prose *)::before,
   code:not(.not-prose *)::after {
