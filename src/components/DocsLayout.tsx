@@ -1,15 +1,23 @@
 import {
   ListButton,
   SectionTitle,
+  Spinner,
   Surface,
   Toolbar,
   ToolbarButton,
+  ToolbarSeparator,
+  Tooltip,
   Link,
 } from '@cladd-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+import { ArrowLeftIcon } from './icons/ArrowLeftIcon';
+import { ArrowRightIcon } from './icons/ArrowRightIcon';
+import { CheckIcon } from './icons/CheckIcon';
+import { CopyIcon } from './icons/CopyIcon';
+import { MarkdownIcon } from './icons/MarkdownIcon';
 import { SidebarIcon } from './icons/SidebarIcon';
 import { useSidebar } from './SidebarContext';
 import { SiteLayout } from './SiteLayout';
@@ -78,6 +86,174 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
       })),
     },
   ];
+
+const allLinks = sections.flatMap((s) => s.links);
+
+function getNeighbors(currentPath: string) {
+  const i = allLinks.findIndex((l) => l.href === currentPath);
+  if (i === -1) return { prev: null, next: null };
+  return {
+    prev: i > 0 ? allLinks[i - 1] : null,
+    next: i < allLinks.length - 1 ? allLinks[i + 1] : null,
+  };
+}
+
+// Map a doc route to its Markdown twin. The generator writes one .md file per
+// MDX page (see scripts/generate-markdown-docs.mjs): trailing-slash routes
+// become a sibling `<name>.md`, and `/react/` itself lands at /react/index.md.
+function markdownHref(currentPath: string) {
+  if (currentPath === '/react/' || currentPath === '/react') {
+    return '/react/index.md';
+  }
+  return currentPath.replace(/\/$/, '') + '.md';
+}
+
+type CopyState = 'idle' | 'loading' | 'copied';
+
+function MarkdownActions({ currentPath }: { currentPath: string }) {
+  const [state, setState] = useState<CopyState>('idle');
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const href = markdownHref(currentPath);
+
+  // Reset to idle whenever the user navigates to a different page — keeps the
+  // button from flashing a stale "copied" check on the new doc.
+  useEffect(() => {
+    setState('idle');
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  }, [currentPath]);
+
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    },
+    [],
+  );
+
+  const copy = async () => {
+    if (state === 'loading') return;
+    setState('loading');
+    try {
+      const res = await fetch(href);
+      if (!res.ok) throw new Error(`fetch ${href} → ${res.status}`);
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+      setState('copied');
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setState('idle'), 1200);
+    } catch (err) {
+      console.error('[docs] failed to copy markdown', err);
+      setState('idle');
+    }
+  };
+
+  return (
+    <>
+      <Tooltip tooltip={state === 'copied' ? 'Copied!' : 'Copy as Markdown'}>
+        <ToolbarButton
+          onClick={copy}
+          aria-label="Copy page as Markdown"
+          className="cursor-pointer"
+        >
+          {state === 'loading' ? (
+            <Spinner size="sm" />
+          ) : state === 'copied' ? (
+            <CheckIcon />
+          ) : (
+            <CopyIcon />
+          )}
+        </ToolbarButton>
+      </Tooltip>
+      <Tooltip tooltip="View as Markdown">
+        <ToolbarButton
+          as="a"
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open Markdown source in a new tab"
+          className="cursor-pointer"
+        >
+          <MarkdownIcon />
+        </ToolbarButton>
+      </Tooltip>
+    </>
+  );
+}
+
+function PrevNext({ currentPath }: { currentPath: string }) {
+  const { prev, next } = getNeighbors(currentPath);
+  if (!prev && !next) return null;
+  return (
+    <Toolbar size="sm" className="not-prose float-right ml-4">
+      <MarkdownActions currentPath={currentPath} />
+      <ToolbarSeparator />
+      {prev ? (
+        <ToolbarButton
+          as={NextLink}
+          href={prev.href}
+          aria-label={`Previous: ${prev.label}`}
+          className="cursor-pointer"
+        >
+          <ArrowLeftIcon />
+        </ToolbarButton>
+      ) : (
+        <ToolbarButton disabled aria-label="No previous page">
+          <ArrowLeftIcon />
+        </ToolbarButton>
+      )}
+      {next ? (
+        <ToolbarButton
+          as={NextLink}
+          href={next.href}
+          aria-label={`Next: ${next.label}`}
+          className="cursor-pointer"
+        >
+          <ArrowRightIcon />
+        </ToolbarButton>
+      ) : (
+        <ToolbarButton disabled aria-label="No next page">
+          <ArrowRightIcon />
+        </ToolbarButton>
+      )}
+    </Toolbar>
+  );
+}
+
+function PrevNextFooter({ currentPath }: { currentPath: string }) {
+  const { prev, next } = getNeighbors(currentPath);
+  if (!prev && !next) return null;
+  return (
+    <div className="not-prose mt-16 flex items-center justify-between">
+      {prev ? (
+        <Toolbar>
+          <ToolbarButton
+            as={NextLink}
+            href={prev.href}
+            className="cursor-pointer"
+          >
+            <ArrowLeftIcon />
+            {prev.label}
+          </ToolbarButton>
+        </Toolbar>
+      ) : (
+        <span />
+      )}
+      {next ? (
+        <Toolbar>
+          <ToolbarButton
+            as={NextLink}
+            href={next.href}
+            className="cursor-pointer"
+          >
+            {next.label}
+            <ArrowRightIcon />
+          </ToolbarButton>
+        </Toolbar>
+      ) : (
+        <span />
+      )}
+    </div>
+  );
+}
 
 interface Heading {
   id: string;
@@ -218,7 +394,9 @@ function DocsLayoutContent({
         ))}
       </Surface>
       <article className="prose mx-auto w-full max-w-3xl min-w-0 py-12">
+        <PrevNext currentPath={currentPath} />
         {children}
+        <PrevNextFooter currentPath={currentPath} />
       </article>
       <aside className="hidden xl:block">
         <OnThisPage pageKey={currentPath} />

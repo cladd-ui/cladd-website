@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { ThemeModeProvider, useThemeMode } from '@/components/ThemeMode';
+
 import '@/styles/globals.css';
 
 declare global {

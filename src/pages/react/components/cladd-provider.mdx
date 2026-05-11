@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
 
 Mount it once, as high in the tree as possible — typically in `pages/_app.tsx` (Next.js pages router), `app/layout.tsx` (Next.js app router), or the root component of a Vite/CRA app. All defaults are sensible (`theme="dark"`, `accentColor="brand"`, the standard overlays root selector), so the bare `<CladdProvider>{children}</CladdProvider>` form is usually all you need.
 
-## Props
+## Configuration
 
 ### theme
 
@@ -99,6 +99,6 @@ function useAccentColor(): Color;
 
 Both are simple `useContext` reads — call them from any component below `CladdProvider` to branch on the current theme (e.g. swap a logo asset, pick a different illustration) or to use the app-wide accent as a default for your own custom components.
 
-## Props reference
+## API Reference
 
 <CladdProviderProps />

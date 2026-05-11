@@ -22,7 +22,8 @@ body {
   color-scheme: dark;
 }
 
-.no-transition, .no-transition * {
+.no-transition,
+.no-transition * {
   transition: none !important;
   transition-duration: 0s !important;
 }

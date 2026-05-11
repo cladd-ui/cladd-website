@@ -120,7 +120,7 @@
   }
 
   code:not(.not-prose *) {
-    @apply rounded bg-white/7.5 light:bg-black/10 px-1.5 py-0.5 text-[0.875em] text-cladd-fg opacity-90;
+    @apply rounded bg-white/7.5 px-1.5 py-0.5 text-[0.875em] text-cladd-fg opacity-90 light:bg-black/10;
   }
   /*code:not(.not-prose *)::before,
   code:not(.not-prose *)::after {

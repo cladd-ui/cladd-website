@@ -105,13 +105,21 @@ function findOpenTagEnd(source, start) {
 
 // Find the index of the matching `</tagName>`, accounting for nested tags of
 // the same name and for JSX expression braces.
+//
+// String tracking is intentionally context-sensitive: in JSX *child text* a
+// stray apostrophe (e.g. `popup's content`) or quote is just a character, so
+// quotes should only delimit string literals when we're inside a JS
+// expression (`{…}`) or a nested tag's attribute region (`<div attr="…">`).
+// Without that gate, an unpaired apostrophe in prose would put the walker
+// into permanent string mode and silently swallow the `</Example>` close.
 function findMatchingClose(source, start, tagName) {
   const open = '<' + tagName;
   const close = '</' + tagName + '>';
   let depth = 1;
   let i = start;
-  let braceDepth = 0;
-  let str = null;
+  let braceDepth = 0; // depth of `{…}` JS expressions
+  let inAttrs = false; // inside a nested tag's `<Name … >` attribute region
+  let str = null; // active string delimiter (only inside braces or attrs)
   while (i < source.length) {
     const ch = source[i];
     if (str) {
@@ -123,7 +131,10 @@ function findMatchingClose(source, start, tagName) {
       i++;
       continue;
     }
-    if (ch === '"' || ch === "'" || ch === '`') {
+    if (
+      (braceDepth > 0 || inAttrs) &&
+      (ch === '"' || ch === "'" || ch === '`')
+    ) {
       str = ch;
       i++;
       continue;
@@ -142,6 +153,11 @@ function findMatchingClose(source, start, tagName) {
       i++;
       continue;
     }
+    if (inAttrs && ch === '>') {
+      inAttrs = false;
+      i++;
+      continue;
+    }
     if (source.startsWith(close, i)) {
       depth--;
       if (depth === 0) return i;
@@ -152,9 +168,17 @@ function findMatchingClose(source, start, tagName) {
       const next = source[i + open.length];
       if (next === ' ' || next === '\n' || next === '\t' || next === '>') {
         depth++;
+        // Enter attrs unless the tag closes immediately (`<Example>`).
+        inAttrs = next !== '>';
         i += open.length;
         continue;
       }
+    }
+    // Any other opening tag (`<div`, `<p`, `<code …>`) — track its attribute
+    // region too so quoted attribute values are honoured. Fragments (`<>`,
+    // `</>`) and close tags (`</…>`) start with non-letters and are skipped.
+    if (ch === '<' && /[A-Za-z]/.test(source[i + 1] ?? '')) {
+      inAttrs = true;
     }
     i++;
   }
