@@ -84,6 +84,25 @@ const foundationsLinks: { label: string; href: string }[] = [
   { label: 'Sizing', href: '/react/foundations/sizing/' },
 ];
 
+// Per-framework install guides. Reached via the cards on /react/installation/
+// — intentionally not surfaced in the sidebar, but they still participate in
+// the prev/next chain so each leaf page gets sibling navigation and the
+// "Copy as Markdown" toolbar.
+const installSubpages: { label: string; href: string }[] = [
+  { label: 'Install in Next.js', href: '/react/installation/next/' },
+  { label: 'Install in Vite', href: '/react/installation/vite/' },
+  {
+    label: 'Install in TanStack Start',
+    href: '/react/installation/tanstack-start/',
+  },
+  {
+    label: 'Install in React Router',
+    href: '/react/installation/react-router/',
+  },
+  { label: 'Install in Astro', href: '/react/installation/astro/' },
+  { label: 'Manual install', href: '/react/installation/manual/' },
+];
+
 const sections: { title: string; links: { label: string; href: string }[] }[] =
   [
     {
@@ -91,6 +110,7 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
       links: [
         { label: 'Introduction', href: '/react/' },
         { label: 'Installation', href: '/react/installation/' },
+        { label: 'TypeScript', href: '/react/typescript/' },
       ],
     },
 
@@ -114,7 +134,19 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
     },
   ];
 
-const allLinks = sections.flatMap((s) => s.links);
+// Flatten sections for prev/next, then splice the install sub-pages in
+// between Installation and TypeScript so the chain reads:
+//   Introduction → Installation → Install in Next.js → … → Manual install → TypeScript → …
+const allLinks = (() => {
+  const flat = sections.flatMap((s) => s.links);
+  const installIdx = flat.findIndex((l) => l.href === '/react/installation/');
+  if (installIdx === -1) return [...flat, ...installSubpages];
+  return [
+    ...flat.slice(0, installIdx + 1),
+    ...installSubpages,
+    ...flat.slice(installIdx + 1),
+  ];
+})();
 
 function getNeighbors(currentPath: string) {
   const i = allLinks.findIndex((l) => l.href === currentPath);
