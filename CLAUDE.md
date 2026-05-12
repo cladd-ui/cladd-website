@@ -6,7 +6,7 @@ Documentation and marketing site for **cladd** — published at cladd.io (eventu
 
 cladd is an **opinionated React UI kit for building real apps, editors, and dashboards** — not a landing-page kit, not a headless primitives library.
 
-Don't describe it as "primitives", "unstyled", or "building blocks for your own design system". It is none of those. Closer in spirit to Mantine or Material UI than to Radix or Base UI — but more authored, with a defined visual identity (recessed/cut surfaces, subtle gradients, dark-first, lime accent baked in by default).
+Don't describe it as "primitives", "unstyled", or "building blocks for your own design system". It is none of those. Closer in spirit to Mantine or Material UI than to Radix or Base UI — but more authored, with a defined visual identity (recessed/cut surfaces, subtle gradients, dark-first, blue accent baked in by default).
 
 The core design principle: **dense but not crowded.** cladd targets information-rich UIs where you need a lot on screen and it has to stay legible. Editor sidebars, kanban boards, settings panels, design-tool inspectors. When writing copy, designing demos, or laying out pages on this site, embody that — pack the screen, but keep it breathable. The site itself should feel like a cladd app, not a sparse marketing page.
 
