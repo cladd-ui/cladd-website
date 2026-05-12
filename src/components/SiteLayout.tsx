@@ -72,10 +72,11 @@ export function SiteLayout({
           </Link>
           <nav className="ml-auto flex items-center gap-4 text-sm sm:gap-6">
             <Link className="hover:opacity-75" as={NextLink} href="/react/">
-              Docs
+              <span className="sm:hidden">Docs</span>
+              <span className="hidden sm:block">Documentation</span>
             </Link>
             <Link
-              className="hidden hover:opacity-75 sm:block"
+              className="xs:block hidden hover:opacity-75"
               as={NextLink}
               href="/react/components/button/"
             >
@@ -185,6 +186,15 @@ export function SiteLayout({
                     className="hover:text-cladd-fg"
                   >
                     Changelog
+                  </Link>
+                  <Link
+                    as="a"
+                    href="/llms.txt"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-cladd-fg"
+                  >
+                    llms.txt
                   </Link>
                   <Link
                     as="a"
