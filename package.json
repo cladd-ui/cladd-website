@@ -21,7 +21,7 @@
     "generate-llms-txt": "node scripts/generate-llms-txt.mjs"
   },
   "dependencies": {
-    "@cladd-ui/react": "^0.0.51",
+    "@cladd-ui/react": "^0.0.53",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.4",
