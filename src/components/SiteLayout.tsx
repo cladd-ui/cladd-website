@@ -2,8 +2,6 @@ import {
   Button,
   Link,
   SectionTitle,
-  Segmented,
-  SegmentedButton,
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
@@ -16,10 +14,8 @@ import { CladdLogo } from './CladdLogo';
 import { GithubIcon } from './icons/GithubIcon';
 import { LogoXIcon } from './icons/LogoXIcon';
 import { MoonIcon } from './icons/MoonIcon';
-import { MoonOutlineIcon } from './icons/MoonOutlineIcon';
 import { SidebarIcon } from './icons/SidebarIcon';
 import { SunIcon } from './icons/SunIcon';
-import { SunOutlineIcon } from './icons/SunOutlineIcon';
 import { SidebarProvider, useSidebar } from './SidebarContext';
 import { useThemeMode } from './ThemeMode';
 
@@ -49,7 +45,7 @@ export function SiteLayout({
   description,
   withSidebar,
 }: SiteLayoutProps) {
-  const { theme, setTheme, toggleTheme } = useThemeMode();
+  const { theme, toggleTheme } = useThemeMode();
   return (
     <SidebarProvider>
       <Head>
@@ -64,7 +60,7 @@ export function SiteLayout({
         <meta name="twitter:description" content={description} />
       </Head>
       <div className="flex min-h-screen flex-col">
-        <header className="flex h-14 items-center justify-start gap-4 border-b border-cladd-outline px-4 sm:px-6">
+        <header className="sticky top-0 z-11 flex h-14 items-center justify-start gap-4 border-b border-cladd-outline bg-cladd-bg px-4 sm:px-6">
           {withSidebar && <HeaderSidebarToggle />}
           <Link
             as={NextLink}
@@ -96,25 +92,9 @@ export function SiteLayout({
                 <GithubIcon />
               </ToolbarButton>
               <ToolbarSeparator />
-              <ToolbarButton onClick={toggleTheme} className="sm:hidden">
+              <ToolbarButton onClick={toggleTheme}>
                 {theme === 'light' ? <SunIcon /> : <MoonIcon />}
               </ToolbarButton>
-              <Segmented activeColor="neutral" className="hidden sm:flex">
-                <SegmentedButton
-                  active={theme === 'light'}
-                  onClick={() => setTheme('light')}
-                  aria-label="Light theme"
-                >
-                  {theme === 'light' ? <SunIcon /> : <SunOutlineIcon />}
-                </SegmentedButton>
-                <SegmentedButton
-                  active={theme === 'dark'}
-                  onClick={() => setTheme('dark')}
-                  aria-label="Dark theme"
-                >
-                  {theme === 'dark' ? <MoonIcon /> : <MoonOutlineIcon />}
-                </SegmentedButton>
-              </Segmented>
             </Toolbar>
           </nav>
         </header>
@@ -125,9 +105,7 @@ export function SiteLayout({
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-2 text-cladd-fg">
                   <CladdLogo className="size-8 rounded-lg border border-cladd-outline" />
-                  <span className="text-sm font-bold tracking-tight">
-                    cladd
-                  </span>
+                  <span className="text-sm font-semibold">cladd</span>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -169,10 +147,24 @@ export function SiteLayout({
                   </Link>
                   <Link
                     as={NextLink}
+                    href="/react/foundations/colors/"
+                    className="hover:text-cladd-fg"
+                  >
+                    Foundations
+                  </Link>
+                  <Link
+                    as={NextLink}
                     href="/react/components/button/"
                     className="hover:text-cladd-fg"
                   >
                     Components
+                  </Link>
+                  <Link
+                    as={NextLink}
+                    href="/react/hooks/use-theme/"
+                    className="hover:text-cladd-fg"
+                  >
+                    Hooks
                   </Link>
                 </div>
               </div>
@@ -262,6 +254,19 @@ export function SiteLayout({
                     loading="lazy"
                     src="/assets/products/logo-startpagehq.svg"
                     alt="Start Page HQ"
+                    className="inline-block size-6"
+                  />
+                </a>
+                <a
+                  title="Cladd - A React UI kit for building actual apps"
+                  href="https://cladd.io"
+                  target="_blank"
+                  className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0"
+                >
+                  <img
+                    loading="lazy"
+                    src="/logo-icon.svg"
+                    alt="Cladd - A React UI kit for building actual apps"
                     className="inline-block size-6"
                   />
                 </a>

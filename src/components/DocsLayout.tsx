@@ -78,6 +78,12 @@ function toKebab(s: string) {
     .toLowerCase();
 }
 
+const foundationsLinks: { label: string; href: string }[] = [
+  { label: 'Colors', href: '/react/foundations/colors/' },
+  { label: 'Surfaces', href: '/react/foundations/surfaces/' },
+  { label: 'Sizing', href: '/react/foundations/sizing/' },
+];
+
 const sections: { title: string; links: { label: string; href: string }[] }[] =
   [
     {
@@ -86,6 +92,10 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
         { label: 'Introduction', href: '/react/' },
         { label: 'Installation', href: '/react/installation/' },
       ],
+    },
+    {
+      title: 'Foundations',
+      links: foundationsLinks,
     },
     {
       title: 'Components',
@@ -317,7 +327,7 @@ function OnThisPage({ pageKey }: { pageKey: string }) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="sticky top-0 flex max-h-screen flex-col gap-2 overflow-auto px-2 py-12 text-sm">
+    <nav className="sticky top-14 flex max-h-[calc(100vh-56px)] flex-col gap-2 overflow-auto px-2 py-12 text-sm">
       <SectionTitle>On this page</SectionTitle>
       <ul className="flex flex-col">
         {headings.map((h) => (
@@ -375,7 +385,7 @@ function DocsLayoutContent({
         as="aside"
         outline
         variant="gradient"
-        className={`fixed top-2 bottom-2 left-2 z-10 max-h-screen w-60 rounded-3xl lg:sticky lg:top-0 lg:bottom-0 lg:left-0 lg:w-auto lg:translate-x-0 lg:shadow-none ${
+        className={`fixed top-2 bottom-2 left-2 z-11 max-h-[calc(100vh-56px)] w-60 rounded-3xl lg:sticky lg:top-14 lg:bottom-0 lg:left-0 lg:z-0 lg:w-auto lg:translate-x-0 lg:shadow-none ${
           animating ? 'transition-transform duration-400' : ''
         } ${
           open ? 'translate-x-0 shadow-cladd-popover' : 'translate-x-[-110%]'

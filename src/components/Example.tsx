@@ -1,4 +1,4 @@
-import { Button, cn, Surface } from '@cladd-ui/react';
+import { Button, cn, Surface, Toolbar, ToolbarButton } from '@cladd-ui/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 import { CheckIcon } from './icons/CheckIcon';
@@ -199,12 +199,14 @@ function ExampleCode({ code }: { code: string }) {
       </div>
 
       {collapsed && (
-        <Button
+        <Toolbar
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          onClick={() => setCollapsed(false)}
+          surfaceLevel={3}
         >
-          View Code
-        </Button>
+          <ToolbarButton onClick={() => setCollapsed(false)}>
+            View Code
+          </ToolbarButton>
+        </Toolbar>
       )}
       {!collapsed && (
         <Button
