@@ -1,0 +1,85 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import { UseDialogExample } from '@/components/examples/dialog';
+import UseDialogOptions from '@/generated/props/UseDialogOptions';
+import UseDialogConfirmOptions from '@/generated/props/UseDialogConfirmOptions';
+import UseDialogAlertOptions from '@/generated/props/UseDialogAlertOptions';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="useDialog — Cladd"
+    description="Imperative confirms and alerts fired from event handlers and callbacks."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# useDialog
+
+`useDialog()` is the imperative half of the [`Dialog`](/react/components/dialog/) API. Call it once in your component to get `{ confirm, alert }`, then fire either helper from any event handler, effect, or callback — no `DialogRoot`, no `Dialog` JSX, no `open` state to thread through. Both helpers render through the app-wide dialog portal mounted by [`CladdProvider`](/react/components/cladd-provider/).
+
+Reach for it when the trigger isn't an obvious button — a confirm at the tail of a network flow, an alert when an effect detects a stale tab, a destructive guard fired from a context menu — and writing JSX for the dialog just adds noise. For the compound / controlled JSX forms and the full prop reference, see the [`Dialog`](/react/components/dialog/) page.
+
+<UseDialogExample />
+
+## Usage
+
+```tsx
+import { Button, useDialog } from '@cladd-ui/react';
+
+function DeleteButton({ name }) {
+  const dialog = useDialog();
+  return (
+    <Button
+      color="red"
+      onClick={() =>
+        dialog.confirm({
+          title: `Delete ${name}?`,
+          text: 'This cannot be undone.',
+          confirmButtonText: 'Delete',
+          confirmButtonColor: 'red',
+          onConfirm: () => destroy(name),
+        })
+      }
+    >
+      Delete
+    </Button>
+  );
+}
+```
+
+`confirm()` builds the standard cancel + confirm row and accepts the same `requireConfirmText` guard as the JSX form for irreversible actions. `alert()` builds a single-button "Ok" dialog for fire-and-forget notices. Both forward the standard [`Dialog`](/react/components/dialog/) props (`title`, `text`, `requireConfirmText`, `confirmButtonColor`, callbacks, …).
+
+## Signature
+
+```ts
+function useDialog(options?: UseDialogOptions): {
+  confirm: (options: UseDialogConfirmOptions) => void;
+  alert: (options: UseDialogAlertOptions) => void;
+};
+```
+
+The hook itself is a thin wrapper over the portal queue mounted by [`CladdProvider`](/react/components/cladd-provider/) — calling it has no per-render cost, and the returned helpers are stable across renders.
+
+## API Reference
+
+### useDialog options
+
+<UseDialogOptions />
+
+### confirm() options
+
+Opens a dialog with the standard cancel + confirm row. Accepts the same `requireConfirmText` guard as the JSX form for destructive flows.
+
+<UseDialogConfirmOptions />
+
+### alert() options
+
+Opens a dialog with a single confirm button — the fire-and-forget "Ok" notice.
+
+<UseDialogAlertOptions />
+
+## Notes
+
+- **Needs `CladdProvider`.** The hook pushes onto the dialog portal mounted by the provider — calling it outside the provider is a no-op.
+- **One at a time.** The portal renders a single dialog instance. If you fire two `confirm()`s back-to-back, the second replaces the first; queue them yourself if you really need a chain.
+- **For the JSX form, see [`Dialog`](/react/components/dialog/).** Compound API, controlled mode, the `requireConfirmText` guard, the `buttons` slot, custom content — everything that takes more than `title` + `text` lives there.

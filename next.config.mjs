@@ -29,6 +29,7 @@ const withMDX = createMDX({
   options: {
     // Plugins are passed as module specifier strings so Turbopack can
     // serialize the loader options (Next 16 default bundler).
+    remarkPlugins: ['remark-gfm'],
     rehypePlugins: [
       'rehype-slug',
       ['rehype-autolink-headings', autolinkOptions],

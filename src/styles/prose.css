@@ -90,7 +90,7 @@
     @apply hover:underline;
   }
   a:not(.text-cladd-primary):not(.not-prose *) {
-    @apply underline hover:no-underline underline-offset-3 decoration-[0.5px];
+    @apply underline decoration-[0.5px] underline-offset-3 hover:no-underline;
   }
   a:not(.text-cladd-primary):not(.not-prose *):not(:has(code)) {
     @apply opacity-75;

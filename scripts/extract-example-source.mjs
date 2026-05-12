@@ -64,6 +64,26 @@ function extractExamples(source) {
 
     const openEnd = findOpenTagEnd(source, tagOpen + '<Example'.length);
     if (openEnd === -1) continue;
+
+    // Source-string override: `<Example source={SOME_CONST}>` where the
+    // referenced identifier is a top-level template-literal constant in the
+    // same file. Used when the runtime JSX can't express the snippet we want
+    // to show (e.g. hooks that need a helper component to read context, but
+    // whose docs read better with the helper inlined into the source).
+    const tagText = source.slice(tagOpen, openEnd + 1);
+    const overrideMatch = tagText.match(/\bsource=\{([A-Z][A-Z0-9_]*)\}/);
+    if (overrideMatch) {
+      const ident = overrideMatch[1];
+      const constRegex = new RegExp(
+        'const\\s+' + ident + '\\s*=\\s*`([\\s\\S]*?)`',
+      );
+      const constMatch = source.match(constRegex);
+      if (constMatch) {
+        result[fnName] = constMatch[1].trim();
+        continue;
+      }
+    }
+
     if (source[openEnd - 1] === '/') continue; // self-closing — no children
 
     const closeStart = findMatchingClose(source, openEnd + 1, 'Example');

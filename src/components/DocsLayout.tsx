@@ -62,6 +62,15 @@ const componentNames = [
   'CladdProvider',
 ];
 
+const hookNames = [
+  'useTheme',
+  'useAccentColor',
+  'useSurface',
+  'useDevice',
+  'useDialog',
+  'useToast',
+];
+
 function toKebab(s: string) {
   return s
     .replace(/([a-z\d])([A-Z])/g, '$1-$2')
@@ -83,6 +92,13 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
       links: componentNames.map((name) => ({
         label: name,
         href: `/react/components/${toKebab(name)}/`,
+      })),
+    },
+    {
+      title: 'Hooks',
+      links: hookNames.map((name) => ({
+        label: name,
+        href: `/react/hooks/${toKebab(name)}/`,
       })),
     },
   ];

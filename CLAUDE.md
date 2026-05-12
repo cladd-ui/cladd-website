@@ -55,6 +55,7 @@ next.config.mjs    output: 'export', MDX + rehype-pretty-code wiring.
 - **Trailing slashes everywhere** — `output: 'export'` requires `trailingSlash: true` to keep links working from the worker's static asset binding.
 - **2x-grid spacing.** For Tailwind `p-*`, `gap-*`, `m-*`, and other spacing-scale props, prefer powers-of-two values: `1`, `2`, `4`, `8`, `16`. Avoid odd intermediates like `3`, `5`, `6`, `7`, `10` unless there's a specific reason. Same goes for sizes (`size-*`, `w-*`, `h-*`).
 - **Cross-link component mentions in docs.** Whenever an MDX page mentions another cladd component by name — in prose or in a backtick code reference — link it to its docs page: `[`Toolbar`](/react/components/toolbar/)`, `[`Surface`](/react/components/surface/)`, etc. Path is always `/react/components/<kebab-name>/` (trailing slash required). Skip self-references (don't link `Surface` on the Surface page) and don't re-link every occurrence — the first mention per section is enough.
+- **Doc-page meta descriptions stay purpose-only.** The `description` passed to `DocsLayout` is a single short sentence about *what the thing is for*, not how it works. Don't mention `CladdProvider`, context, "published by", `useContext`, user-agent parsing, or other implementation details. Match the existing component-page style: "Compact label for tags, statuses, and inline metadata.", "Modal window for confirms, alerts, and short focused flows.", "Read whether the app is in dark or light mode."
 
 ## Commands
 
