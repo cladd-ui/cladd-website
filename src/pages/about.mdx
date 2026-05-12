@@ -1,0 +1,72 @@
+import { PageLayout } from '@/components/PageLayout';
+
+export default ({ children }) => (
+  <PageLayout
+    title="About — Cladd"
+    description="Why cladd exists, where it came from, and what it's trying to fix."
+  >
+    {children}
+  </PageLayout>
+);
+
+# About cladd
+
+Cladd is a React UI kit for building **actual apps** — editors, dashboards, design tools, internal tooling. The kind of UI where a sidebar, a canvas, an inspector, and forty controls have to coexist on one screen and still stay legible.
+
+That's the job. Most UI kits weren't designed for it.
+
+## What's wrong with what's out there
+
+Three things kept biting us, project after project.
+
+**Nesting falls apart.** Put a card inside a card inside a popover. Most kits hand you the same surface color at every level and call it a day. You end up writing one-off CSS to patch the contrast and praying nothing else changes.
+
+**Composition is heavy.** [shadcn](https://ui.shadcn.com) ships you a folder of components dripping with variants, classes, and conventions you didn't choose. Great for tweaking — exhausting for shipping. By the time you've rearranged a dozen files, you have a fork of something that started as a starter.
+
+**Overlays insist on a JSX tree.** [Radix](https://www.radix-ui.com) and [Base UI](https://base-ui.com) can be controlled externally, sure — but you still have to mount `<Root>`/`<Portal>`/`<Content>` somewhere in your component tree and thread anchor refs around to position anything. In a dense app you end up with overlay scaffolding sprinkled across files just to open a dialog from a hook. Cladd lets you call `useDialog()` and be done.
+
+We tried to live with it. Then we built our own.
+
+## Where cladd came from
+
+Cladd started as the internal UI inside **[t0ggles](https://t0ggles.com)** — our project management tool — about two years ago. We needed something dense, controllable, and fast to compose. So we built a surface-and-elevation system that auto-bumps levels when you nest things, a single sizing scale across every control, and overlays you can drive from anywhere.
+
+Composing complex views with it was a relief. We started thinking about open-sourcing it.
+
+Then **[PaneFlow](https://paneflow.com)** happened — a live animated-slideshow editor. We reached for the t0ggles UI, retuned the styling, and shipped. Then **[Start Page HQ](https://startpagehq.com)** — same kit, same speed, different brand. Then **[Swiper Studio](https://studio.swiperjs.com)** got a full rebuild on top of it, and it finally looked the way it always should have.
+
+Four production apps in, it stopped being "the t0ggles UI" and became its own thing. We named it cladd, polished the edges, and put it on npm.
+
+## What cladd believes
+
+**Dense, not crowded.** Information-rich UIs are the interesting ones. Cladd is tuned to pack the screen and still feel airy — tight gaps, sharp type, deliberate hierarchy.
+
+**Surfaces, not shadows.** Shadows everywhere read as noise. Flat cards read as nothing. Cladd uses recessed and raised surfaces — like physical cladding — that nest cleanly and tell you where you are in the hierarchy without a single drop shadow.
+
+**Dark-first.** After a decade of UI work, dark is still the easiest place to land high contrast in a dense layout. Cladd has a light theme too, but every decision starts in the dark.
+
+**Sizes that nest.** Each `size` token has two heights — a root height for full controls like Button and Input, and a nested height exactly 8 px shorter for inline ones like Chip, Shortcut, and Spinner. Put a Chip inside a Button at the same `size` and it just fits. No per-component math, no eyeballing the row.
+
+**Controlled, not just compound.** Every overlay — Dialog, Toast, Popover, Tooltip — can be driven imperatively, from anywhere. Open the same popover from three different buttons. Trigger a dialog from a hook. The compound API is there when you want it; it's not the only door.
+
+## Who's behind it
+
+Cladd is a solo project by **[nolimits4web](https://nolimits4web.com)** (Vladimir Kharlampidi) — the developer behind [Swiper](https://swiperjs.com), [Framework7](https://framework7.io), and [Konsta UI](https://konstaui.com). Shipping open-source UI libraries for over a decade.
+
+## License, and what's next
+
+Cladd is open source, **MIT, free forever**. Paid services or sponsorships may show up down the line — nothing planned, nothing gated.
+
+On the near horizon:
+
+- An **MCP server** for design tools — query cladd's design language directly from your editor or your agent.
+- **Sketch and Figma kits** so designers can compose in the same vocabulary engineers ship in.
+- A gallery of **example app shells** — Linear-style, Jira-style, Figma-style — built from cladd primitives. Not working apps; just proof you can compose them.
+
+## Why "cladd"
+
+From the English word _clad_ — covered, layered. Like solid clad kitchenware that lasts decades. The extra **d** is so it's ours.
+
+---
+
+Want to actually use it? **[Read the docs →](/react/)**

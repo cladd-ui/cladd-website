@@ -174,6 +174,13 @@ export function SiteLayout({
                 <div className="flex flex-col gap-2">
                   <Link
                     as={NextLink}
+                    href="/about/"
+                    className="hover:text-cladd-fg"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    as={NextLink}
                     href="/changelog/"
                     className="hover:text-cladd-fg"
                   >
