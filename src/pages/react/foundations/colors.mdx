@@ -61,9 +61,15 @@ This is the right approach for sections that should all share an accent: a "dang
 Each accent is one CSS rule that sets `--cladd-theme` to a hex seed:
 
 ```css
-.cladd-color-red    { --cladd-theme: #ff0b0b; }
-.cladd-color-lime   { --cladd-theme: #7dff0b; }
-.cladd-color-blue   { --cladd-theme: #0047ff; }
+.cladd-color-red {
+  --cladd-theme: #ff0b0b;
+}
+.cladd-color-lime {
+  --cladd-theme: #7dff0b;
+}
+.cladd-color-blue {
+  --cladd-theme: #0047ff;
+}
 /* …and so on for each accent */
 ```
 
@@ -99,9 +105,9 @@ The OKLCH derivations for `--cladd-primary` (the headline accent color used for 
 ```css
 :root {
   --cladd-dark-primary-lightness: 0.95;
-  --cladd-dark-primary-chroma:    0.18;
+  --cladd-dark-primary-chroma: 0.18;
   --cladd-light-primary-lightness: 0.5;
-  --cladd-light-primary-chroma:    0.18;
+  --cladd-light-primary-chroma: 0.18;
 }
 ```
 
@@ -117,13 +123,13 @@ Cladd exposes a four-step grayscale ramp for foreground text, plus one accent-aw
 
 <TextColorsExample />
 
-| Class | Use for |
-| --- | --- |
-| `text-cladd-fg` | Body text. Default for prose, labels, and most UI copy. |
-| `text-cladd-fg-soft` | Secondary copy. Captions, helper lines, value tags. |
-| `text-cladd-fg-softer` | Tertiary copy. Inactive labels, breadcrumbs, hints. |
-| `text-cladd-fg-softest` | The quietest tier. Placeholders, decorative metadata. |
-| `text-cladd-primary` | Accent-tinted text. Picks up the surrounding `cladd-color-{name}`. |
+| Class                   | Use for                                                            |
+| ----------------------- | ------------------------------------------------------------------ |
+| `text-cladd-fg`         | Body text. Default for prose, labels, and most UI copy.            |
+| `text-cladd-fg-soft`    | Secondary copy. Captions, helper lines, value tags.                |
+| `text-cladd-fg-softer`  | Tertiary copy. Inactive labels, breadcrumbs, hints.                |
+| `text-cladd-fg-softest` | The quietest tier. Placeholders, decorative metadata.              |
+| `text-cladd-primary`    | Accent-tinted text. Picks up the surrounding `cladd-color-{name}`. |
 
 The ramp shifts subtly across accents — on a tinted region the soft tiers pick up a hint of hue so they read against the matching surface. Same class names, automatically retuned.
 
@@ -143,12 +149,12 @@ The non-surface chrome tokens — the app background, the backdrop behind overla
 
 <BgAndOutlineExample />
 
-| Class | Use for |
-| --- | --- |
-| `bg-cladd-bg` | The root app background. The "page" color underneath all surfaces. |
-| `bg-cladd-backdrop` | The dimmed layer behind dialogs and popovers (`<Backdrop>` uses this). |
+| Class                     | Use for                                                                      |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `bg-cladd-bg`             | The root app background. The "page" color underneath all surfaces.           |
+| `bg-cladd-backdrop`       | The dimmed layer behind dialogs and popovers (`<Backdrop>` uses this).       |
 | `border-cladd-bg-outline` | 1px borders **on the page background** — slightly darker than `bg-cladd-bg`. |
-| `border-cladd-outline` | 1px borders **inside a surface** — adapts to the surface's level. |
+| `border-cladd-outline`    | 1px borders **inside a surface** — adapts to the surface's level.            |
 
 The two outline tokens look similar in isolation but behave differently in context: `border-cladd-bg-outline` is tuned against `bg-cladd-bg`; `border-cladd-outline` is recomputed for each surface level so an inner divider stays legible whether the surface is level 1 or level 5.
 

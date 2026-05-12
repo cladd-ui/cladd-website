@@ -145,13 +145,7 @@ export function SiteLayout({
                   >
                     Installation
                   </Link>
-                  <Link
-                    as={NextLink}
-                    href="/react/foundations/colors/"
-                    className="hover:text-cladd-fg"
-                  >
-                    Foundations
-                  </Link>
+
                   <Link
                     as={NextLink}
                     href="/react/components/button/"
@@ -161,10 +155,47 @@ export function SiteLayout({
                   </Link>
                   <Link
                     as={NextLink}
+                    href="/react/foundations/surfaces/"
+                    className="hover:text-cladd-fg"
+                  >
+                    Foundations
+                  </Link>
+                  <Link
+                    as={NextLink}
                     href="/react/hooks/use-theme/"
                     className="hover:text-cladd-fg"
                   >
                     Hooks
+                  </Link>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4 text-sm">
+                <SectionTitle>Project</SectionTitle>
+                <div className="flex flex-col gap-2">
+                  <Link
+                    as={NextLink}
+                    href="/changelog/"
+                    className="hover:text-cladd-fg"
+                  >
+                    Changelog
+                  </Link>
+                  <Link
+                    as="a"
+                    href="https://github.com/cladd-ui/cladd"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-cladd-fg"
+                  >
+                    GitHub
+                  </Link>
+                  <Link
+                    as="a"
+                    href="https://github.com/cladd-ui/cladd/blob/master/LICENSE"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-cladd-fg"
+                  >
+                    License
                   </Link>
                 </div>
               </div>

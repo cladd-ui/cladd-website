@@ -86,7 +86,7 @@ export function TuningExample() {
         <span className="w-32 text-xs text-cladd-fg-soft">Default</span>
         <Button>Primary</Button>
         <Chip outline>Tag</Chip>
-        <span className="text-cladd-primary text-sm font-semibold">
+        <span className="text-sm font-semibold text-cladd-primary">
           Primary text
         </span>
       </div>
@@ -104,7 +104,7 @@ export function TuningExample() {
         <span className="w-32 text-xs text-cladd-fg-soft">Tuned</span>
         <Button>Primary</Button>
         <Chip outline>Tag</Chip>
-        <span className="text-cladd-primary text-sm font-semibold">
+        <span className="text-sm font-semibold text-cladd-primary">
           Primary text
         </span>
       </div>
@@ -186,8 +186,8 @@ export function BgAndOutlineExample() {
       source={EXAMPLE_SOURCE.BgAndOutlineExample}
       previewClassName="flex-col gap-3 content-center"
     >
-      <div className="bg-cladd-bg flex items-center gap-2 rounded-cladd-md border border-cladd-bg-outline px-3 py-2">
-        <span className="text-xs font-mono text-cladd-fg-softer">
+      <div className="flex items-center gap-2 rounded-cladd-md border border-cladd-bg-outline bg-cladd-bg px-3 py-2">
+        <span className="font-mono text-xs text-cladd-fg-softer">
           bg-cladd-bg + border-cladd-bg-outline
         </span>
       </div>
@@ -197,7 +197,7 @@ export function BgAndOutlineExample() {
         className="rounded-cladd-md"
         contentClassName="px-3 py-2 flex flex-col gap-2"
       >
-        <span className="text-xs font-mono text-cladd-fg-softer">
+        <span className="font-mono text-xs text-cladd-fg-softer">
           Inside a Surface
         </span>
         <div className="rounded-cladd-sm border border-cladd-outline px-2 py-1 text-xs">
@@ -224,11 +224,11 @@ export function FgRampAcrossAccentsExample() {
             key={color}
             className={`cladd-color-${color} flex flex-col gap-1 rounded-cladd-md bg-cladd-surface px-2 py-2`}
           >
-            <span className="text-cladd-fg text-xs font-semibold">{color}</span>
-            <span className="text-cladd-fg-soft text-xs">soft</span>
-            <span className="text-cladd-fg-softer text-xs">softer</span>
-            <span className="text-cladd-fg-softest text-xs">softest</span>
-            <span className="text-cladd-primary text-xs font-semibold">
+            <span className="text-xs font-semibold text-cladd-fg">{color}</span>
+            <span className="text-xs text-cladd-fg-soft">soft</span>
+            <span className="text-xs text-cladd-fg-softer">softer</span>
+            <span className="text-xs text-cladd-fg-softest">softest</span>
+            <span className="text-xs font-semibold text-cladd-primary">
               primary
             </span>
           </div>

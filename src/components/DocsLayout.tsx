@@ -79,8 +79,8 @@ function toKebab(s: string) {
 }
 
 const foundationsLinks: { label: string; href: string }[] = [
-  { label: 'Colors', href: '/react/foundations/colors/' },
   { label: 'Surfaces', href: '/react/foundations/surfaces/' },
+  { label: 'Colors', href: '/react/foundations/colors/' },
   { label: 'Sizing', href: '/react/foundations/sizing/' },
 ];
 
@@ -93,10 +93,7 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
         { label: 'Installation', href: '/react/installation/' },
       ],
     },
-    {
-      title: 'Foundations',
-      links: foundationsLinks,
-    },
+
     {
       title: 'Components',
       links: componentNames.map((name) => ({
@@ -110,6 +107,10 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
         label: name,
         href: `/react/hooks/${toKebab(name)}/`,
       })),
+    },
+    {
+      title: 'Foundations',
+      links: foundationsLinks,
     },
   ];
 
