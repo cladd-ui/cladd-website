@@ -689,7 +689,7 @@ export function DesignToolDemo() {
       {/* Status bar */}
       <div className="relative flex h-8 items-center justify-between border-t border-cladd-outline px-3 text-xs text-cladd-fg-softer">
         <span className="flex items-center gap-2">
-          <span className="cladd-color-green inline-block size-3 rounded-full bg-cladd-primary" />
+          <span className="cladd-color-green inline-block size-2 rounded-full bg-cladd-primary" />
           Auto-saved
         </span>
         <span className="hidden items-center gap-2 md:flex">
