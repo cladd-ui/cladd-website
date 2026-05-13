@@ -22,10 +22,7 @@ export function MarketingKicker({
   );
 }
 
-export function MarketingTitle({
-  children,
-  className,
-}: MarketingHeadingProps) {
+export function MarketingTitle({ children, className }: MarketingHeadingProps) {
   return (
     <h2
       className={cn(

@@ -44,7 +44,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
     <div className="relative size-24 overflow-hidden rounded-cladd-md bg-cladd-surface-minus ring-1 ring-cladd-outline" />
   ),
   Button: () => <Button readOnly>Save</Button>,
-  Checkbox: () => <Checkbox defaultChecked readOnly />,
+  Checkbox: () => <Checkbox checked readOnly />,
   Chip: () => (
     <Chip color="blue" outline>
       Draft
@@ -138,7 +138,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       </Surface>
     </div>
   ),
-  Radio: () => <Radio defaultChecked readOnly />,
+  Radio: () => <Radio checked readOnly />,
   SearchField: () => (
     <SearchField placeholder="Search…" size="lg" inset className="w-32" />
   ),
@@ -175,7 +175,11 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       className="rounded-cladd-2xl"
       contentClassName="flex items-center justify-center p-4"
     >
-      <Surface outline className="rounded-cladd-xl" contentClassName="px-8 py-4">
+      <Surface
+        outline
+        className="rounded-cladd-xl"
+        contentClassName="px-8 py-4"
+      >
         <span className="flex w-12 justify-center font-mono text-xs whitespace-nowrap text-cladd-fg-soft">
           level 2
         </span>

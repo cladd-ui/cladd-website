@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CodePreviewPairs } from '@/components/home/CodePreviewPairs';
 import { ComponentCatalog } from '@/components/home/ComponentCatalog';
 import { InstallCTA } from '@/components/home/InstallCTA';
+import { IsCladdForYou } from '@/components/home/IsCladdForYou';
 import { LatestReleasePill } from '@/components/home/LatestReleasePill';
 import { PitchGrid } from '@/components/home/PitchGrid';
 import { ProductsStrip } from '@/components/home/ProductsStrip';
@@ -108,6 +109,8 @@ export default function HomePage() {
       <CodePreviewPairs />
 
       <ComponentCatalog />
+
+      <IsCladdForYou />
 
       <InstallCTA />
     </SiteLayout>
