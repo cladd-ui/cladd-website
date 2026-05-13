@@ -42,6 +42,25 @@ When writing cladd code:
   render the icon as a child: \`<Button><PlusIcon />Add</Button>\`.
   Doc examples reference \`PlusIcon\` / \`CheckIcon\` as placeholders —
   they are not a specific package; substitute the host project's icons.
+- Never reinvent primitives with styled divs: a row of buttons is a
+  \`Toolbar\`, a tag is a \`Chip\`, a vertical menu is a \`List\` (with
+  \`ListButton\`), a kbd glyph is a \`Shortcut\`, a panel or card is a
+  \`Surface\`. If you reach for
+  \`<div className="bg-cladd-surface border rounded-*">\`, you wanted
+  a \`Surface\`.
+- \`SurfaceCut\` never nests inside another \`SurfaceCut\` — recessed-
+  on-recessed produces no visible depth and reads as broken. To lift
+  a panel above a recessed parent, use \`surfaceLevel="+1"\` on a
+  regular \`Surface\`, not another cut.
+- Don't override heights with \`h-*\` / \`size-*\` Tailwind utilities
+  on sized cladd components. The component already honours \`size\`
+  through \`h-cladd-*\` classes; stacking \`h-7\` on top fights the
+  scale and breaks the nesting math.
+- One accent per row. Pick one app accent (\`brand\`), plus at most
+  one semantic accent on the loud action (a green \`Publish\`, a red
+  \`Delete\`). Three accents in a single toolbar reads as generic.
+- For the full kit-wide anti-pattern list, read
+  \`get_foundation('pitfalls')\`.
 
 Tools exposed here:
 - \`list_components\` — directory of all components, foundations, and hooks
@@ -49,7 +68,7 @@ Tools exposed here:
 - \`get_component(slug)\` — full Markdown reference for one component:
   prose, every example's code, props table, and screenshot URLs.
 - \`get_foundation(slug)\` — same shape for the foundation pages
-  (\`quickstart\`, \`surfaces\`, \`colors\`, \`sizing\`).
+  (\`quickstart\`, \`surfaces\`, \`colors\`, \`sizing\`, \`pitfalls\`).
 - \`get_hook(slug)\` — same shape for the six hooks (\`use-dialog\`,
   \`use-toast\`, \`use-theme\`, \`use-surface\`, \`use-device\`,
   \`use-accent-color\`).
@@ -109,15 +128,15 @@ const tools: Tool[] = [
   {
     name: 'get_foundation',
     description:
-      'Return the full Markdown reference for one of the cladd foundation pages. These cover concepts that touch every component — read them early when generating non-trivial cladd code. For a new app, start with "quickstart".',
+      'Return the full Markdown reference for one of the cladd foundation pages. These cover concepts that touch every component — read them early when generating non-trivial cladd code. For a new app, start with "quickstart"; before shipping non-trivial output, read "pitfalls".',
     inputSchema: {
       type: 'object',
       properties: {
         slug: {
           type: 'string',
-          enum: ['quickstart', 'surfaces', 'colors', 'sizing'],
+          enum: ['quickstart', 'surfaces', 'colors', 'sizing', 'pitfalls'],
           description:
-            'Foundation slug: "quickstart" (CladdProvider + minimum app shell + primitive-vs-div mapping — read this first for a new app), "surfaces" (depth model, levels, tokens), "colors" (accent palette, text shades, OKLCH retuning), or "sizing" (2xs→2xl scale, density rules).',
+            'Foundation slug: "quickstart" (CladdProvider + minimum app shell + primitive-vs-div mapping — read this first for a new app), "surfaces" (depth model, levels, tokens), "colors" (accent palette, text shades, OKLCH retuning), "sizing" (2xs→2xl scale, density rules), or "pitfalls" (kit-wide anti-patterns and what to reach for instead).',
         },
       },
       required: ['slug'],

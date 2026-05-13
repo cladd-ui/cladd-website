@@ -56,6 +56,7 @@ const foundationsLinks: { label: string; href: string }[] = [
   { label: 'Surfaces', href: '/react/foundations/surfaces/' },
   { label: 'Colors', href: '/react/foundations/colors/' },
   { label: 'Sizing', href: '/react/foundations/sizing/' },
+  { label: 'Pitfalls', href: '/react/foundations/pitfalls/' },
 ];
 
 // Per-framework install guides. Reached via the cards on /react/installation/
