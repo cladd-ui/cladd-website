@@ -81,21 +81,21 @@ function SurfacesPreview() {
     <Surface
       level={2}
       outline
-      className="w-full max-w-sm rounded-cladd-lg"
+      className="w-full max-w-sm rounded-cladd-2xl"
       contentClassName="flex flex-col gap-2 p-4"
     >
       <span className="text-xs text-cladd-fg-soft">level 2</span>
       <Surface
         outline
-        className="rounded-cladd-md"
+        className="rounded-cladd-xl"
         contentClassName="flex flex-col gap-2 p-4"
       >
         <span className="text-xs text-cladd-fg-soft">level 3</span>
-        <Surface outline className="rounded-cladd-md" contentClassName="p-4">
+        <Surface outline className="rounded-cladd-lg" contentClassName="p-4">
           <span className="text-xs text-cladd-fg-soft">level 4</span>
         </Surface>
       </Surface>
-      <SurfaceCut outline className="rounded-cladd-md" contentClassName="p-4">
+      <SurfaceCut outline className="rounded-cladd-xl" contentClassName="p-4">
         <span className="text-xs text-cladd-fg-soft">recessed cut</span>
       </SurfaceCut>
     </Surface>
@@ -296,7 +296,7 @@ export function PitchGrid() {
         <Panel
           title="App-grade controls"
           pitch="The boring app-shell parts ship in the box — Toolbar, Segmented, Select, NumberField, Shortcut. Wire them up, ship faster."
-          docHref="/react/components/toolbar/"
+          docHref="/react/components/button/"
           docLabel="Components"
         >
           <ControlsPreview />

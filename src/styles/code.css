@@ -36,7 +36,7 @@
 /* Lines: each one is a span with `data-line`. Scoped to <pre> so the
  * `display: block` doesn't leak onto inline code spans. */
 pre [data-line] {
-  @apply block min-h-[1lh] px-0;
+  @apply block min-h-[1lh] px-4;
 }
 
 pre code[data-line-numbers] {

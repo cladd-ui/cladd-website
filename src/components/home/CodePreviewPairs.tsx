@@ -106,7 +106,7 @@ function CodeBlock({ code }: { code: string }) {
       {html ? (
         <div
           tabIndex={-1}
-          className="overflow-x-auto px-8 py-6 text-[13px] leading-relaxed [&_pre]:bg-transparent [&_pre]:font-mono"
+          className="no-scrollbar overflow-x-auto px-4 py-6 text-[13px] leading-relaxed [&_pre]:bg-transparent [&_pre]:font-mono"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       ) : (
