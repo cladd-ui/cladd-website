@@ -1,0 +1,152 @@
+import { PageLayout } from '@/components/PageLayout';
+
+export default ({ children }) => (
+  <PageLayout
+    title="MCP Server — Cladd"
+    description="Cladd's official MCP server. Connect Claude Code, Cursor, Claude Desktop, or any MCP-capable agent to give it real-time, cladd-aware knowledge of every component, foundation, and hook — with screenshots."
+  >
+    {children}
+  </PageLayout>
+);
+
+# MCP server
+
+Cladd ships an official **MCP server** at `https://cladd.io/mcp`. Connect it to any MCP-capable AI agent — [Claude Code](https://www.anthropic.com/claude-code), Cursor, Claude Desktop, Windsurf, Zed — and the agent gets the full docs at its fingertips: every component, foundation, and hook, with code examples, props tables, and inline screenshot URLs so it can actually _see_ what a component looks like before generating layout code.
+
+This is the difference between an agent that knows _about_ cladd from training data and one that knows what cladd _is right now_ — the current API, the current visual identity, the conventions that make generated code feel native instead of generic.
+
+## Installation
+
+### Claude Code
+
+```bash
+claude mcp add --transport http cladd https://cladd.io/mcp
+```
+
+That's it. Open a new session and the cladd tools will be available.
+
+### Cursor
+
+Edit `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` in your project, and add:
+
+```json
+{
+  "mcpServers": {
+    "cladd": {
+      "url": "https://cladd.io/mcp"
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+Edit `claude_desktop_config.json` (Settings → Developer → Edit Config) and add the same entry:
+
+```json
+{
+  "mcpServers": {
+    "cladd": {
+      "url": "https://cladd.io/mcp"
+    }
+  }
+}
+```
+
+### Codex (OpenAI)
+
+The [Codex CLI](https://developers.openai.com/codex/mcp/) and the Codex IDE extension share one config. Add via CLI:
+
+```bash
+codex mcp add cladd --url https://cladd.io/mcp
+```
+
+Or edit `~/.codex/config.toml` directly (in the IDE extension: gear icon → MCP settings → Open config.toml):
+
+```toml
+[mcp_servers.cladd]
+url = "https://cladd.io/mcp"
+```
+
+In the Codex TUI, run `/mcp` to see active servers. To temporarily disable without removing the entry, add `enabled = false`.
+
+### OpenCode
+
+[OpenCode](https://opencode.ai/docs/mcp-servers/) supports remote MCP servers. Edit `opencode.jsonc` or `opencode.json` and add cladd under `mcp`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "cladd": {
+      "type": "remote",
+      "url": "https://cladd.io/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+Flip `enabled` to `false` to keep the entry but turn the server off.
+
+### Other clients
+
+Any MCP-capable client with HTTP transport support works the same way — point it at `https://cladd.io/mcp` and you're done. Stdio-only clients aren't supported; this is a hosted, multi-tenant server with no local install.
+
+## Available tools
+
+| Tool | Purpose |
+| --- | --- |
+| `list_components` | Flat directory of every cladd component, foundation, and hook with one-line descriptions. Optional `kind` filter. The cheapest way for an agent to discover what's available. |
+| `get_component(slug)` | Full Markdown reference for one component — prose, every example's code, the typed props table, and an inline screenshot URL for each example. |
+| `get_foundation(slug)` | Same shape for the three foundation pages: `surfaces`, `colors`, `sizing`. The conventions that touch every component. |
+| `get_hook(slug)` | Same shape for the six hooks: `use-dialog`, `use-toast`, `use-theme`, `use-surface`, `use-device`, `use-accent-color`. |
+| `search(query)` | Substring search across the catalog by name, slug, and description. Multi-word queries require every word to match. Optional `kind` filter. |
+
+On connect, the server returns a short `instructions` blob with the cladd rules — real primitives over hand-rolled CSS, the canonical Tailwind tokens, the size-scale nesting rule, the "consult the screenshot if unsure" guidance — so the agent has the right defaults before it makes its first tool call.
+
+## How it answers
+
+Every component / foundation / hook is served as the same Markdown file the docs site ships at `/react/...md`, with one addition: each example carries an inline screenshot link.
+
+````markdown
+### Sizes
+
+`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. …
+
+![Size](https://cladd.io/screenshots/components/button/size.png)
+
+```tsx
+<Button size={size} color="brand">
+  Save changes
+</Button>
+```
+````
+
+Agents that fetch the image (most do, when prompted by the server's instructions) get the visual context. Agents that don't still get full prose + code + props — strictly more than they had before.
+
+## Endpoint
+
+The server speaks JSON-RPC 2.0 over HTTP at:
+
+```
+POST https://cladd.io/mcp
+```
+
+You can poke it directly:
+
+```bash
+curl -X POST https://cladd.io/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Health check:
+
+```bash
+curl https://cladd.io/mcp/health
+```
+
+## Source
+
+The server is implemented as a Hono Worker living alongside this site — same repo, same deploy. Source at [`cladd-ui/cladd-website`](https://github.com/cladd-ui/cladd-website) under `src/worker/mcp/`.

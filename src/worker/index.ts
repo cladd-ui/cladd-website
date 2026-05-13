@@ -1,9 +1,14 @@
 import { Hono } from 'hono';
+import { mcpApp } from './mcp';
 
 const app = new Hono<{ Bindings: Env }>();
 
-// Placeholder for the MCP server we will mount under /api later.
 app.get('/api/health', (c) => c.json({ ok: true }));
+
+// MCP server — JSON-RPC at /mcp. The docs page for the server lives at
+// the same path (static export at /mcp/index.html); see src/worker/mcp/index.ts
+// for how GET / forwards to ASSETS so the page still serves.
+app.route('/mcp', mcpApp);
 
 // Everything else falls through to the static export served by Workers Assets.
 // The ASSETS binding labels .md and .txt files without a charset, which makes

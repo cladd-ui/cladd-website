@@ -190,6 +190,13 @@ export function SiteLayout({
                     Changelog
                   </Link>
                   <Link
+                    as={NextLink}
+                    href="/mcp/"
+                    className="hover:text-cladd-fg"
+                  >
+                    MCP server
+                  </Link>
+                  <Link
                     as="a"
                     href="/llms.txt"
                     target="_blank"
