@@ -52,6 +52,7 @@ function toKebab(s: string) {
 }
 
 const foundationsLinks: { label: string; href: string }[] = [
+  { label: 'Quickstart', href: '/react/foundations/quickstart/' },
   { label: 'Surfaces', href: '/react/foundations/surfaces/' },
   { label: 'Colors', href: '/react/foundations/colors/' },
   { label: 'Sizing', href: '/react/foundations/sizing/' },
