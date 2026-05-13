@@ -10,7 +10,9 @@
 //      DocsLayout wrapper.
 //   2. Replace each self-closing <XxxExample /> with a ```tsx fence sourced
 //      from src/generated/example-source/<name>.ts (the same string Example.tsx
-//      shows in the live page).
+//      shows in the live page). When a matching screenshot exists under
+//      public/screenshots/, prepend an ![] image link pointing at the hosted
+//      asset URL so agents can see the example without fetching every page.
 //   3. Replace each self-closing <XxxProps /> with a Markdown props table
 //      built from src/generated/props/<XxxProps>.tsx (the `data` array).
 //
@@ -34,6 +36,7 @@ const pagesRoot = resolve(projectRoot, 'src/pages/react');
 const exampleSourceDir = resolve(projectRoot, 'src/generated/example-source');
 const propsDir = resolve(projectRoot, 'src/generated/props');
 const outRoot = resolve(projectRoot, 'public/react');
+const screenshotsRoot = resolve(projectRoot, 'public/screenshots');
 
 // Public site origin used to build absolute URLs in the YAML frontmatter.
 const SITE_ORIGIN = 'https://cladd.io';
@@ -101,12 +104,48 @@ function shouldSkip(raw) {
 
 function convertMdx(mdxPath, raw) {
   const { body, imports, meta } = stripHeader(raw, mdxPath);
-  const replacements = buildReplacements(imports);
+  const screenshots = collectScreenshots(mdxPath, imports.examples);
+  const replacements = buildReplacements(imports, screenshots);
   const md = rewriteJsx(body, replacements, imports.knownButMissing)
     .replace(/\n{3,}/g, '\n\n')
     .trimEnd();
   const frontmatter = renderFrontmatter(meta, mdxPath, md);
   return frontmatter + md + '\n';
+}
+
+// Map each example component name on this page to the URL of its prebuilt
+// screenshot, if one exists under public/screenshots/<section>/<slug>/. The
+// route prefix is derived from the .mdx path (e.g. components/button), which
+// matches the on-disk layout the screenshot script writes to.
+function collectScreenshots(mdxPath, examples) {
+  const rel = relative(pagesRoot, mdxPath).replace(/\.mdx$/, '');
+  const dir = join(screenshotsRoot, rel);
+  if (!existsSync(dir)) return new Map();
+  const urlBase = `${SITE_ORIGIN}/screenshots/${rel}/`;
+  const out = new Map();
+  for (const name of examples.keys()) {
+    const file = `${exampleNameToSlug(name)}.png`;
+    if (existsSync(join(dir, file))) out.set(name, urlBase + file);
+  }
+  return out;
+}
+
+// SizeExample → size, WithSpinnerExample → with-spinner. Mirrors the same
+// helper in scripts/screenshot-examples.mjs.
+function exampleNameToSlug(name) {
+  return name
+    .replace(/Example$/, '')
+    .replace(/([a-z\d])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+// `SizeExample` → `Size`, `WithSpinnerExample` → `With spinner`. Used as the
+// image alt text — short, readable, derived from the same source as the URL.
+function exampleNameToAlt(name) {
+  const slug = exampleNameToSlug(name);
+  if (!slug) return 'Example';
+  return slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
 }
 
 // Slice off everything up to the first Markdown heading (`# …`). That leaves
@@ -240,10 +279,15 @@ function parseImports(header, mdxPath) {
   return { examples, props, knownButMissing };
 }
 
-function buildReplacements({ examples, props }) {
+function buildReplacements({ examples, props }, screenshots) {
   const map = new Map();
   for (const [name, code] of examples) {
-    map.set(name, '```tsx\n' + code + '\n```');
+    const fence = '```tsx\n' + code + '\n```';
+    const url = screenshots.get(name);
+    map.set(
+      name,
+      url ? `![${exampleNameToAlt(name)}](${url})\n\n${fence}` : fence,
+    );
   }
   for (const [name, table] of props) {
     map.set(name, table);
