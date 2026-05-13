@@ -27,9 +27,21 @@ When writing cladd code:
   \`Chip\` / \`Shortcut\` / \`Spinner\` is only 8 px tall, which is
   unreadable as a standalone control. Never pick \`2xs\` or \`xs\` for
   a chip, shortcut, or button that stands on its own row.
-- Read \`get_foundation('surfaces')\` and \`get_foundation('sizing')\`
-  early — they encode the conventions that make cladd code feel native
-  vs generic.
+- For a new cladd app (or when you're new to the kit), the first call
+  should be \`get_foundation('quickstart')\` — it shows the minimum
+  app shell (\`CladdProvider\` + \`Toolbar\` + sidebar \`List\` + content
+  \`Surface\`) and the "reach for primitives, not divs" mapping. Read
+  \`get_foundation('surfaces')\` and \`get_foundation('sizing')\` next —
+  they encode the conventions that make cladd code feel native vs.
+  generic.
+- Icons: cladd is icon-agnostic — it ships no icon set. Use the host
+  project's existing icon library (e.g. \`lucide-react\`,
+  \`@heroicons/react\`, custom SVG components). Where a component takes
+  an explicit \`icon\` prop (e.g. \`Chip\`), pass the component itself:
+  \`icon={CheckIcon}\`. Elsewhere (\`Button\`, \`Toolbar\` items),
+  render the icon as a child: \`<Button><PlusIcon />Add</Button>\`.
+  Doc examples reference \`PlusIcon\` / \`CheckIcon\` as placeholders —
+  they are not a specific package; substitute the host project's icons.
 
 Tools exposed here:
 - \`list_components\` — directory of all components, foundations, and hooks
@@ -37,19 +49,28 @@ Tools exposed here:
 - \`get_component(slug)\` — full Markdown reference for one component:
   prose, every example's code, props table, and screenshot URLs.
 - \`get_foundation(slug)\` — same shape for the foundation pages
-  (\`surfaces\`, \`colors\`, \`sizing\`).
+  (\`quickstart\`, \`surfaces\`, \`colors\`, \`sizing\`).
 - \`get_hook(slug)\` — same shape for the six hooks (\`use-dialog\`,
   \`use-toast\`, \`use-theme\`, \`use-surface\`, \`use-device\`,
   \`use-accent-color\`).
 - \`search(query)\` — substring search across the catalog when the slug
   isn't obvious.
 
-Each example in a doc carries an inline screenshot URL
-(\`https://cladd.io/screenshots/<section>/<slug>/<example>.png\`). If you
-are unsure how a component looks in practice, fetch the screenshot before
-committing to a layout — cladd has a defined visual identity (recessed
+Visuals are first-class — cladd has a defined visual identity (recessed
 surfaces, subtle gradients, accent rings) that is easy to misread from
-prop names alone.`;
+prop names alone, and visually-generic output is the failure mode this
+kit cares most about.
+
+\`get_component\` and \`get_foundation\` responses include the doc's
+overview screenshot as an inline image content block. Look at it before
+committing to a layout — the visual is the spec, not the prop names.
+Each example in the markdown also carries its own screenshot URL
+(\`https://cladd.io/screenshots/<section>/<slug>/<example>.png\`); fetch
+those for any non-trivial composition, when picking between variants
+(e.g. \`solid\` vs \`gradient\` vs \`transparent\`), or whenever the
+prop table alone leaves ambiguity. Generating cladd UI without
+consulting the screenshots almost always produces structurally correct
+code that looks generic.`;
 
 const tools: Tool[] = [
   {
@@ -88,15 +109,15 @@ const tools: Tool[] = [
   {
     name: 'get_foundation',
     description:
-      'Return the full Markdown reference for one of the three cladd foundation pages. These cover concepts that touch every component — read them early when generating non-trivial cladd code.',
+      'Return the full Markdown reference for one of the cladd foundation pages. These cover concepts that touch every component — read them early when generating non-trivial cladd code. For a new app, start with "quickstart".',
     inputSchema: {
       type: 'object',
       properties: {
         slug: {
           type: 'string',
-          enum: ['surfaces', 'colors', 'sizing'],
+          enum: ['quickstart', 'surfaces', 'colors', 'sizing'],
           description:
-            'Foundation slug: "surfaces" (depth model, levels, tokens), "colors" (accent palette, text shades, OKLCH retuning), or "sizing" (2xs→2xl scale, density rules).',
+            'Foundation slug: "quickstart" (CladdProvider + minimum app shell + primitive-vs-div mapping — read this first for a new app), "surfaces" (depth model, levels, tokens), "colors" (accent palette, text shades, OKLCH retuning), or "sizing" (2xs→2xl scale, density rules).',
         },
       },
       required: ['slug'],

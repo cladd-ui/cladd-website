@@ -81,10 +81,11 @@ export interface ToolCallParams {
   arguments?: unknown;
 }
 
+export type ToolContent =
+  | { type: 'text'; text: string }
+  | { type: 'image'; data: string; mimeType: string };
+
 export interface ToolCallResult {
-  content: Array<{
-    type: 'text';
-    text: string;
-  }>;
+  content: ToolContent[];
   isError?: boolean;
 }
