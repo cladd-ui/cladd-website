@@ -20,8 +20,7 @@ export function LatestReleasePill() {
     <Link
       as={NextLink}
       href="/changelog/"
-      className="flex items-center gap-2 hover:opacity-75"
-      color="brand"
+      className="flex items-center gap-2 text-cladd-fg-soft hover:opacity-75"
     >
       <span>v{latestRelease.version}</span>
       <span className="text-cladd-fg-softer">released</span>
