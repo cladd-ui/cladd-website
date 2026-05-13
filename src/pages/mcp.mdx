@@ -95,13 +95,13 @@ Any MCP-capable client with HTTP transport support works the same way — point 
 
 ## Available tools
 
-| Tool | Purpose |
-| --- | --- |
-| `list_components` | Flat directory of every cladd component, foundation, and hook with one-line descriptions. Optional `kind` filter. The cheapest way for an agent to discover what's available. |
-| `get_component(slug)` | Full Markdown reference for one component — prose, every example's code, the typed props table, and an inline screenshot URL for each example. |
-| `get_foundation(slug)` | Same shape for the three foundation pages: `surfaces`, `colors`, `sizing`. The conventions that touch every component. |
-| `get_hook(slug)` | Same shape for the six hooks: `use-dialog`, `use-toast`, `use-theme`, `use-surface`, `use-device`, `use-accent-color`. |
-| `search(query)` | Substring search across the catalog by name, slug, and description. Multi-word queries require every word to match. Optional `kind` filter. |
+| Tool                   | Purpose                                                                                                                                                                       |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `list_components`      | Flat directory of every cladd component, foundation, and hook with one-line descriptions. Optional `kind` filter. The cheapest way for an agent to discover what's available. |
+| `get_component(slug)`  | Full Markdown reference for one component — prose, every example's code, the typed props table, and an inline screenshot URL for each example.                                |
+| `get_foundation(slug)` | Same shape for the three foundation pages: `surfaces`, `colors`, `sizing`. The conventions that touch every component.                                                        |
+| `get_hook(slug)`       | Same shape for the six hooks: `use-dialog`, `use-toast`, `use-theme`, `use-surface`, `use-device`, `use-accent-color`.                                                        |
+| `search(query)`        | Substring search across the catalog by name, slug, and description. Multi-word queries require every word to match. Optional `kind` filter.                                   |
 
 On connect, the server returns a short `instructions` blob with the cladd rules — real primitives over hand-rolled CSS, the canonical Tailwind tokens, the size-scale nesting rule, the "consult the screenshot if unsure" guidance — so the agent has the right defaults before it makes its first tool call.
 

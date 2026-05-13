@@ -22,10 +22,11 @@
 //
 // Override the origin with SCREENSHOT_BASE_URL (default http://localhost:3000).
 
-import { chromium } from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { chromium } from 'playwright';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -187,7 +188,9 @@ async function main() {
   }
 
   const totalExamples = pages.reduce((n, p) => n + p.examples.length, 0);
-  const filterMsg = filterSet ? ` (filtered to ${[...filterSet].join(', ')})` : '';
+  const filterMsg = filterSet
+    ? ` (filtered to ${[...filterSet].join(', ')})`
+    : '';
   console.log(
     `Found ${pages.length} page(s), ${totalExamples} example(s)${filterMsg}. Launching browser…`,
   );
@@ -205,7 +208,9 @@ async function main() {
   const warnings = [];
 
   for (const p of pages) {
-    process.stdout.write(`→ ${p.section}/${p.slug}${p.clickMode ? ' [click]' : ''} `);
+    process.stdout.write(
+      `→ ${p.section}/${p.slug}${p.clickMode ? ' [click]' : ''} `,
+    );
     await page.setViewportSize(
       p.clickMode ? CLICK_MODE_VIEWPORT : DEFAULT_VIEWPORT,
     );
@@ -241,9 +246,7 @@ async function main() {
           try {
             await gotoAndReady(page, p.url);
           } catch (err) {
-            warnings.push(
-              `${p.slug}/${name}: reload failed — ${err.message}`,
-            );
+            warnings.push(`${p.slug}/${name}: reload failed — ${err.message}`);
             continue;
           }
         }

@@ -1,8 +1,14 @@
-// Shared fetcher for the three get_* tools. Pulls the prebuilt Markdown
-// twin from the ASSETS binding — the same file a browser would receive
-// when hitting /react/<section>/<slug>.md — and, when available, attaches
-// the doc's first ("overview") screenshot as an image content block so
-// the visual identity travels with every response.
+// Shared fetcher for the get_* tools and the resources/read handler. Pulls
+// the prebuilt Markdown twin from the ASSETS binding — the same file a
+// browser would receive when hitting /react/<section>/<slug>.md — and,
+// when available, the doc's first ("overview") screenshot from
+// /screenshots/<section>/<slug>/<file>.png.
+//
+// Two outputs share this loader:
+//   - `fetchDoc()` wraps the result as a ToolCallResult (used by the
+//     get_component / get_foundation / get_hook tools).
+//   - `loadDoc()` returns a neutral { markdown, image? } shape used by the
+//     resources/read handler to build a ReadResourceResult.
 
 import { MCP_CATALOG, type CatalogKind } from '../../../generated/mcp-catalog';
 import type { ToolCallResult, ToolContent } from '../types';
@@ -15,16 +21,43 @@ interface FetchOpts {
   baseUrl: string;
 }
 
+export interface DocImage {
+  /** Base64-encoded PNG bytes, no data: prefix. */
+  data: string;
+  mimeType: string;
+}
+
+export interface LoadDocSuccess {
+  ok: true;
+  markdown: string;
+  image?: DocImage;
+}
+
+export interface LoadDocError {
+  ok: false;
+  error: string;
+}
+
+export type LoadDocResult = LoadDocSuccess | LoadDocError;
+
 const FIRST_SCREENSHOT_RE = /!\[[^\]]*\]\(([^)]+\/screenshots\/[^)]+\.png)\)/i;
 
-export async function fetchDoc(opts: FetchOpts): Promise<ToolCallResult> {
+/**
+ * Load a doc and (when available) its overview screenshot in a transport-
+ * neutral shape. Both the tool-call path and the resources/read path call
+ * into this; each wraps the result for its own response shape.
+ */
+export async function loadDoc(opts: FetchOpts): Promise<LoadDocResult> {
   const { kind, section, slug, assets, baseUrl } = opts;
   const entry = MCP_CATALOG.find((e) => e.kind === kind && e.slug === slug);
   if (!entry) {
     const known = MCP_CATALOG.filter((e) => e.kind === kind)
       .map((e) => e.slug)
       .join(', ');
-    return error(`Unknown ${kind} slug: "${slug}". Known slugs: ${known}.`);
+    return {
+      ok: false,
+      error: `Unknown ${kind} slug: "${slug}". Known slugs: ${known}.`,
+    };
   }
 
   const url = new URL(`/react/${section}/${slug}.md`, baseUrl).toString();
@@ -32,32 +65,57 @@ export async function fetchDoc(opts: FetchOpts): Promise<ToolCallResult> {
   try {
     res = await assets.fetch(url);
   } catch (err) {
-    return error(
-      `Failed to fetch ${section}/${slug}: ${
+    return {
+      ok: false,
+      error: `Failed to fetch ${section}/${slug}: ${
         err instanceof Error ? err.message : String(err)
       }`,
-    );
+    };
   }
   if (!res.ok) {
-    return error(`Doc not found: ${section}/${slug} (status ${res.status})`);
+    return {
+      ok: false,
+      error: `Doc not found: ${section}/${slug} (status ${res.status})`,
+    };
   }
-  const text = await res.text();
+  const markdown = await res.text();
 
-  const content: ToolContent[] = [{ type: 'text', text }];
-
-  // Attach the doc's first screenshot inline. Hooks pages have no images,
-  // so this is a best-effort enrichment — failures (missing image, fetch
-  // error) degrade to a text-only response rather than failing the call.
-  const screenshotPath = extractFirstScreenshotPath(text);
+  // Best-effort screenshot enrichment — hooks pages and any page without a
+  // <Foo Example /> reference simply have no image. Failures degrade to a
+  // markdown-only result.
+  const screenshotPath = extractFirstScreenshotPath(markdown);
+  let image: DocImage | undefined;
   if (screenshotPath) {
-    const image = await fetchScreenshotAsImage(
-      screenshotPath,
-      assets,
-      baseUrl,
-    );
-    if (image) content.push(image);
+    image =
+      (await fetchScreenshotImage(screenshotPath, assets, baseUrl)) ??
+      undefined;
   }
 
+  return { ok: true, markdown, image };
+}
+
+/**
+ * Tool-call wrapper around `loadDoc`. Returns markdown as a text content
+ * block and (when present) the overview screenshot as an image block.
+ */
+export async function fetchDoc(opts: FetchOpts): Promise<ToolCallResult> {
+  const result = await loadDoc(opts);
+  if (!result.ok) {
+    return {
+      content: [
+        { type: 'text', text: JSON.stringify({ error: result.error }) },
+      ],
+      isError: true,
+    };
+  }
+  const content: ToolContent[] = [{ type: 'text', text: result.markdown }];
+  if (result.image) {
+    content.push({
+      type: 'image',
+      data: result.image.data,
+      mimeType: result.image.mimeType,
+    });
+  }
   return { content };
 }
 
@@ -74,11 +132,11 @@ function extractFirstScreenshotPath(markdown: string): string | null {
   }
 }
 
-async function fetchScreenshotAsImage(
+async function fetchScreenshotImage(
   pathname: string,
   assets: { fetch: (request: Request | string) => Promise<Response> },
   baseUrl: string,
-): Promise<ToolContent | null> {
+): Promise<DocImage | null> {
   try {
     const url = new URL(pathname, baseUrl).toString();
     const res = await assets.fetch(url);
@@ -88,7 +146,6 @@ async function fetchScreenshotAsImage(
       .split(';')[0]
       .trim();
     return {
-      type: 'image',
       data: arrayBufferToBase64(buf),
       mimeType,
     };
@@ -105,17 +162,7 @@ function arrayBufferToBase64(buf: ArrayBuffer): string {
   const chunkSize = 0x8000;
   for (let i = 0; i < bytes.length; i += chunkSize) {
     const chunk = bytes.subarray(i, i + chunkSize);
-    binary += String.fromCharCode.apply(
-      null,
-      chunk as unknown as number[],
-    );
+    binary += String.fromCharCode.apply(null, chunk as unknown as number[]);
   }
   return btoa(binary);
-}
-
-function error(message: string): ToolCallResult {
-  return {
-    content: [{ type: 'text', text: JSON.stringify({ error: message }) }],
-    isError: true,
-  };
 }

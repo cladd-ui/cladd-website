@@ -1,8 +1,4 @@
-import type {
-  JsonRpcRequest,
-  JsonRpcResponse,
-  JsonRpcError,
-} from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, JsonRpcError } from '../types';
 import { JSON_RPC_ERROR_CODES } from '../types';
 
 export function parseRequest(body: string): JsonRpcRequest {
@@ -26,9 +22,7 @@ export function validateRequest(request: unknown): request is JsonRpcRequest {
     req.id === null ||
     typeof req.id === 'string' ||
     typeof req.id === 'number';
-  return (
-    req.jsonrpc === '2.0' && typeof req.method === 'string' && hasValidId
-  );
+  return req.jsonrpc === '2.0' && typeof req.method === 'string' && hasValidId;
 }
 
 export function createResponse(
@@ -56,7 +50,11 @@ export function createParseError(): JsonRpcResponse {
 export function createInvalidRequestError(
   id: string | number | null,
 ): JsonRpcResponse {
-  return createError(id, JSON_RPC_ERROR_CODES.INVALID_REQUEST, 'Invalid Request');
+  return createError(
+    id,
+    JSON_RPC_ERROR_CODES.INVALID_REQUEST,
+    'Invalid Request',
+  );
 }
 
 export function createMethodNotFoundError(

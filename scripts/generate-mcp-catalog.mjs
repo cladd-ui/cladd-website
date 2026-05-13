@@ -30,10 +30,7 @@ for (const { dir, kind } of SECTIONS) {
     const layoutMatch = raw.match(/<DocsLayout([\s\S]*?)>/);
     if (!layoutMatch) continue;
     const attrs = layoutMatch[1];
-    const title = pickAttr(attrs, 'title')?.replace(
-      /\s+[—-]\s+Cladd$/,
-      '',
-    );
+    const title = pickAttr(attrs, 'title')?.replace(/\s+[—-]\s+Cladd$/, '');
     const description = pickAttr(attrs, 'description');
     if (!title || !description) continue;
     entries.push({ kind, slug, name: title, description });
@@ -44,9 +41,10 @@ mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, render(entries));
 
 console.log(
-  `[generate-mcp-catalog] wrote ${entries.length} catalog entries → ${
-    outFile.replace(projectRoot + '/', '')
-  }`,
+  `[generate-mcp-catalog] wrote ${entries.length} catalog entries → ${outFile.replace(
+    projectRoot + '/',
+    '',
+  )}`,
 );
 
 function pickAttr(attrs, name) {

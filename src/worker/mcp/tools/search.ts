@@ -37,7 +37,8 @@ export function search(params: SearchParams): ToolCallResult {
   const scored: { entry: CatalogEntry; score: number }[] = [];
   for (const entry of MCP_CATALOG) {
     if (kind && entry.kind !== kind) continue;
-    const haystack = `${entry.name} ${entry.slug} ${entry.description}`.toLowerCase();
+    const haystack =
+      `${entry.name} ${entry.slug} ${entry.description}`.toLowerCase();
     let score = 0;
     for (const needle of needles) {
       if (!haystack.includes(needle)) {

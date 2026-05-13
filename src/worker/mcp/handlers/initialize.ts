@@ -186,6 +186,7 @@ export function handleInitialize(params: InitializeParams): InitializeResult {
     protocolVersion: params.protocolVersion || '2024-11-05',
     capabilities: {
       tools: { listChanged: false },
+      resources: { listChanged: false, subscribe: false },
     },
     serverInfo: {
       name: 'cladd-mcp-server',

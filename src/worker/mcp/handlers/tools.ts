@@ -1,11 +1,11 @@
-import type { Tool, ToolCallParams, ToolCallResult } from '../types';
-import { getTools } from './initialize';
-import { listComponents } from '../tools/list-components';
+import type { CatalogKind } from '../../../generated/mcp-catalog';
 import { getComponent } from '../tools/get-component';
 import { getFoundation } from '../tools/get-foundation';
 import { getHook } from '../tools/get-hook';
+import { listComponents } from '../tools/list-components';
 import { search } from '../tools/search';
-import type { CatalogKind } from '../../../generated/mcp-catalog';
+import type { Tool, ToolCallParams, ToolCallResult } from '../types';
+import { getTools } from './initialize';
 
 export function handleToolsList(): Tool[] {
   return getTools();

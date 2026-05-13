@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+
 import { mcpApp } from './mcp';
 
 const app = new Hono<{ Bindings: Env }>();

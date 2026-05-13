@@ -1,4 +1,13 @@
 import { Hono } from 'hono';
+
+import { handleInitialize } from './handlers/initialize';
+import {
+  handleResourcesList,
+  handleResourcesRead,
+  handleResourcesTemplatesList,
+} from './handlers/resources';
+import { handleToolsList, handleToolsCall } from './handlers/tools';
+import { JSON_RPC_ERROR_CODES } from './types';
 import {
   parseRequest,
   createResponse,
@@ -7,9 +16,6 @@ import {
   createInvalidRequestError,
   createMethodNotFoundError,
 } from './utils/jsonrpc';
-import { JSON_RPC_ERROR_CODES } from './types';
-import { handleInitialize } from './handlers/initialize';
-import { handleToolsList, handleToolsCall } from './handlers/tools';
 
 export const mcpApp = new Hono<{ Bindings: Env }>();
 
@@ -99,6 +105,50 @@ mcpApp.post('/', async (c) => {
           c.env.ASSETS,
           baseUrl,
         );
+        break;
+      }
+
+      case 'resources/list':
+        result = handleResourcesList();
+        break;
+
+      case 'resources/templates/list':
+        result = handleResourcesTemplatesList();
+        break;
+
+      case 'resources/read': {
+        if (!params || typeof params !== 'object') {
+          return c.json(
+            createError(
+              id,
+              JSON_RPC_ERROR_CODES.INVALID_PARAMS,
+              'resources/read requires params with a uri',
+            ),
+            400,
+          );
+        }
+        const readParams = params as { uri?: unknown };
+        if (typeof readParams.uri !== 'string') {
+          return c.json(
+            createError(
+              id,
+              JSON_RPC_ERROR_CODES.INVALID_PARAMS,
+              'resources/read requires a string uri',
+            ),
+            400,
+          );
+        }
+        const url = new URL(c.req.url);
+        const baseUrl = `${url.protocol}//${url.host}`;
+        const outcome = await handleResourcesRead(
+          { uri: readParams.uri },
+          c.env.ASSETS,
+          baseUrl,
+        );
+        if (outcome.kind === 'error') {
+          return c.json(createError(id, outcome.code, outcome.message), 400);
+        }
+        result = outcome.result;
         break;
       }
 

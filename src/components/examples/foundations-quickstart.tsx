@@ -184,9 +184,9 @@ export function AppShellExample() {
                 Quick question on the export pipeline
               </p>
               <p className="text-cladd-fg-softer">
-                Staging run failed overnight — the schema validator is
-                rejecting the new locale rows. Have you seen this on prod
-                yet, or is it just the dev branch?
+                Staging run failed overnight — the schema validator is rejecting
+                the new locale rows. Have you seen this on prod yet, or is it
+                just the dev branch?
               </p>
             </Surface>
             <Surface
@@ -200,8 +200,8 @@ export function AppShellExample() {
               </p>
               <p className="text-cladd-fg-softer">
                 Loved the new inspector layout. Two small notes on toolbar
-                spacing and one question about how the accent ring renders
-                in light mode — happy to walk through tomorrow.
+                spacing and one question about how the accent ring renders in
+                light mode — happy to walk through tomorrow.
               </p>
             </Surface>
           </main>
