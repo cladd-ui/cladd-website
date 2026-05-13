@@ -20,6 +20,13 @@ When writing cladd code:
 - Components share a consistent size scale across \`Button\`, \`Chip\`,
   \`Shortcut\`, \`Spinner\`. Nesting one inside another with the same
   \`size\` token keeps proportions right.
+- Default to \`md\` for app UI; reach for \`lg\` for primary inputs and
+  hero CTAs. Avoid \`2xs\` and \`xs\` — they are reserved for elements
+  nested **inside** a denser container (a clear button inside an
+  \`Input\`, a \`⌘K\` hint inside a \`SearchField\`). At \`2xs\` a
+  \`Chip\` / \`Shortcut\` / \`Spinner\` is only 8 px tall, which is
+  unreadable as a standalone control. Never pick \`2xs\` or \`xs\` for
+  a chip, shortcut, or button that stands on its own row.
 - Read \`get_foundation('surfaces')\` and \`get_foundation('sizing')\`
   early — they encode the conventions that make cladd code feel native
   vs generic.
