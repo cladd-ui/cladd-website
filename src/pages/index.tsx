@@ -2,6 +2,11 @@ import { Button, Spinner, Surface } from '@cladd-ui/react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
+import { CodePreviewPairs } from '@/components/home/CodePreviewPairs';
+import { ComponentCatalog } from '@/components/home/ComponentCatalog';
+import { InstallCTA } from '@/components/home/InstallCTA';
+import { PitchGrid } from '@/components/home/PitchGrid';
+import { ProductsStrip } from '@/components/home/ProductsStrip';
 import { SiteLayout } from '@/components/SiteLayout';
 
 const DEMO_HEIGHT = 600;
@@ -38,8 +43,8 @@ export default function HomePage() {
       title="Cladd — A React UI kit for building actual apps"
       description="Cladd is an opinionated React UI kit. A surface system, a sizing scale, and a complete set of application-grade components"
     >
-      <section className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-24 pb-12 text-center">
-        <h1 className="text-5xl font-semibold tracking-tight">
+      <section className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 px-4 pt-24 pb-12 text-center sm:px-6">
+        <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-white light:text-black">
           A React UI kit for building actual apps.
         </h1>
         <p className="max-w-xl text-lg text-cladd-fg-soft">
@@ -48,26 +53,35 @@ export default function HomePage() {
           product — not a landing page.
         </p>
         <div className="flex items-center gap-4">
-          <Button as={Link} href="/react/" color="brand" size="lg">
-            Read the docs
+          <Button
+            as={Link}
+            href="/react/"
+            color="brand"
+            size="2xl"
+            rounded
+            contentClassName="px-8 text-sm"
+          >
+            Get started
           </Button>
           <Button
             as="a"
             href="https://github.com/cladd-ui/cladd"
             target="_blank"
             rel="noreferrer"
-            size="lg"
+            size="2xl"
             variant="solid"
+            rounded
+            contentClassName="px-8 text-sm"
           >
             View on GitHub
           </Button>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+      <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
         <div
           style={{ minHeight: DEMO_HEIGHT }}
-          className="overflow-hidden rounded-xl outline outline-cladd-outline"
+          className="overflow-hidden rounded-2xl outline outline-cladd-outline"
         >
           <DesignToolDemo />
         </div>
@@ -75,22 +89,25 @@ export default function HomePage() {
           This demo is built entirely from cladd primitives —{' '}
           <code className="font-mono">Surface</code>,{' '}
           <code className="font-mono">Toolbar</code>,{' '}
+          <code className="font-mono">Button</code>,{' '}
           <code className="font-mono">NumberField</code>,{' '}
+          <code className="font-mono">NumberScrubber</code>,{' '}
           <code className="font-mono">Select</code>,{' '}
           <code className="font-mono">Slider</code>,{' '}
-          <code className="font-mono">List</code>. Tweak the inspector; the
-          canvas updates live.
+          <code className="font-mono">List</code>, etc.. Tweak the inspector;
+          the canvas updates live.
         </p>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-24 text-center">
-        <div className="mb-3 text-xs tracking-wide text-cladd-fg-soft uppercase">
-          Built with cladd
-        </div>
-        <p className="text-cladd-fg-soft">
-          Swiper Studio · t0ggles · PaneFlow · Start Page HQ
-        </p>
-      </section>
+      <ProductsStrip />
+
+      <PitchGrid />
+
+      <CodePreviewPairs />
+
+      <ComponentCatalog />
+
+      <InstallCTA />
     </SiteLayout>
   );
 }

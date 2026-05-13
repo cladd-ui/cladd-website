@@ -13,6 +13,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+import { componentNames } from './componentNames';
 import { ArrowLeftIcon } from './icons/ArrowLeftIcon';
 import { ArrowRightIcon } from './icons/ArrowRightIcon';
 import { CheckIcon } from './icons/CheckIcon';
@@ -28,39 +29,11 @@ interface DocsLayoutProps {
   title: string;
   /** Meta description. Forwarded to SiteLayout. */
   description: string;
+  /** Render the "Copy as Markdown" / "View as Markdown" toolbar buttons.
+   *  Default `true`. Set `false` on pages with no meaningful Markdown twin
+   *  (e.g. index pages that mostly render React components). */
+  markdownActions?: boolean;
 }
-
-const componentNames = [
-  'Backdrop',
-  'Button',
-  'Checkbox',
-  'Chip',
-  'Dialog',
-  'Input',
-  'Link',
-  'List',
-  'NumberField',
-  'NumberScrubber',
-  'OTPField',
-  'Popover',
-  'Popup',
-  'Radio',
-  'SearchField',
-  'SectionTitle',
-  'Segmented',
-  'Select',
-  'Shortcut',
-  'Slider',
-  'Spinner',
-  'Surface',
-  'SurfaceCut',
-  'Switch',
-  'Textarea',
-  'Toast',
-  'Toolbar',
-  'Tooltip',
-  'CladdProvider',
-];
 
 const hookNames = [
   'useTheme',
@@ -116,10 +89,13 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
 
     {
       title: 'Components',
-      links: componentNames.map((name) => ({
-        label: name,
-        href: `/react/components/${toKebab(name)}/`,
-      })),
+      links: [
+        { label: 'Overview', href: '/react/components/' },
+        ...componentNames.map((name) => ({
+          label: name,
+          href: `/react/components/${toKebab(name)}/`,
+        })),
+      ],
     },
     {
       title: 'Hooks',
@@ -238,13 +214,23 @@ function MarkdownActions({ currentPath }: { currentPath: string }) {
   );
 }
 
-function PrevNext({ currentPath }: { currentPath: string }) {
+function PrevNext({
+  currentPath,
+  markdownActions,
+}: {
+  currentPath: string;
+  markdownActions: boolean;
+}) {
   const { prev, next } = getNeighbors(currentPath);
   if (!prev && !next) return null;
   return (
     <Toolbar size="sm" className="not-prose float-right ml-4">
-      <MarkdownActions currentPath={currentPath} />
-      <ToolbarSeparator />
+      {markdownActions && (
+        <>
+          <MarkdownActions currentPath={currentPath} />
+          <ToolbarSeparator />
+        </>
+      )}
       {prev ? (
         <ToolbarButton
           as={NextLink}
@@ -383,12 +369,20 @@ function OnThisPage({ pageKey }: { pageKey: string }) {
   );
 }
 
-export function DocsLayout({ children, title, description }: DocsLayoutProps) {
+export function DocsLayout({
+  children,
+  title,
+  description,
+  markdownActions = true,
+}: DocsLayoutProps) {
   const router = useRouter();
   const currentPath = router.asPath.split(/[?#]/)[0];
   return (
     <SiteLayout title={title} description={description} withSidebar>
-      <DocsLayoutContent currentPath={currentPath}>
+      <DocsLayoutContent
+        currentPath={currentPath}
+        markdownActions={markdownActions}
+      >
         {children}
       </DocsLayoutContent>
     </SiteLayout>
@@ -398,9 +392,11 @@ export function DocsLayout({ children, title, description }: DocsLayoutProps) {
 function DocsLayoutContent({
   children,
   currentPath,
+  markdownActions,
 }: {
   children: ReactNode;
   currentPath: string;
+  markdownActions: boolean;
 }) {
   const { open, animating, toggle } = useSidebar();
 
@@ -453,7 +449,7 @@ function DocsLayoutContent({
         ))}
       </Surface>
       <article className="prose mx-auto w-full max-w-3xl min-w-0 py-12">
-        <PrevNext currentPath={currentPath} />
+        <PrevNext currentPath={currentPath} markdownActions={markdownActions} />
         {children}
         <PrevNextFooter currentPath={currentPath} />
       </article>

@@ -60,49 +60,51 @@ export function SiteLayout({
         <meta name="twitter:description" content={description} />
       </Head>
       <div className="flex min-h-screen flex-col">
-        <header className="sticky top-0 z-11 flex h-14 items-center justify-start gap-4 border-b border-cladd-outline bg-cladd-bg px-4 sm:px-6">
-          {withSidebar && <HeaderSidebarToggle />}
-          <Link
-            as={NextLink}
-            href="/"
-            className="flex items-center gap-1 font-semibold hover:opacity-75"
-          >
-            <CladdLogo className="size-8 text-white light:text-black" />
-            cladd
-          </Link>
-          <nav className="ml-auto flex items-center gap-4 text-sm sm:gap-6">
-            <Link className="hover:opacity-75" as={NextLink} href="/react/">
-              <span className="sm:hidden">Docs</span>
-              <span className="hidden sm:block">Documentation</span>
-            </Link>
+        <header className="sticky top-0 z-11 border-b border-cladd-outline bg-cladd-bg">
+          <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-start gap-4 px-4 sm:px-6">
+            {withSidebar && <HeaderSidebarToggle />}
             <Link
-              className="xs:block hidden hover:opacity-75"
               as={NextLink}
-              href="/react/components/button/"
+              href="/"
+              className="flex items-center gap-1 font-semibold hover:opacity-75"
             >
-              Components
+              <CladdLogo className="size-8 text-white light:text-black" />
+              cladd
             </Link>
-
-            <Toolbar size="sm">
-              <ToolbarButton
-                as="a"
-                href="https://github.com/cladd-ui/cladd"
-                target="_blank"
-                rel="noreferrer"
+            <nav className="ml-auto flex items-center gap-4 text-sm sm:gap-6">
+              <Link className="hover:opacity-75" as={NextLink} href="/react/">
+                <span className="sm:hidden">Docs</span>
+                <span className="hidden sm:block">Documentation</span>
+              </Link>
+              <Link
+                className="hidden hover:opacity-75 xs:block"
+                as={NextLink}
+                href="/react/components/"
               >
-                <GithubIcon />
-              </ToolbarButton>
-              <ToolbarSeparator />
-              <ToolbarButton onClick={toggleTheme}>
-                {theme === 'light' ? <SunIcon /> : <MoonIcon />}
-              </ToolbarButton>
-            </Toolbar>
-          </nav>
+                Components
+              </Link>
+
+              <Toolbar size="sm">
+                <ToolbarButton
+                  as="a"
+                  href="https://github.com/cladd-ui/cladd"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <GithubIcon />
+                </ToolbarButton>
+                <ToolbarSeparator />
+                <ToolbarButton onClick={toggleTheme}>
+                  {theme === 'light' ? <SunIcon /> : <MoonIcon />}
+                </ToolbarButton>
+              </Toolbar>
+            </nav>
+          </div>
         </header>
         <main className="flex-1">{children}</main>
         <footer className="border-t border-cladd-outline px-4 py-6 text-xs text-cladd-fg-soft sm:px-6">
           <div className="mx-auto flex max-w-[1440px] flex-col items-start justify-start gap-8 px-4 py-12 sm:px-6">
-            <div className="xs:grid-cols-3 grid grid-cols-2 flex-wrap items-start gap-8 sm:grid-cols-4 md:flex md:gap-16">
+            <div className="grid grid-cols-2 flex-wrap items-start gap-8 xs:grid-cols-3 sm:grid-cols-4 md:flex md:gap-16">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-2 text-cladd-fg">
                   <CladdLogo className="size-8 rounded-lg border border-cladd-outline" />

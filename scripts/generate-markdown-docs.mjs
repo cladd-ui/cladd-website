@@ -56,8 +56,14 @@ if (existsSync(outRoot)) {
 
 const mdxFiles = collectMdxFiles(pagesRoot);
 let written = 0;
+let skipped = 0;
 for (const mdxPath of mdxFiles) {
-  const md = convertMdx(mdxPath);
+  const raw = readFileSync(mdxPath, 'utf8');
+  if (shouldSkip(raw)) {
+    skipped++;
+    continue;
+  }
+  const md = convertMdx(mdxPath, raw);
   const rel = relative(pagesRoot, mdxPath).replace(/\.mdx$/, '.md');
   const outPath = join(outRoot, rel);
   mkdirSync(dirname(outPath), { recursive: true });
@@ -66,7 +72,7 @@ for (const mdxPath of mdxFiles) {
 }
 
 console.log(
-  `[generate-markdown-docs] wrote ${written} markdown twins → ${relative(projectRoot, outRoot)}/`,
+  `[generate-markdown-docs] wrote ${written} markdown twins → ${relative(projectRoot, outRoot)}/${skipped ? ` (skipped ${skipped})` : ''}`,
 );
 
 // ---------------------------------------------------------------------------
@@ -84,8 +90,16 @@ function collectMdxFiles(dir) {
   return out.sort();
 }
 
-function convertMdx(mdxPath) {
-  const raw = readFileSync(mdxPath, 'utf8');
+// Pages that pass `markdownActions={false}` to <DocsLayout> opt out of having
+// a Markdown twin generated. They mostly render React components with no
+// meaningful Markdown representation (e.g. the components index/tile grid).
+function shouldSkip(raw) {
+  const layoutMatch = raw.match(/<DocsLayout([\s\S]*?)>/);
+  if (!layoutMatch) return false;
+  return /\bmarkdownActions\s*=\s*\{\s*false\s*\}/.test(layoutMatch[1]);
+}
+
+function convertMdx(mdxPath, raw) {
   const { body, imports, meta } = stripHeader(raw, mdxPath);
   const replacements = buildReplacements(imports);
   const md = rewriteJsx(body, replacements, imports.knownButMissing)

@@ -1,0 +1,18 @@
+import { ComponentTilesGrid } from '@/components/ComponentTilesGrid';
+import { DocsLayout } from '@/components/DocsLayout';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Components — Cladd"
+    description="Every cladd component at a glance — buttons, inputs, surfaces, overlays, and the application-grade controls you need to ship a real app."
+    markdownActions={false}
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Components
+
+Every component cladd ships, in one place. Click any tile for its full API, examples, and prop reference.
+
+<ComponentTilesGrid className="lg:grid-cols-4 xl:grid-cols-4" />

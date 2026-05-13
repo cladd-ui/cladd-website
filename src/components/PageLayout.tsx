@@ -17,9 +17,11 @@ interface PageLayoutProps {
 export function PageLayout({ children, title, description }: PageLayoutProps) {
   return (
     <SiteLayout title={title} description={description}>
-      <article className="prose mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
-        {children}
-      </article>
+      <div className="px-4 sm:px-6">
+        <article className="prose mx-auto w-full max-w-3xl py-12">
+          {children}
+        </article>
+      </div>
     </SiteLayout>
   );
 }
