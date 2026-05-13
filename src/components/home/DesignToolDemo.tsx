@@ -538,13 +538,13 @@ export function DesignToolDemo() {
         />
         <Surface
           className={cn(
-            'absolute -top-11 right-1 -bottom-7 z-20 w-64 rounded-3xl duration-300 md:relative md:top-0 md:right-0 md:bottom-0 md:z-1 md:flex md:rounded-none md:border-l md:border-cladd-outline md:duration-0',
+            'absolute -top-11 right-1 -bottom-7 z-20 w-64 rounded-3xl duration-300 md:relative md:top-0 md:right-0 md:bottom-0 md:z-1 md:block md:rounded-none md:border-l md:border-cladd-outline md:duration-0',
             !sidebarOpen && 'translate-x-[110%] md:translate-x-0',
           )}
           outline
           variant="gradient"
           bgClassName="md:hidden"
-          contentClassName="flex flex-col gap-4 p-4"
+          contentClassName="flex flex-col gap-4 p-4 w-full"
         >
           <div className="-mt-2.5 -mr-2.5 flex justify-end md:hidden">
             <Toolbar>
