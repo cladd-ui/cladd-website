@@ -18,7 +18,8 @@
     "extract-props": "node scripts/extract-props.mjs",
     "extract-example-source": "node scripts/extract-example-source.mjs",
     "generate-markdown-docs": "node scripts/generate-markdown-docs.mjs",
-    "generate-llms-txt": "node scripts/generate-llms-txt.mjs"
+    "generate-llms-txt": "node scripts/generate-llms-txt.mjs",
+    "screenshot:examples": "node scripts/screenshot-examples.mjs"
   },
   "dependencies": {
     "@cladd-ui/react": "^0.0.54",
@@ -44,6 +45,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "oxfmt": "^0.47.0",
+    "playwright": "^1.60.0",
     "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3",
     "wrangler": "^4.87.0"

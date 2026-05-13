@@ -40,7 +40,10 @@ export function Example({
 }: ExampleProps) {
   const code = source ? fillTemplate(source, state) : null;
   const preview = previewSurface ? (
-    <div className="flex min-h-55 flex-1 items-center justify-center p-8">
+    <div
+      data-cladd-example-preview=""
+      className="flex min-h-55 flex-1 items-center justify-center p-8"
+    >
       <Surface
         outline
         className="rounded-2xl"
@@ -55,6 +58,7 @@ export function Example({
     </div>
   ) : (
     <div
+      data-cladd-example-preview=""
       className={cn(
         'flex min-h-55 flex-1 items-center justify-center p-8',
         previewClassName,
@@ -65,6 +69,7 @@ export function Example({
   );
   return (
     <Surface
+      data-cladd-example=""
       variant="transparent"
       className={cn(
         'not-prose my-6 rounded-2xl text-sm [&_.font-mono]:text-[13px] [&_code]:text-[13px]',
