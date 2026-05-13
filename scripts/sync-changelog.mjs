@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Mirror ../cladd/CHANGELOG.md into src/pages/react/changelog.mdx so the
-// release notes page stays in sync with whatever the package itself ships.
+// Mirror @cladd-ui/react's CHANGELOG.md into src/pages/changelog.mdx so the
+// release notes page stays in sync with whatever the installed package ships.
 // Runs as part of `codegen`, so dev/build always reflect the current
 // CHANGELOG without a manual copy step.
 //
@@ -12,12 +12,17 @@
 // CHANGELOG mentions `<kbd>` in a release note, which MDX would otherwise
 // try to parse as JSX).
 
+import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const sourcePath = resolve(projectRoot, '../cladd/CHANGELOG.md');
+const require = createRequire(import.meta.url);
+const sourcePath = resolve(
+  dirname(require.resolve('@cladd-ui/react/package.json')),
+  'CHANGELOG.md',
+);
 const outPath = resolve(projectRoot, 'src/pages/changelog.mdx');
 const latestOutPath = resolve(
   projectRoot,
