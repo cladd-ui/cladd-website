@@ -21,6 +21,7 @@ import {
 import { type SVGProps, useMemo, useState } from 'react';
 
 import { CladdLogo } from '../CladdLogo';
+import { SidebarIcon } from '../icons/SidebarIcon';
 
 type BlendMode =
   | 'normal'
@@ -272,6 +273,7 @@ export function DesignToolDemo() {
   const [selectedId, setSelectedId] = useState<string>('card');
   const [tool, setTool] = useState<'move' | 'frame' | 'shape' | 'text'>('move');
   const [zoom, setZoom] = useState(100);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const selected = useMemo(
     () => layers.find((l) => l.id === selectedId) ?? layers[0],
@@ -358,9 +360,21 @@ export function DesignToolDemo() {
             input={false}
             className="w-32"
           />
-          <Toolbar className="hidden md:inline-flex">
+          <Toolbar>
             <ToolbarButton color="brand" size="sm" rounded>
               Share
+            </ToolbarButton>
+          </Toolbar>
+        </div>
+        <div className="sticky -right-2 -mr-2 bg-cladd-surface pr-2 pl-0 md:hidden">
+          <span className="absolute top-0 right-full h-full w-4 bg-linear-90 from-transparent to-cladd-surface" />
+          <Toolbar>
+            <ToolbarButton
+              size="sm"
+              rounded
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              <SidebarIcon className="rotate-180" />
             </ToolbarButton>
           </Toolbar>
         </div>
@@ -372,7 +386,7 @@ export function DesignToolDemo() {
         <div className="hidden w-56 flex-col border-r border-cladd-outline lg:flex">
           <div className="flex items-center justify-between px-3 pt-3 pb-2 text-xs font-medium tracking-wide text-cladd-fg-soft uppercase">
             Layers
-            <Shortcut size="sm">⌘ L</Shortcut>
+            <Shortcut size="sm">cmd L</Shortcut>
           </div>
           <div className="flex-1 overflow-hidden">
             <List>
@@ -430,18 +444,12 @@ export function DesignToolDemo() {
           <CanvasGrid />
           <div className="absolute inset-0 flex items-center justify-center">
             <div
-              className="relative"
-              style={{ width: CANVAS_W, height: CANVAS_H }}
+              className="relative scale-50 sm:scale-100"
+              style={{ width: CANVAS_W, height: CANVAS_H, minWidth: CANVAS_W }}
             >
-              <Surface
-                level={2}
-                outline
-                className="absolute inset-0"
-                variant="transparent"
-                wrapContent={false}
-              />
+              <div className="absolute inset-0 border border-cladd-outline" />
               {/* Decorative title in upper-left of frame */}
-              <div className="pointer-events-none absolute top-2 left-2 text-xs tracking-wide text-cladd-fg-soft uppercase">
+              <div className="pointer-events-none absolute bottom-full left-2 mb-2 origin-bottom-left scale-200 text-xs tracking-wide text-cladd-fg-soft uppercase sm:scale-100">
                 Frame 1 · 560 × 360
               </div>
               {/* Layers */}
@@ -521,7 +529,34 @@ export function DesignToolDemo() {
         </div>
 
         {/* Right panel — Inspector */}
-        <div className="hidden w-64 flex-col gap-4 border-l border-cladd-outline p-3 md:flex">
+        <div
+          className={cn(
+            'absolute inset-0 z-19 opacity-0 md:hidden',
+            !sidebarOpen && 'pointer-events-none',
+          )}
+          onClick={() => setSidebarOpen(false)}
+        />
+        <Surface
+          className={cn(
+            'absolute -top-11 right-1 -bottom-7 z-20 w-64 rounded-3xl duration-300 md:relative md:top-0 md:right-0 md:bottom-0 md:z-1 md:flex md:rounded-none md:border-l md:border-cladd-outline md:duration-0',
+            !sidebarOpen && 'translate-x-[110%] md:translate-x-0',
+          )}
+          outline
+          variant="gradient"
+          bgClassName="md:hidden"
+          contentClassName="flex flex-col gap-4 p-4"
+        >
+          <div className="-mt-2.5 -mr-2.5 flex justify-end md:hidden">
+            <Toolbar>
+              <ToolbarButton
+                size="sm"
+                rounded
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                <SidebarIcon className="rotate-180" />
+              </ToolbarButton>
+            </Toolbar>
+          </div>
           {/* Layer header */}
           <div>
             <div className="mb-2 flex items-center justify-between text-xs font-medium tracking-wide text-cladd-fg-soft uppercase">
@@ -683,7 +718,7 @@ export function DesignToolDemo() {
               {BLEND_LABEL[selected.blend]}
             </Select>
           </InspectorRow>
-        </div>
+        </Surface>
       </div>
 
       {/* Status bar */}
