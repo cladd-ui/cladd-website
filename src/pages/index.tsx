@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CodePreviewPairs } from '@/components/home/CodePreviewPairs';
 import { ComponentCatalog } from '@/components/home/ComponentCatalog';
 import { InstallCTA } from '@/components/home/InstallCTA';
+import { LatestReleasePill } from '@/components/home/LatestReleasePill';
 import { PitchGrid } from '@/components/home/PitchGrid';
 import { ProductsStrip } from '@/components/home/ProductsStrip';
 import { SiteLayout } from '@/components/SiteLayout';
@@ -76,6 +77,7 @@ export default function HomePage() {
             View on GitHub
           </Button>
         </div>
+        <LatestReleasePill />
       </section>
 
       <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
