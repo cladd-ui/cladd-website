@@ -1,5 +1,5 @@
-import { ComponentTilesGrid } from '../ComponentTilesGrid';
 import { componentNames } from '../componentNames';
+import { ComponentTilesGrid } from '../ComponentTilesGrid';
 import { MarketingKicker, MarketingText, MarketingTitle } from '../Marketing';
 
 export function ComponentCatalog() {
@@ -13,7 +13,7 @@ export function ComponentCatalog() {
           one ships styled, sized, and ready for a real product.
         </MarketingText>
       </div>
-      <ComponentTilesGrid />
+      <ComponentTilesGrid className="lg:gap-4" />
     </section>
   );
 }

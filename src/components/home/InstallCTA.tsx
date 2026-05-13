@@ -53,7 +53,7 @@ function InstallBlock() {
 
 export function InstallCTA() {
   return (
-    <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
+    <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6">
       <Surface
         outline
         variant="gradient"

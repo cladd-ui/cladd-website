@@ -261,7 +261,7 @@ function ControlsPreview() {
 
 export function PitchGrid() {
   return (
-    <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
+    <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6">
       <div className="mb-8 flex flex-col items-center gap-2 text-center">
         <MarketingKicker>What's in the box</MarketingKicker>
         <MarketingTitle>
