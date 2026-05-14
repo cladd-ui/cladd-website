@@ -27,6 +27,7 @@ import {
 import { type SVGProps, useMemo, useState } from 'react';
 
 import { CladdLogo } from '../CladdLogo';
+import { SidebarIcon } from '../icons/SidebarIcon';
 
 type Theme = 'system' | 'dark' | 'light';
 type Density = 'compact' | 'comfortable' | 'spacious';
@@ -1288,6 +1289,7 @@ export function SettingsDemo() {
   const [appearance, setAppearance] =
     useState<AppearanceState>(INITIAL_APPEARANCE);
   const [search, setSearch] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filteredCategories = useMemo(() => {
     if (!search.trim()) return CATEGORIES;
@@ -1311,6 +1313,15 @@ export function SettingsDemo() {
       {/* Window chrome / top bar */}
       <div className="relative flex h-12 shrink-0 items-center gap-4 border-b border-cladd-outline px-2">
         <div className="flex items-center gap-2">
+          <Toolbar className="md:hidden">
+            <ToolbarButton
+              size="sm"
+              rounded
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              <SidebarIcon />
+            </ToolbarButton>
+          </Toolbar>
           <span className="inline-flex size-6 items-center justify-center rounded-md bg-cladd-surface-cut">
             <CladdLogo className="size-3.5" />
           </span>
@@ -1355,8 +1366,36 @@ export function SettingsDemo() {
 
       {/* Body — sidebar + main */}
       <div className="relative flex min-h-0 flex-1">
-        {/* Sidebar */}
-        <div className="relative hidden w-56 shrink-0 flex-col border-r border-cladd-outline md:flex">
+        {/* Sidebar — floating on mobile, fixed column on md+ */}
+        <div
+          className={cn(
+            'absolute inset-0 z-19 opacity-0 md:hidden',
+            !sidebarOpen && 'pointer-events-none',
+          )}
+          onClick={() => setSidebarOpen(false)}
+        />
+        <Surface
+          className={cn(
+            'absolute -top-11 bottom-1 left-1 z-20 w-56 rounded-3xl duration-300 md:relative md:top-0 md:bottom-0 md:left-0 md:z-1 md:block md:rounded-none md:border-r md:border-cladd-outline md:duration-0',
+            !sidebarOpen && '-translate-x-[110%] md:translate-x-0',
+          )}
+          level={1}
+          outline
+          variant="gradient"
+          bgClassName="md:hidden"
+          contentClassName="flex h-full w-full flex-col"
+        >
+          <div className="flex p-2 md:hidden">
+            <Toolbar>
+              <ToolbarButton
+                size="sm"
+                rounded
+                onClick={() => setSidebarOpen(false)}
+              >
+                <SidebarIcon />
+              </ToolbarButton>
+            </Toolbar>
+          </div>
           <div className="flex-1 overflow-auto">
             <List>
               {filteredCategories.map((c) => {
@@ -1366,7 +1405,10 @@ export function SettingsDemo() {
                     key={c.id}
                     icon={<Icon className="size-4" />}
                     selected={c.id === category}
-                    onClick={() => setCategory(c.id)}
+                    onClick={() => {
+                      setCategory(c.id);
+                      setSidebarOpen(false);
+                    }}
                     after={
                       c.chip ? (
                         <Chip size="sm" rounded>
@@ -1399,7 +1441,7 @@ export function SettingsDemo() {
               <Shortcut size="sm">cmd ,</Shortcut>
             </div>
           </div>
-        </div>
+        </Surface>
 
         {/* Main panel */}
         <div className="relative flex min-w-0 flex-1 flex-col">

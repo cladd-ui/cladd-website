@@ -784,13 +784,11 @@ function CardChip({ tag }: { tag: Tag }) {
 function TaskCard({
   task,
   columnColor,
-  selected,
   onSelect,
   onCycleStatus,
 }: {
   task: Task;
   columnColor: Color | 'neutral';
-  selected: boolean;
   onSelect: () => void;
   onCycleStatus: () => void;
 }) {
@@ -811,7 +809,6 @@ function TaskCard({
     <Surface
       hoverable
       clickable
-      pressed={selected}
       outline
       variant="gradient"
       color={columnColor === 'neutral' ? undefined : (columnColor as Color)}
@@ -1000,13 +997,11 @@ function ColumnHeaderButton({ column }: { column: Column }) {
 function BoardColumn({
   column,
   tasks,
-  selectedId,
   onSelect,
   onCycleStatus,
 }: {
   column: Column;
   tasks: Task[];
-  selectedId: string | null;
   onSelect: (id: string) => void;
   onCycleStatus: (id: string) => void;
 }) {
@@ -1019,7 +1014,6 @@ function BoardColumn({
             key={task.id}
             task={task}
             columnColor={column.color}
-            selected={selectedId === task.id}
             onSelect={() => onSelect(task.id)}
             onCycleStatus={() => onCycleStatus(task.id)}
           />
@@ -1481,7 +1475,6 @@ export function KanbanDemo() {
             key={column.id}
             column={column}
             tasks={filtered.filter((t) => t.column === column.id)}
-            selectedId={selectedId}
             onSelect={setSelectedId}
             onCycleStatus={cycleStatus}
           />

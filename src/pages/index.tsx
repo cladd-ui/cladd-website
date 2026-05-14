@@ -62,10 +62,22 @@ const KanbanDemo = dynamic(
   },
 );
 
-type DemoView = 'design' | 'kanban';
+const SettingsDemo = dynamic(
+  () =>
+    import('@/components/demos/SettingsDemo').then((m) => ({
+      default: m.SettingsDemo,
+    })),
+  {
+    ssr: false,
+    loading: () => <DemoPlaceholder />,
+  },
+);
+
+type DemoView = 'design' | 'settings' | 'kanban';
 
 const DEMO_ROUTES: Record<DemoView, string> = {
   design: '/demos/design-tool/',
+  settings: '/demos/settings/',
   kanban: '/demos/kanban/',
 };
 
@@ -81,6 +93,12 @@ function HomeDemo() {
               onClick={() => setView('design')}
             >
               Design tool
+            </SegmentedButton>
+            <SegmentedButton
+              active={view === 'settings'}
+              onClick={() => setView('settings')}
+            >
+              Settings
             </SegmentedButton>
             <SegmentedButton
               active={view === 'kanban'}
@@ -107,7 +125,13 @@ function HomeDemo() {
         style={{ height: DEMO_HEIGHT }}
         className="overflow-hidden rounded-2xl outline outline-cladd-outline"
       >
-        {view === 'design' ? <DesignToolDemo /> : <KanbanDemo />}
+        {view === 'design' ? (
+          <DesignToolDemo />
+        ) : view === 'settings' ? (
+          <SettingsDemo />
+        ) : (
+          <KanbanDemo />
+        )}
       </div>
       <p className="mt-4 text-center text-sm text-cladd-fg-softer">
         {view === 'design' ? (
@@ -122,6 +146,20 @@ function HomeDemo() {
             <code className="font-mono">Slider</code>,{' '}
             <code className="font-mono">List</code>, etc.. Tweak the inspector;
             the canvas updates live.
+          </>
+        ) : view === 'settings' ? (
+          <>
+            Application-grade controls, packed tight — a settings pane built
+            from <code className="font-mono">List</code>,{' '}
+            <code className="font-mono">Segmented</code>,{' '}
+            <code className="font-mono">Switch</code>,{' '}
+            <code className="font-mono">Radio</code>,{' '}
+            <code className="font-mono">Checkbox</code>,{' '}
+            <code className="font-mono">Select</code>,{' '}
+            <code className="font-mono">Slider</code>,{' '}
+            <code className="font-mono">NumberField</code>,{' '}
+            <code className="font-mono">SurfaceCut</code>. Change the accent and
+            the preview surface updates live.
           </>
         ) : (
           <>
