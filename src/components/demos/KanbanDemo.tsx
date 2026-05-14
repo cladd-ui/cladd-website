@@ -925,8 +925,13 @@ function TaskCard({
               outline={false}
               className={cn(
                 'flex items-center gap-1 font-mono',
-                task.reacted && 'cladd-color-brand text-cladd-primary',
+                task.reacted
+                  ? 'cladd-color-brand text-cladd-primary'
+                  : 'text-cladd-fg-softer',
               )}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
               {task.reacted ? <HeartIcon /> : <HeartOutlineIcon />}
               <span>{task.reactions}</span>
