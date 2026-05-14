@@ -11,7 +11,9 @@ import {
   ExampleControlColor,
   ExampleControlSize,
   ExampleControlSwitch,
+  ExampleControlVariant,
   ExampleToolbar,
+  type SurfaceVariant,
 } from '@/components/ExampleControls';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import { PlusIcon } from '@/components/icons/PlusIcon';
@@ -25,22 +27,16 @@ export function OverviewExample() {
       source={EXAMPLE_SOURCE.OverviewExample}
       previewClassName="gap-2 flex-wrap content-center"
     >
-      <Chip color="green" outline>
-        Active
-      </Chip>
-      <Chip color="yellow" outline>
-        Pending
-      </Chip>
-      <Chip color="red" outline>
-        Failed
-      </Chip>
+      <Chip color="green">Active</Chip>
+      <Chip color="yellow">Pending</Chip>
+      <Chip color="red">Failed</Chip>
       <Chip icon={CheckIcon} color="green">
         Verified
       </Chip>
       <Chip color="brand" rounded>
         v1.2.3
       </Chip>
-      <Chip as="button" size="lg" icon={PlusIcon} outline>
+      <Chip as="button" size="lg" icon={PlusIcon}>
         Add tag
       </Chip>
       <Chip size="sm" color="red">
@@ -91,21 +87,36 @@ export function InsideButtonExample() {
   );
 }
 
+export function VariantExample() {
+  const [variant, setVariant] = useState<SurfaceVariant>('gradient');
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.VariantExample}
+      state={{ variant }}
+      controls={
+        <ExampleToolbar>
+          <ExampleControlVariant value={variant} onChange={setVariant} />
+        </ExampleToolbar>
+      }
+    >
+      <Chip variant={variant} color="brand">
+        {variant}
+      </Chip>
+    </Example>
+  );
+}
+
 export function ColorExample() {
   const [color, setColor] = useState<Color>('brand');
-  const [outline, setOutline] = useState(true);
+  const [variant, setVariant] = useState<SurfaceVariant>('gradient');
   return (
     <Example
       source={EXAMPLE_SOURCE.ColorExample}
-      state={{ color, outline }}
+      state={{ color, variant }}
       controls={
         <>
           <ExampleToolbar>
-            <ExampleControlSwitch
-              label="outline"
-              checked={outline}
-              onChange={setOutline}
-            />
+            <ExampleControlVariant value={variant} onChange={setVariant} />
           </ExampleToolbar>
           <ExampleToolbar>
             <ExampleControlColor value={color} onChange={setColor} />
@@ -113,7 +124,7 @@ export function ColorExample() {
         </>
       }
     >
-      <Chip color={color} outline={outline}>
+      <Chip variant={variant} color={color}>
         {color}
       </Chip>
     </Example>
@@ -298,6 +309,7 @@ export function SurfaceLevelExample() {
 }
 
 export function PlaygroundExample() {
+  const [variant, setVariant] = useState<SurfaceVariant>('gradient');
   const [color, setColor] = useState<Color>('brand');
   const [size, setSize] = useState<ButtonSize>('md');
   const [outline, setOutline] = useState(true);
@@ -306,9 +318,12 @@ export function PlaygroundExample() {
   return (
     <Example
       source={EXAMPLE_SOURCE.PlaygroundExample}
-      state={{ color, size, outline, rounded }}
+      state={{ variant, color, size, outline, rounded }}
       controls={
         <>
+          <ExampleToolbar>
+            <ExampleControlVariant value={variant} onChange={setVariant} />
+          </ExampleToolbar>
           <ExampleToolbar>
             <ExampleControlSize value={size} onChange={setSize} />
           </ExampleToolbar>
@@ -336,6 +351,7 @@ export function PlaygroundExample() {
       }
     >
       <Chip
+        variant={variant}
         color={color}
         size={size}
         outline={outline}

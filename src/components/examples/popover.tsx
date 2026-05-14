@@ -139,7 +139,7 @@ export function ControlledExample() {
         <Button ref={anchorRef} onClick={() => setOpen((o) => !o)}>
           {open ? 'Close' : 'Open'} from external state
         </Button>
-        <Chip color={open ? 'green' : 'neutral'} outline>
+        <Chip color={open ? 'green' : 'neutral'}>
           {open ? 'open' : 'closed'}
         </Chip>
       </div>
@@ -556,9 +556,7 @@ export function ColorExample() {
               like Chips.
             </p>
             <div className="flex gap-1">
-              <Chip color={color} outline>
-                {color}
-              </Chip>
+              <Chip color={color}>{color}</Chip>
               <Chip color={color}>chip</Chip>
             </div>
           </div>

@@ -57,7 +57,7 @@ export function OverviewExample() {
         prefix={<span className="ml-2 text-cladd-fg-softer">cladd.io/</span>}
         inputClassName="pl-1"
         suffix={
-          <Chip size="sm" color="green" outline className="mr-2">
+          <Chip size="sm" color="green" className="mr-2">
             available
           </Chip>
         }

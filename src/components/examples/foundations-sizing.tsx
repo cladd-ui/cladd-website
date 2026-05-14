@@ -47,9 +47,7 @@ export function RootVsNestedExample() {
             {size}
           </span>
           <Button size={size}>Button</Button>
-          <Chip size={size} outline>
-            Chip
-          </Chip>
+          <Chip size={size}>Chip</Chip>
           <Shortcut size={size}>cmd K</Shortcut>
           <Spinner size={size} />
         </div>
@@ -68,7 +66,7 @@ export function NestedInsideButtonExample() {
         <span className="w-12 font-mono text-xs text-cladd-fg-soft">md</span>
         <Button size="md">
           Save
-          <Chip size="md" outline color="green">
+          <Chip size="md" color="green">
             12
           </Chip>
           <Shortcut size="md">cmd S</Shortcut>
@@ -78,7 +76,7 @@ export function NestedInsideButtonExample() {
         <span className="w-12 font-mono text-xs text-cladd-fg-soft">lg</span>
         <Button size="lg">
           Save
-          <Chip size="lg" outline color="green">
+          <Chip size="lg" color="green">
             12
           </Chip>
           <Shortcut size="lg">cmd S</Shortcut>
@@ -88,7 +86,7 @@ export function NestedInsideButtonExample() {
         <span className="w-12 font-mono text-xs text-cladd-fg-soft">xl</span>
         <Button size="xl">
           Save
-          <Chip size="xl" outline color="green">
+          <Chip size="xl" color="green">
             12
           </Chip>
           <Shortcut size="xl">cmd S</Shortcut>
@@ -108,7 +106,7 @@ export function DenseRowExample() {
       <div className="flex flex-wrap items-center gap-2">
         <Button size="md">Save</Button>
         <Input size="md" placeholder="Title" className="w-40" />
-        <Chip size="md" outline color="blue">
+        <Chip size="md" color="blue">
           Draft
         </Chip>
         <Shortcut size="md">cmd S</Shortcut>

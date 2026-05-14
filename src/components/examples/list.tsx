@@ -213,9 +213,7 @@ export function ListItemExample() {
           <ListItem>
             <span className="text-cladd-fg-soft">Plan</span>
             <span className="ml-auto">
-              <Chip color="brand" outline>
-                Pro
-              </Chip>
+              <Chip color="brand">Pro</Chip>
             </span>
           </ListItem>
           <ListItem>

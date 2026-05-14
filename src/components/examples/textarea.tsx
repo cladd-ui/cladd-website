@@ -45,7 +45,7 @@ export function OverviewExample() {
         icon={<NoteIcon />}
         contentClassName="items-start"
         suffix={
-          <Chip size="sm" color="orange" outline className="mt-2 mr-2">
+          <Chip size="sm" color="orange" className="mt-2 mr-2">
             triage
           </Chip>
         }

@@ -11,6 +11,7 @@ import {
   RoundedExample,
   SizeExample,
   SurfaceLevelExample,
+  VariantExample,
 } from '@/components/examples/chip';
 import ChipProps from '@/generated/props/ChipProps';
 
@@ -34,9 +35,7 @@ export default ({ children }) => (
 ```tsx
 import { Chip } from '@cladd-ui/react';
 
-<Chip color="green" outline>
-  Active
-</Chip>;
+<Chip color="green">Active</Chip>;
 ```
 
 A bare `Chip` renders a small filled-gradient label sized `md`. Pass `outline` for the more common "tag" treatment — a transparent surface with a colored ring. Pass `as="button"` (or any element/component) to make it interactive: pointer cursor, hover overlay, and pressed state turn on automatically.
@@ -57,15 +56,21 @@ Chips and buttons are designed to nest. Pass the same `size` token to both and t
 
 <InsideButtonExample />
 
+### Variants
+
+`variant` is the same surface variant token used by [`Surface`](/react/components/surface/) and [`Button`](/react/components/button/). `gradient` is the default — a subtle highlight that gives the chip a soft, pill-button feel. `solid` is a flat fill; `transparent` drops the background entirely so only the ring and label remain — the classic "tag" treatment when paired with `outline`. `solid-fill` and `gradient-fill` flood the chip with the accent color and invert the text — the loud option for status pills that need to read at a glance.
+
+<VariantExample />
+
 ### Outline
 
-`outline` switches the surface treatment. With `outline` (the typical chip look), the background is transparent and a colored ring traces the edge — the chip reads as a label on top of whatever surface it's sitting on. Without `outline` (the default), the chip uses a filled `gradient` surface — louder, more "pill button" than "tag". The accent `color` drives the text and the ring in both modes; on the gradient version it tints the fill as well.
+`outline` toggles the colored ring around the chip's edge. With `outline` (the default), the ring picks up the accent `color`; without it, the chip leans entirely on its surface fill and text color. Pair `outline` with `variant="transparent"` for the classic ring-only tag, or drop the outline on a `gradient-fill` chip for a clean, unbordered status pill.
 
 <OutlineExample />
 
 ### Colors
 
-`color` accepts any of the eleven cladd accent tokens. The accent always tints the text; on outlined chips it also tints the ring; on filled chips it tints the gradient. Pair the toggle with the color picker to see how the two modes read.
+`color` accepts any of the eleven cladd accent tokens. The accent always tints the text; on outlined chips it also tints the ring; on the fill variants it floods the surface. Try the variant control alongside the color picker to see how the same accent reads across treatments.
 
 <ColorExample />
 
@@ -101,7 +106,7 @@ Chips read correctly across nesting depth — the underlying [`Surface`](/react/
 
 ### Playground
 
-`size`, `color`, `outline`, `rounded`, and the icon slot compose freely. Try a `2xs` outlined red chip for an inline error count, a `lg` rounded brand chip with an icon for a "subscribed" pill, or a default `md` neutral chip as a quiet metadata tag.
+`variant`, `size`, `color`, `outline`, `rounded`, and the icon slot compose freely. Try a `transparent` outlined red chip for an inline error count, a `lg` rounded `gradient-fill` brand chip with an icon for a "subscribed" pill, or a default `md` neutral chip as a quiet metadata tag.
 
 <PlaygroundExample />
 

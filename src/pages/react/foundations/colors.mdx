@@ -37,7 +37,7 @@ There are two ways to set an accent. The most common is per-component, via the `
 
 ```tsx
 <Button color="lime">Save</Button>
-<Chip color="red" outline>Failed</Chip>
+<Chip color="red">Failed</Chip>
 <Spinner color="blue" />
 ```
 
@@ -48,7 +48,7 @@ The second way is to apply the class directly to a region. Anything inside that 
 ```tsx
 <div className="cladd-color-purple">
   <Button>Save</Button>
-  <Chip outline>Live</Chip>
+  <Chip>Live</Chip>
 </div>
 ```
 
@@ -91,7 +91,7 @@ That's all. The cladd OKLCH derivations apply automatically to anything inside a
 
 ```tsx
 <Button color="magenta">Save</Button>
-<Chip color="magenta" outline>Custom</Chip>
+<Chip color="magenta">Custom</Chip>
 ```
 
 <CustomAccentExample />

@@ -206,9 +206,7 @@ export function WrapContentWrongExample() {
           outline
           className="flex items-center gap-3 rounded-cladd-md p-4"
         >
-          <Chip color="red" outline>
-            Status
-          </Chip>
+          <Chip color="red">Status</Chip>
           <span className="text-sm">Layout doesn&apos;t apply to children</span>
         </Surface>
       </div>
@@ -221,9 +219,7 @@ export function WrapContentWrongExample() {
           className="rounded-cladd-md"
           contentClassName="flex items-center gap-3 p-4"
         >
-          <Chip color="green" outline>
-            Status
-          </Chip>
+          <Chip color="green">Status</Chip>
           <span className="text-sm">Children laid out correctly</span>
         </Surface>
       </div>
@@ -242,9 +238,7 @@ export function WrapContentBypassExample() {
           <span className="font-mono text-xs text-cladd-fg-softer">Header</span>
         </div>
         <div className="relative flex items-center gap-3 px-4 py-3">
-          <Chip color="blue" outline>
-            Body
-          </Chip>
+          <Chip color="blue">Body</Chip>
           <span className="text-sm">
             Stacked sections with their own padding
           </span>

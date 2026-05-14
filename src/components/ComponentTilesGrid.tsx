@@ -45,11 +45,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
   ),
   Button: () => <Button readOnly>Save</Button>,
   Checkbox: () => <Checkbox checked readOnly />,
-  Chip: () => (
-    <Chip color="blue" outline>
-      Draft
-    </Chip>
-  ),
+  Chip: () => <Chip color="blue">Draft</Chip>,
   Dialog: () => (
     <Surface
       outline
@@ -254,7 +250,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
 
 function TileFallback({ name }: { name: string }) {
   return (
-    <Chip size="sm" outline color="neutral">
+    <Chip size="sm" color="neutral">
       {name}
     </Chip>
   );

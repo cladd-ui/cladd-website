@@ -73,7 +73,7 @@ export function OverviewExample() {
               </span>
               <div className="flex items-center gap-2">
                 <Chip color="green">In Progress</Chip>
-                <Chip outline>0</Chip>
+                <Chip variant="transparent">0</Chip>
               </div>
             </div>
             <h2 className="text-cladd-lg mt-2 font-semibold">Website docs</h2>
@@ -145,7 +145,7 @@ export function ControlledExample() {
     >
       <div className="flex items-center gap-2">
         <Button onClick={() => setOpen(true)}>Open from external state</Button>
-        <Chip color={open ? 'green' : 'neutral'} outline>
+        <Chip color={open ? 'green' : 'neutral'}>
           {open ? 'open' : 'closed'}
         </Chip>
       </div>
@@ -420,7 +420,7 @@ export function ScrollableExample() {
                 <h3 className="text-cladd-md font-semibold">
                   v{release.version}
                 </h3>
-                <Chip outline>{release.date}</Chip>
+                <Chip>{release.date}</Chip>
               </div>
               <p className="mt-2 text-cladd-sm text-cladd-fg-soft">
                 {release.summary}

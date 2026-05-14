@@ -30,9 +30,7 @@ export function OverviewExample() {
           <SectionTitle>Project</SectionTitle>
           <div className="flex items-center justify-between">
             <span className="font-medium">acme-marketing</span>
-            <Chip color="green" outline>
-              Live
-            </Chip>
+            <Chip color="green">Live</Chip>
           </div>
           <p className="text-cladd-fg-soft">
             Landing pages, lifecycle emails, and the press kit microsite.
@@ -67,9 +65,7 @@ export function InPopoverExample() {
               <SectionTitle>Workspace</SectionTitle>
               <div className="flex items-center justify-between">
                 <span className="font-medium">acme-marketing</span>
-                <Chip color="brand" outline>
-                  Pro
-                </Chip>
+                <Chip color="brand">Pro</Chip>
               </div>
               <span className="text-cladd-fg-soft">
                 8 members · 42 projects
@@ -183,17 +179,15 @@ export function EndSlotExample() {
         </SectionTitle>
         <div className="mt-4 flex items-center justify-between">
           <span>Anna Whittaker</span>
-          <Chip color="brand" outline>
-            Owner
-          </Chip>
+          <Chip color="brand">Owner</Chip>
         </div>
         <div className="flex items-center justify-between">
           <span>Jamie Park</span>
-          <Chip outline>Editor</Chip>
+          <Chip>Editor</Chip>
         </div>
         <div className="flex items-center justify-between">
           <span>Riley Chen</span>
-          <Chip outline>Viewer</Chip>
+          <Chip>Viewer</Chip>
         </div>
       </Surface>
     </Example>
@@ -211,7 +205,7 @@ export function RichSurfaceExample() {
         <div className="flex flex-col gap-2">
           <SectionTitle>
             <span>Overview</span>
-            <Chip color="green" outline className="ml-auto normal-case">
+            <Chip color="green" className="ml-auto normal-case">
               Synced
             </Chip>
           </SectionTitle>

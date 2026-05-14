@@ -154,9 +154,7 @@ export function OverviewExample() {
         {labels.length ? (
           <span className="flex flex-wrap gap-1">
             {labels.map((l) => (
-              <Chip key={l} outline>
-                {l}
-              </Chip>
+              <Chip key={l}>{l}</Chip>
             ))}
           </span>
         ) : (
@@ -280,9 +278,7 @@ export function MultipleExample() {
         {labels.length ? (
           <span className="flex flex-wrap gap-1">
             {labels.map((l) => (
-              <Chip key={l} outline>
-                {l}
-              </Chip>
+              <Chip key={l}>{l}</Chip>
             ))}
           </span>
         ) : (

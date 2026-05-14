@@ -32,7 +32,7 @@ export function AccentPaletteExample() {
       previewClassName="flex-wrap gap-2 content-center"
     >
       {ACCENT_COLORS.map((color) => (
-        <Chip key={color} color={color} outline size="md">
+        <Chip key={color} color={color} size="md">
           {color}
         </Chip>
       ))}
@@ -48,11 +48,11 @@ export function AccentOnRegionExample() {
     >
       <div className="cladd-color-purple flex items-center gap-2">
         <Button>Save</Button>
-        <Chip outline>Live</Chip>
+        <Chip>Live</Chip>
       </div>
       <div className="cladd-color-orange flex items-center gap-2">
         <Button>Save</Button>
-        <Chip outline>Live</Chip>
+        <Chip>Live</Chip>
       </div>
     </Example>
   );
@@ -69,7 +69,7 @@ export function CustomAccentExample() {
         style={{ '--cladd-theme': '#ff00cc' } as CSSProperties}
       >
         <Button>Save</Button>
-        <Chip outline>Magenta</Chip>
+        <Chip>Magenta</Chip>
         <Button variant="solid-fill">Filled</Button>
       </div>
     </Example>
@@ -85,7 +85,7 @@ export function TuningExample() {
       <div className="cladd-color-blue flex items-center gap-3">
         <span className="w-32 text-xs text-cladd-fg-soft">Default</span>
         <Button>Primary</Button>
-        <Chip outline>Tag</Chip>
+        <Chip>Tag</Chip>
         <span className="text-sm font-semibold text-cladd-primary">
           Primary text
         </span>
@@ -103,7 +103,7 @@ export function TuningExample() {
       >
         <span className="w-32 text-xs text-cladd-fg-soft">Tuned</span>
         <Button>Primary</Button>
-        <Chip outline>Tag</Chip>
+        <Chip>Tag</Chip>
         <span className="text-sm font-semibold text-cladd-primary">
           Primary text
         </span>

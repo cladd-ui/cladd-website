@@ -148,7 +148,6 @@ export function InsideChipExample() {
       <Chip
         size={size}
         color="yellow"
-        outline
         icon={Spinner}
         iconProps={{ size: spinnerSize, color: 'yellow' }}
       >

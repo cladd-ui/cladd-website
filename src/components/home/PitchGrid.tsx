@@ -120,7 +120,7 @@ function SizingPreview() {
         </span>
         <Button size="lg">
           Save
-          <Chip size="lg" outline color="green">
+          <Chip size="lg" color="green">
             12
           </Chip>
           <Shortcut size="lg">cmd S</Shortcut>
@@ -173,9 +173,7 @@ function AccentsPreview() {
           Primary
         </Button>
         <Button color={accent}>Secondary</Button>
-        <Chip color={accent} outline>
-          {accent}
-        </Chip>
+        <Chip color={accent}>{accent}</Chip>
       </div>
     </div>
   );

@@ -118,7 +118,7 @@ export function UseDeviceExample() {
               <Chip
                 key={flag}
                 color={active ? 'green' : 'neutral'}
-                outline={!active}
+                variant={active ? 'solid' : 'transparent'}
               >
                 {flag}
               </Chip>
