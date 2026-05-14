@@ -306,7 +306,7 @@ export function DesignToolDemo() {
             outline={tool === 'move'}
             onClick={() => setTool('move')}
           >
-            <CursorIcon className="size-3.5" />
+            <CursorIcon />
           </ToolbarButton>
           <ToolbarButton
             color={tool === 'frame' ? 'brand' : undefined}
@@ -314,7 +314,7 @@ export function DesignToolDemo() {
             outline={tool === 'frame'}
             onClick={() => setTool('frame')}
           >
-            <FrameIcon className="size-3.5" />
+            <FrameIcon />
           </ToolbarButton>
           <ToolbarButton
             color={tool === 'shape' ? 'brand' : undefined}
@@ -322,7 +322,7 @@ export function DesignToolDemo() {
             outline={tool === 'shape'}
             onClick={() => setTool('shape')}
           >
-            <ShapeIcon className="size-3.5" />
+            <ShapeIcon />
           </ToolbarButton>
           <ToolbarButton
             color={tool === 'text' ? 'brand' : undefined}
@@ -330,24 +330,24 @@ export function DesignToolDemo() {
             outline={tool === 'text'}
             onClick={() => setTool('text')}
           >
-            <TextIcon className="size-3.5" />
+            <TextIcon />
           </ToolbarButton>
           <ToolbarSeparator />
           <ToolbarButton>
-            <HandIcon className="size-3.5" />
+            <HandIcon />
           </ToolbarButton>
           <ToolbarButton>
-            <CommentIcon className="size-3.5" />
+            <CommentIcon />
           </ToolbarButton>
         </Toolbar>
 
         <div className="ml-auto flex items-center gap-2">
           <Toolbar size="sm">
             <ToolbarButton>
-              <UndoIcon className="size-3.5" />
+              <UndoIcon />
             </ToolbarButton>
             <ToolbarButton>
-              <RedoIcon className="size-3.5" />
+              <RedoIcon />
             </ToolbarButton>
           </Toolbar>
           <NumberField
@@ -401,13 +401,7 @@ export function DesignToolDemo() {
                   key={layer.id}
                   selected={layer.id === selectedId}
                   onClick={() => setSelectedId(layer.id)}
-                  icon={
-                    layer.kind === 'card' ? (
-                      <ShapeIcon className="size-3.5" />
-                    ) : (
-                      <CircleIcon className="size-3.5" />
-                    )
-                  }
+                  icon={layer.kind === 'card' ? <ShapeIcon /> : <CircleIcon />}
                   className="ml-4 w-auto"
                   after={
                     <span className="flex items-center gap-1 text-cladd-fg-softer">
@@ -541,6 +535,7 @@ export function DesignToolDemo() {
             'absolute -top-11 right-1 -bottom-7 z-20 w-64 rounded-3xl duration-300 md:relative md:top-0 md:right-0 md:bottom-0 md:z-1 md:block md:rounded-none md:border-l md:border-cladd-outline md:duration-0',
             !sidebarOpen && 'translate-x-[110%] md:translate-x-0',
           )}
+          level={1}
           outline
           variant="gradient"
           bgClassName="md:hidden"

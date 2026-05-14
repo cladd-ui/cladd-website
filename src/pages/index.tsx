@@ -1,6 +1,14 @@
-import { Button, Spinner, Surface } from '@cladd-ui/react';
+import {
+  Button,
+  Segmented,
+  SegmentedButton,
+  Spinner,
+  Surface,
+  Toolbar,
+} from '@cladd-ui/react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { CodePreviewPairs } from '@/components/home/CodePreviewPairs';
 import { ComponentCatalog } from '@/components/home/ComponentCatalog';
@@ -13,7 +21,7 @@ import { SiteLayout } from '@/components/SiteLayout';
 
 const DEMO_HEIGHT = 600;
 
-function DesignToolDemoPlaceholder() {
+function DemoPlaceholder() {
   return (
     <Surface
       className="flex items-center justify-center"
@@ -35,9 +43,84 @@ const DesignToolDemo = dynamic(
     })),
   {
     ssr: false,
-    loading: () => <DesignToolDemoPlaceholder />,
+    loading: () => <DemoPlaceholder />,
   },
 );
+
+const KanbanDemo = dynamic(
+  () =>
+    import('@/components/home/KanbanDemo').then((m) => ({
+      default: m.KanbanDemo,
+    })),
+  {
+    ssr: false,
+    loading: () => <DemoPlaceholder />,
+  },
+);
+
+type DemoView = 'design' | 'kanban';
+
+function HomeDemo() {
+  const [view, setView] = useState<DemoView>('design');
+  return (
+    <>
+      <div className="mb-4 flex justify-center">
+        <Toolbar size="sm">
+          <Segmented>
+            <SegmentedButton
+              active={view === 'design'}
+              onClick={() => setView('design')}
+            >
+              Design tool
+            </SegmentedButton>
+            <SegmentedButton
+              active={view === 'kanban'}
+              onClick={() => setView('kanban')}
+            >
+              Kanban board
+            </SegmentedButton>
+          </Segmented>
+        </Toolbar>
+      </div>
+      <div
+        style={{ height: DEMO_HEIGHT }}
+        className="overflow-hidden rounded-2xl outline outline-cladd-outline"
+      >
+        {view === 'design' ? <DesignToolDemo /> : <KanbanDemo />}
+      </div>
+      <p className="mt-4 text-center text-sm text-cladd-fg-softer">
+        {view === 'design' ? (
+          <>
+            This demo is built entirely from cladd primitives —{' '}
+            <code className="font-mono">Surface</code>,{' '}
+            <code className="font-mono">Toolbar</code>,{' '}
+            <code className="font-mono">Button</code>,{' '}
+            <code className="font-mono">NumberField</code>,{' '}
+            <code className="font-mono">NumberScrubber</code>,{' '}
+            <code className="font-mono">Select</code>,{' '}
+            <code className="font-mono">Slider</code>,{' '}
+            <code className="font-mono">List</code>, etc.. Tweak the inspector;
+            the canvas updates live.
+          </>
+        ) : (
+          <>
+            Same kit, very different surface — a dense kanban built from{' '}
+            <code className="font-mono">Surface</code>,{' '}
+            <code className="font-mono">Toolbar</code>,{' '}
+            <code className="font-mono">Segmented</code>,{' '}
+            <code className="font-mono">Chip</code>,{' '}
+            <code className="font-mono">SearchField</code>,{' '}
+            <code className="font-mono">Shortcut</code>. Cards are{' '}
+            <code className="font-mono">Surface</code>s with{' '}
+            <code className="font-mono">hoverable</code> +{' '}
+            <code className="font-mono">clickable</code>, so the nested action
+            buttons stay legal.
+          </>
+        )}
+      </p>
+    </>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -82,24 +165,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
-        <div
-          style={{ minHeight: DEMO_HEIGHT }}
-          className="overflow-hidden rounded-2xl outline outline-cladd-outline"
-        >
-          <DesignToolDemo />
-        </div>
-        <p className="mt-4 text-center text-sm text-cladd-fg-softer">
-          This demo is built entirely from cladd primitives —{' '}
-          <code className="font-mono">Surface</code>,{' '}
-          <code className="font-mono">Toolbar</code>,{' '}
-          <code className="font-mono">Button</code>,{' '}
-          <code className="font-mono">NumberField</code>,{' '}
-          <code className="font-mono">NumberScrubber</code>,{' '}
-          <code className="font-mono">Select</code>,{' '}
-          <code className="font-mono">Slider</code>,{' '}
-          <code className="font-mono">List</code>, etc.. Tweak the inspector;
-          the canvas updates live.
-        </p>
+        <HomeDemo />
       </section>
 
       <ProductsStrip />
