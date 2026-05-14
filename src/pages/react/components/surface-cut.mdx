@@ -44,11 +44,12 @@ import { SurfaceCut } from '@cladd-ui/react';
 
 ## Anatomy
 
-A `SurfaceCut` renders three layers, in this order:
+A `SurfaceCut` renders up to four layers, in this order:
 
 1. **Root element** — the polymorphic node (`div` by default, swappable via `as`). Carries `className`, the accent-color class (`cladd-color-{name}`), and any forwarded element props. Positioned `relative` so the other layers can sit inside it.
-2. **Background layer** — an absolutely-positioned `div` sized to the root. Paints the recessed fill (`bg-cladd-surface-cut`), the inset outline ring (when `outline`), and the hover/pressed overlays. There's no `bgClassName` here — the cut's fill is fixed, by design.
-3. **Content wrapper** — a `relative h-full` `div` (`SurfaceCutContent`) that wraps `children`. The `relative` positioning lifts the content above the absolute bg layer so the children render on top of the recessed fill. It has no padding or layout of its own — that's `contentClassName`'s job.
+2. **Background layer** — an absolutely-positioned `div` sized to the root. Paints the recessed fill (`bg-cladd-surface-cut`) and the inset outline ring (when `outline`). There's no `bgClassName` here — the cut's fill is fixed, by design.
+3. **Overlay layer** — an absolutely-positioned sibling of the bg, rendered only when `hoverable` or `clickable` is on. Paints the hover and pressed tints. Where it stacks is controlled by `overlayPosition`: `'above'` (default) places it above the content so the tint covers everything; `'below'` places it between the bg and the content so the tint only sits on the fill. Style it via `overlayClassName`.
+4. **Content wrapper** — a `relative h-full` `div` (`SurfaceCutContent`) that wraps `children`. The `relative` positioning lifts the content above the absolute bg and overlay layers so the children render on top of the recessed fill. It has no padding or layout of its own — that's `contentClassName`'s job.
 
 This split is why `className` and `contentClassName` are separate props. `className` shapes the **box**: width, rounded corners, accent token. `contentClassName` shapes the **content layout**: padding, `flex`, `grid`, gap, alignment. The two never collide.
 
