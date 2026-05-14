@@ -27,7 +27,7 @@ export default function KanbanDemoPage() {
           content="A dense kanban board built entirely from cladd primitives."
         />
       </Head>
-      <div className="h-screen w-screen overflow-hidden bg-cladd-bg">
+      <div className="h-full w-full overflow-hidden bg-cladd-bg">
         <KanbanDemo />
       </div>
     </>

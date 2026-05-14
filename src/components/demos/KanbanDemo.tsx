@@ -1453,11 +1453,9 @@ export function KanbanDemo() {
             <div className="w-24 md:w-40">
               <SearchField
                 size="md"
-                inset
                 value={search}
                 onChange={setSearch}
                 placeholder="Search"
-                className="mx-0"
                 clearButton={false}
               />
             </div>

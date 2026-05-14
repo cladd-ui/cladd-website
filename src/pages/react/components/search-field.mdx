@@ -18,28 +18,40 @@ export default ({ children }) => (
 
 # SearchField
 
-`SearchField` is the search input you put at the top of a scrollable list, popover, or command palette. It wraps an [`Input`](/react/components/input/) with the conventions baked in — a left-aligned search glyph, an inline clear button that fades out when the query is empty, and a `sticky top-0` [`Surface`](/react/components/surface/) so the field stays pinned while the list below scrolls. Two layouts: the default **header bar** that sits flush at the top of a panel, and an `inset` **pill** that reads as one item among many inside a [`List`](/react/components/list/) or [`Popover`](/react/components/popover/).
+`SearchField` is a thin wrapper around [`Input`](/react/components/input/) that bakes in the search-field conventions: a left-aligned search glyph, a pill shape, an inline clear button that fades out when the query is empty, and an `onClear` that resets the value for you. Reach for it as a floating pill inside a [`Popover`](/react/components/popover/), [`List`](/react/components/list/), or command palette — or wrap it in a sticky [`Surface`](/react/components/surface/) to pin it as a header bar above a scrolling list.
 
 <OverviewExample />
 
 ## Usage
 
 ```tsx
-import { List, ListButton, SearchField, Surface } from '@cladd-ui/react';
+import { List, ListButton, SearchField } from '@cladd-ui/react';
 
 const [query, setQuery] = useState('');
 
-<Surface outline className="w-72 rounded-3xl">
-  <SearchField
-    value={query}
-    onChange={setQuery}
-    placeholder="Search projects"
-  />
-  <List>{/* …filtered rows… */}</List>
-</Surface>;
+<SearchField
+  value={query}
+  onChange={setQuery}
+  placeholder="Search projects"
+/>;
 ```
 
-`SearchField` is controlled — pass `value` and an `onChange` handler. The handler also fires with `''` when the user presses the inline clear button, so you don't need a separate `onClear`. The wrapper is a [`Surface`](/react/components/surface/), so any extra `SurfaceProps` (`color`, `variant`, `rounded`, …) pass through to the shell.
+`SearchField` is controlled — pass `value` and an `onChange` handler. The handler also fires with `''` when the user presses the inline clear button, so you don't need a separate `onClear`. Everything else is plain [`Input`](/react/components/input/) — every `InputProps` prop (`size`, `color`, `rounded`, `clearButton`, `prefix`, `suffix`, …) passes straight through, with the search-field defaults applied (`size="lg"`, `rounded`, `clearButton`, `placeholder="Search"`, and the search glyph as the leading `icon`).
+
+For the pinned header-bar layout, wrap the field in a sticky [`Surface`](/react/components/surface/) yourself:
+
+```tsx
+<Surface outline className="w-72 rounded-3xl">
+  <Surface
+    className="sticky top-0 z-20 rounded-t-cladd-popover"
+    contentClassName="p-1.5"
+    outline
+  >
+    <SearchField value={query} onChange={setQuery} />
+  </Surface>
+  <List>{/* …filtered rows… */}</List>
+</Surface>
+```
 
 ## Examples
 
@@ -49,15 +61,15 @@ const [query, setQuery] = useState('');
 
 <SizeExample />
 
-### Inset
+### Inside a popover
 
-Set `inset` to switch the layout from a flush header bar to a floating pill that sits **inside** the parent surface. The pill uses the same surface level as its parent (instead of stepping up `+1`), drops the outline, rounds to a full pill, and inserts horizontal margins so it reads as one row in the list rather than a separate header. Use it inside a [`Popover`](/react/components/popover/) when you already have a [`SectionTitle`](/react/components/section-title/) above — that's the pattern [`Select`](/react/components/select/) uses for its built-in search.
+Render `SearchField` directly inside a [`Popover`](/react/components/popover/) or [`List`](/react/components/list/) to get a floating pill that reads as one row among many — useful below a [`SectionTitle`](/react/components/section-title/), between [`ListSeparator`](/react/components/list/)s, or as the first row of an action menu. Add horizontal margins (`mx-2`) so it doesn't bleed into the popover edge; that's the pattern [`Select`](/react/components/select/) uses for its built-in search.
 
 <InsetExample />
 
 ### Playground
 
-`size` and `inset` are the two knobs that matter — flip between them to feel the difference between the sticky header bar and the inset pill. The header variant locks to the surface's top corners (`rounded-t-cladd-popover`), so it expects to live directly inside a rounded [`Surface`](/react/components/surface/). The inset variant floats with horizontal margins, so it can sit anywhere — below a [`SectionTitle`](/react/components/section-title/), between [`ListSeparator`](/react/components/list/)s, or as the first row of an action menu.
+`size` is the main knob. Toggle the layout switch to see the two composition patterns side-by-side: the floating pill on its own (drop it anywhere) versus a sticky [`Surface`](/react/components/surface/) wrapper that pins it as a header above a scrolling list (`rounded-t-cladd-popover` to align with the rounded parent surface).
 
 <PlaygroundExample />
 

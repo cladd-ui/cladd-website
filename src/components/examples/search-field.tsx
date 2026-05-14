@@ -68,11 +68,17 @@ export function OverviewExample() {
     <Example source={EXAMPLE_SOURCE.OverviewExample}>
       <Surface outline className="w-72 rounded-3xl">
         <div className="max-h-72 overflow-auto">
-          <SearchField
-            value={query}
-            onChange={setQuery}
-            placeholder="Search projects"
-          />
+          <Surface
+            className="sticky top-0 z-20 rounded-t-cladd-popover"
+            contentClassName="p-1.5"
+            outline
+          >
+            <SearchField
+              value={query}
+              onChange={setQuery}
+              placeholder="Search projects"
+            />
+          </Surface>
           <List>
             {filtered.length === 0 ? (
               <ListItem className="text-cladd-fg-softer">No matches</ListItem>
@@ -108,12 +114,18 @@ export function SizeExample() {
       }
     >
       <Surface outline className="w-80 rounded-3xl">
-        <SearchField
-          size={size}
-          value={query}
-          onChange={setQuery}
-          placeholder="Search projects"
-        />
+        <Surface
+          className="sticky top-0 z-20 rounded-t-cladd-popover"
+          contentClassName="p-1.5"
+          outline
+        >
+          <SearchField
+            size={size}
+            value={query}
+            onChange={setQuery}
+            placeholder="Search projects"
+          />
+        </Surface>
         <List>
           {PROJECTS.filter((p) => matches(query, p))
             .slice(0, 3)
@@ -140,11 +152,10 @@ export function InsetExample() {
         <Popover className="w-64" offset={8} closeOnBackdropClick={false}>
           <SectionTitle className="px-4 pt-4">Commands</SectionTitle>
           <SearchField
-            inset
             value={query}
             onChange={setQuery}
             placeholder="Filter commands"
-            className="mt-2"
+            className="mx-2 mt-2 w-auto"
           />
           <List>
             {filtered.length === 0 ? (
@@ -201,14 +212,29 @@ export function PlaygroundExample() {
     >
       <Surface outline className="w-72 rounded-3xl">
         {inset && <SectionTitle className="px-4 pt-4">Search</SectionTitle>}
-        <SearchField
-          size={size}
-          inset={inset}
-          value={query}
-          onChange={setQuery}
-          placeholder="Search projects"
-          className={inset ? 'mt-2' : ''}
-        />
+        {inset ? (
+          <SearchField
+            size={size}
+            value={query}
+            onChange={setQuery}
+            placeholder="Search projects"
+            className={'mx-2 mt-2 w-auto'}
+          />
+        ) : (
+          <Surface
+            className="sticky top-0 z-20 rounded-t-cladd-popover"
+            contentClassName="p-1.5"
+            outline
+          >
+            <SearchField
+              size={size}
+              value={query}
+              onChange={setQuery}
+              placeholder="Search projects"
+            />
+          </Surface>
+        )}
+
         <List>
           {filtered.slice(0, 4).map((p) => (
             <ListButton key={p} icon={<EnvelopeIcon />}>

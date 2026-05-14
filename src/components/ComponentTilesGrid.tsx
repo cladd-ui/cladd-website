@@ -136,7 +136,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
   ),
   Radio: () => <Radio checked readOnly />,
   SearchField: () => (
-    <SearchField placeholder="Search…" size="lg" inset className="w-32" />
+    <SearchField placeholder="Search…" size="lg" readOnly className="w-32" />
   ),
   SectionTitle: () => <SectionTitle>Section</SectionTitle>,
   Segmented: () => (
