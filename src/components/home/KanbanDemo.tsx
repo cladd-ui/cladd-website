@@ -2,14 +2,20 @@ import {
   Button,
   Chip,
   cn,
+  DropdownIcon,
   List,
   ListButton,
   Popover,
   PopoverClose,
   PopoverRoot,
   PopoverTrigger,
+  Popup,
+  PopupContent,
   SearchField,
   Surface,
+  SurfaceCut,
+  Switch,
+  Textarea,
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
@@ -42,6 +48,7 @@ interface Task {
   dateRange?: { start: string; end: string; overdue?: boolean };
   reactions?: number;
   reacted?: boolean;
+  pinned?: boolean;
   hasDescription?: boolean;
   comments?: number;
   subtasks?: { done: number; total: number };
@@ -599,6 +606,122 @@ function SettingsIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+function ShareIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M11.1934 5.23491C11.3964 5.59593 11.2684 6.05322 10.9074 6.25629L6.82828 8.55079C6.46726 8.75387 6.00997 8.62583 5.8069 8.26481C5.60383 7.90379 5.73187 7.4465 6.09289 7.24343L10.172 4.94893C10.533 4.74586 10.9903 4.8739 11.1934 5.23491Z"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M5.8069 9.73522C6.00997 9.3742 6.46726 9.24616 6.82828 9.44924L10.9074 11.7437C11.2684 11.9468 11.3964 12.4041 11.1934 12.7651C10.9903 13.1261 10.533 13.2542 10.172 13.0511L6.09289 10.7566C5.73187 10.5535 5.60383 10.0962 5.8069 9.73522Z"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M1.5 9C1.5 7.34279 2.84279 6 4.5 6C6.15721 6 7.5 7.34279 7.5 9C7.5 10.6572 6.15721 12 4.5 12C2.84279 12 1.5 10.6572 1.5 9Z"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9.5 4.5C9.5 2.84279 10.8428 1.5 12.5 1.5C14.1572 1.5 15.5 2.84279 15.5 4.5C15.5 6.15721 14.1572 7.5 12.5 7.5C10.8428 7.5 9.5 6.15721 9.5 4.5Z"
+        ></path>{' '}
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M9.5 13.5C9.5 11.8428 10.8428 10.5 12.5 10.5C14.1572 10.5 15.5 11.8428 15.5 13.5C15.5 15.1572 14.1572 16.5 12.5 16.5C10.8428 16.5 9.5 15.1572 9.5 13.5Z"
+        ></path>
+      </g>
+    </svg>
+  );
+}
+
+function HistoryIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path
+          d="m9,1c-2.4862,0-4.7682,1.1511-6.2616,3.0369l-.1158-.8347c-.0566-.4106-.4321-.7017-.8457-.6396-.4102.0566-.6968.4355-.6396.8457l.4082,2.9448c.0518.3755.373.647.7417.647.0342,0,.0688-.0024.1035-.0068l2.9438-.4067c.4106-.0571.6973-.4355.6406-.8457-.0576-.4106-.4414-.6968-.8457-.6406l-1.4568.2014c1.1988-1.728,3.1661-2.8015,5.3275-2.8015,3.584,0,6.5,2.916,6.5,6.5s-2.916,6.5-6.5,6.5c-.4141,0-.75.3359-.75.75s.3359.75.75.75c4.4111,0,8-3.5889,8-8S13.4111,1,9,1Z"
+          stroke-width="0"
+        ></path>
+        <path
+          d="m9,4c-.4141,0-.75.3359-.75.75v4.25c0,.2461.1206.4766.3232.6167l3.25,2.25c.1299.0903.2788.1333.4263.1333.2378,0,.4717-.1128.6172-.3232.2358-.3403.1509-.8076-.1899-1.0435l-2.9268-2.0264v-3.8569c0-.4141-.3359-.75-.75-.75Z"
+          stroke-width="0"
+        ></path>
+        <circle cx="3.873" cy="14.127" r=".75" stroke-width="0"></circle>
+        <circle cx="1.75" cy="9" r=".75" stroke-width="0"></circle>
+        <circle cx="6.226" cy="15.698" r=".75" stroke-width="0"></circle>
+        <circle cx="2.302" cy="11.7739" r=".75" stroke-width="0"></circle>
+      </g>
+    </svg>
+  );
+}
+
+function PinIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path d="M3.081,15.669c-.192,0-.384-.073-.53-.22-.293-.293-.293-.768,0-1.061l3.329-3.329c.293-.293,.768-.293,1.061,0s.293,.768,0,1.061l-3.329,3.329c-.146,.146-.338,.22-.53,.22Z"></path>
+        <path d="M15.498,4.77l-2.268-2.268c-1.039-1.039-2.85-1.039-3.889,0l-2.799,2.799c-.531,.034-1.057,.119-1.568,.254-1.083,.285-2.087,.783-2.986,1.48-.17,.132-.275,.331-.289,.546-.014,.215,.066,.425,.218,.577l7.924,7.924c.141,.141,.332,.22,.53,.22,.016,0,.031,0,.047-.001,.215-.014,.414-.119,.546-.289,.697-.899,1.196-1.904,1.481-2.986,.134-.511,.219-1.037,.253-1.568l2.799-2.799c.52-.52,.806-1.21,.806-1.944s-.286-1.425-.806-1.945Z"></path>
+      </g>
+    </svg>
+  );
+}
+
+function SendIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path d="M16.345,1.654c-.344-.344-.845-.463-1.305-.315L2.117,5.493c-.491,.158-.831,.574-.887,1.087-.056,.512,.187,.992,.632,1.251l4.576,2.669,3.953-3.954c.293-.293,.768-.293,1.061,0s.293,.768,0,1.061l-3.954,3.954,2.669,4.576c.235,.402,.65,.639,1.107,.639,.048,0,.097-.003,.146-.008,.512-.056,.929-.396,1.086-.886L16.661,2.96h0c.148-.463,.027-.963-.316-1.306Z"></path>
+      </g>
+    </svg>
+  );
+}
+
+function PaperclipIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path d="M15.758,9.134c-.293-.293-.768-.293-1.061,0l-4.773,4.773c-1.416,1.416-3.887,1.416-5.303,0-.708-.708-1.099-1.65-1.099-2.652s.391-1.943,1.099-2.651L9.57,3.654c.876-.876,2.305-.877,3.183,0,.877,.877,.877,2.305,0,3.182l-4.95,4.95c-.293,.292-.768,.292-1.061,0-.292-.292-.292-.769,0-1.061l4.772-4.773c.293-.293,.293-.768,0-1.061s-.768-.293-1.061,0l-4.772,4.773c-.425,.425-.659,.99-.659,1.591s.234,1.167,.659,1.591c.878,.877,2.306,.877,3.182,0l4.95-4.95c1.461-1.462,1.461-3.841,0-5.303-1.417-1.418-3.889-1.416-5.304,0L3.561,7.543c-.992,.991-1.538,2.31-1.538,3.712s.546,2.721,1.538,3.712c.991,.992,2.31,1.538,3.712,1.538s2.721-.546,3.712-1.538l4.773-4.773c.293-.293,.293-.768,0-1.061Z"></path>
+      </g>
+    </svg>
+  );
+}
+
 // ---------- Subcomponents ----------
 
 function WorkspacePill() {
@@ -642,7 +765,7 @@ function Avatar({ initial, color }: { initial: string; color: Color }) {
     <span
       className={cn(
         `cladd-color-${color}`,
-        'inline-flex size-5 items-center justify-center rounded-full bg-cladd-primary text-[10px] font-semibold text-cladd-on-primary',
+        'inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-cladd-primary text-[10px] font-semibold text-cladd-on-primary',
       )}
     >
       {initial}
@@ -693,7 +816,7 @@ function TaskCard({
       variant="gradient"
       color={columnColor === 'neutral' ? undefined : (columnColor as Color)}
       className="shrink-0 rounded-2xl select-none"
-      contentClassName="flex flex-col gap-2.5 p-3"
+      contentClassName="flex flex-col gap-2 p-3"
       onClick={onSelect}
     >
       {/* Row 1 — icon, id, priority, more */}
@@ -805,18 +928,14 @@ function TaskCard({
                 task.reacted && 'cladd-color-brand text-cladd-primary',
               )}
             >
-              {task.reacted ? (
-                <HeartIcon className="size-4" />
-              ) : (
-                <HeartOutlineIcon className="size-4" />
-              )}
+              {task.reacted ? <HeartIcon /> : <HeartOutlineIcon />}
               <span>{task.reactions}</span>
             </Button>
           )}
           {task.github !== undefined && (
             <Chip className="flex items-center gap-1">
-              <GithubIcon className="size-4" />
-              <PullRequestIcon className="size-4" />
+              <GithubIcon className="size-4!" />
+              <PullRequestIcon />
               <span className="font-mono text-xs">#{task.github}</span>
             </Chip>
           )}
@@ -905,6 +1024,347 @@ function BoardColumn({
   );
 }
 
+function MetaField({
+  label,
+  children,
+  onClick,
+  className,
+}: {
+  label: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Button
+      size="lg"
+      rounded
+      variant="solid"
+      onClick={onClick}
+      className={cn('w-full', className)}
+      contentClassName="pl-3 pr-2 justify-between gap-2"
+      aria-label={label}
+    >
+      <span className="flex min-w-0 items-center gap-2">{children}</span>
+      <DropdownIcon className="shrink-0 text-cladd-fg-softer" />
+    </Button>
+  );
+}
+
+interface MockComment {
+  author: string;
+  initial: string;
+  avatarColor: Color;
+  time: string;
+  body: string;
+  side: 'left' | 'right';
+}
+
+const MOCK_COMMENTS: MockComment[] = [
+  {
+    author: 'Alex',
+    initial: 'A',
+    avatarColor: 'purple',
+    time: 'May 12, 03:14 PM',
+    body: 'Spec reads tight. One nit — can the chevron live in a slot so it stays optional for headless rows?',
+    side: 'left',
+  },
+  {
+    author: 'Vladimir',
+    initial: 'V',
+    avatarColor: 'brand',
+    time: 'May 12, 04:02 PM',
+    body: 'Good call. Pushing the slot variant — should land before the next preview.',
+    side: 'right',
+  },
+  {
+    author: 'Alex',
+    initial: 'A',
+    avatarColor: 'purple',
+    time: 'May 13, 09:01 PM',
+    body: 'Looks great on touch. Keyboard wrap still scrolls past the focused row though.',
+    side: 'left',
+  },
+  {
+    author: 'Vladimir',
+    initial: 'V',
+    avatarColor: 'brand',
+    time: 'May 13, 09:06 PM',
+    body: 'Tracking as CLADD-471 — small follow-up. Marking this one ready.',
+    side: 'right',
+  },
+];
+
+function TaskComment({ comment }: { comment: MockComment }) {
+  const right = comment.side === 'right';
+  return (
+    <div
+      className={cn(
+        'flex max-w-[80%] items-end gap-2',
+        right ? 'ml-auto flex-row-reverse' : 'mr-auto',
+      )}
+    >
+      <div
+        className={cn(
+          'flex flex-col gap-1',
+          right ? 'items-end' : 'items-start',
+        )}
+      >
+        <div className="flex items-baseline gap-2 px-1 text-xs">
+          <Avatar initial={comment.initial} color={comment.avatarColor} />
+          <span className="font-medium text-cladd-fg">{comment.author}</span>
+          <span className="text-cladd-fg-softer">{comment.time}</span>
+        </div>
+        <Surface
+          outline
+          variant="gradient"
+          color={right ? 'brand' : undefined}
+          className="rounded-2xl"
+          contentClassName="px-3 py-2 text-sm leading-snug text-cladd-fg"
+        >
+          {comment.body}
+        </Surface>
+      </div>
+    </div>
+  );
+}
+
+function TaskDetailPopup({
+  task,
+  onOpenChange,
+  onColumnChange,
+  onPinChange,
+}: {
+  task: Task | null;
+  onOpenChange: (open: boolean) => void;
+  onColumnChange: (id: string, column: ColumnId) => void;
+  onPinChange: (id: string, pinned: boolean) => void;
+}) {
+  const open = !!task;
+  const column = task ? COLUMNS.find((c) => c.id === task.column) : undefined;
+  const accent: Color | undefined =
+    column && column.color !== 'neutral' ? (column.color as Color) : undefined;
+
+  return (
+    <Popup
+      open={open}
+      onOpenChange={onOpenChange}
+      aria-label={task ? `Task ${task.id}` : 'Task details'}
+      headerRight={
+        <Toolbar>
+          <ToolbarButton aria-label="Share task">
+            <ShareIcon />
+          </ToolbarButton>
+          <ToolbarButton aria-label="Task history">
+            <HistoryIcon />
+          </ToolbarButton>
+          <ToolbarButton aria-label="More actions">
+            <MoreIcon />
+          </ToolbarButton>
+        </Toolbar>
+      }
+    >
+      {task && column && (
+        <>
+          {/* Main task card */}
+          <PopupContent
+            variant="gradient"
+            contentClassName="flex flex-col gap-4 p-4"
+          >
+            {/* Header row */}
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs text-cladd-fg-softer">
+                {task.id}
+              </span>
+              <div className="ml-auto flex items-center gap-2">
+                <Button
+                  rounded
+                  contentClassName="px-2 gap-1.5"
+                  className={cn(
+                    task.reacted && 'cladd-color-brand text-cladd-primary',
+                  )}
+                >
+                  {task.reacted ? <HeartIcon /> : <HeartOutlineIcon />}
+                  <span className="font-mono text-xs">
+                    {task.reactions ?? 0}
+                  </span>
+                </Button>
+                <PopoverRoot>
+                  <PopoverTrigger>
+                    <Button
+                      rounded
+                      color={accent}
+                      contentClassName="pl-3 pr-2 gap-2"
+                    >
+                      <span className="text-xs font-medium">{column.name}</span>
+                      <DropdownIcon className="text-cladd-fg-softer" />
+                    </Button>
+                  </PopoverTrigger>
+                  <Popover
+                    className="fixed! w-40"
+                    position="bottom-end"
+                    offset={4}
+                  >
+                    <List>
+                      {COLUMNS.map((c) => (
+                        <PopoverClose key={c.id}>
+                          <ListButton
+                            color={c.color === 'neutral' ? undefined : c.color}
+                            onClick={() => onColumnChange(task.id, c.id)}
+                          >
+                            {c.name}
+                          </ListButton>
+                        </PopoverClose>
+                      ))}
+                    </List>
+                  </Popover>
+                </PopoverRoot>
+                <Switch
+                  aria-label="Pin task"
+                  color="brand"
+                  checked={!!task.pinned}
+                  onChange={(v) => onPinChange(task.id, v)}
+                  icon={<PinIcon className="size-3" />}
+                />
+              </div>
+            </div>
+
+            {/* Title row */}
+            <div className="flex items-start gap-4">
+              <h2 className="flex-1 text-xl leading-tight font-semibold text-cladd-fg">
+                {task.title}
+              </h2>
+              <Button
+                rounded
+                size="md"
+                variant="transparent"
+                outline={false}
+                aria-label="Edit title"
+                className="aspect-square text-cladd-fg-softer hover:text-cladd-fg"
+                contentClassName="p-0"
+              >
+                <EditIcon className="size-4" />
+              </Button>
+            </div>
+
+            {/* Meta grid */}
+            <div className="grid grid-cols-2 gap-2">
+              <MetaField label="Tags">
+                {task.tags && task.tags.length > 0 ? (
+                  task.tags.map((tag) => <CardChip key={tag.label} tag={tag} />)
+                ) : (
+                  <span className="text-cladd-fg-softer">Add tags</span>
+                )}
+              </MetaField>
+              <MetaField label="Priority">
+                {task.priority === 'high' ? (
+                  <>
+                    <PriorityIndicator priority="high" />
+                    <span className="text-cladd-fg">High</span>
+                  </>
+                ) : task.priority === 'low' ? (
+                  <>
+                    <PriorityIndicator priority="low" />
+                    <span className="text-cladd-fg">Low</span>
+                  </>
+                ) : (
+                  <span className="text-cladd-fg-softer">No priority</span>
+                )}
+              </MetaField>
+              <MetaField label="Dates">
+                <CalendarIcon className="text-cladd-fg-softer" />
+                {task.dateRange ? (
+                  <span>
+                    <span className="text-cladd-fg">
+                      {task.dateRange.start}
+                    </span>
+                    <span className="px-1 text-cladd-fg-softest">-</span>
+                    <span
+                      className={cn(
+                        task.dateRange.overdue
+                          ? 'cladd-color-red text-cladd-primary'
+                          : 'text-cladd-fg',
+                      )}
+                    >
+                      {task.dateRange.end}
+                    </span>
+                  </span>
+                ) : (
+                  <span className="text-cladd-fg-softer">No dates</span>
+                )}
+              </MetaField>
+              <MetaField label="Assignee">
+                {task.assignee ? (
+                  <>
+                    <Avatar
+                      initial={task.assignee.initial}
+                      color={task.assignee.color}
+                    />
+                    <span className="text-cladd-fg">Vladimir Kharlampidi</span>
+                  </>
+                ) : (
+                  <span className="text-cladd-fg-softer">Unassigned</span>
+                )}
+              </MetaField>
+            </div>
+          </PopupContent>
+
+          {/* Description */}
+          <PopupContent
+            variant="gradient"
+            contentClassName="p-4 text-sm leading-relaxed"
+          >
+            <p>
+              Ship the {task.title.toLowerCase()} change with a focused PR.
+              Document the API surface, add example coverage, and sweep the
+              existing demo pages so nothing falls out of sync.
+            </p>
+            <p className="mt-3">
+              Owner verifies the interaction on touch + keyboard before flipping
+              the status to <strong>In Review</strong>.
+            </p>
+          </PopupContent>
+
+          {/* Comments */}
+          <PopupContent
+            variant="gradient"
+            contentClassName="flex flex-col gap-2 p-2"
+          >
+            <SurfaceCut
+              contentClassName="flex flex-col gap-4 p-2"
+              className="rounded-2xl"
+            >
+              {MOCK_COMMENTS.map((c, i) => (
+                <TaskComment key={i} comment={c} />
+              ))}
+            </SurfaceCut>
+            <div className="flex items-end gap-2">
+              <Textarea
+                size="lg"
+                placeholder="Add a comment"
+                className="flex-1"
+                inputClassName="text-sm"
+                placeholderClassName="text-sm"
+                rounded
+              />
+              <Toolbar size="sm">
+                <ToolbarButton rounded>
+                  <PaperclipIcon />
+                  Add files
+                </ToolbarButton>
+                <ToolbarButton rounded color="brand">
+                  <SendIcon />
+                  Send
+                </ToolbarButton>
+              </Toolbar>
+            </div>
+          </PopupContent>
+        </>
+      )}
+    </Popup>
+  );
+}
+
 // ---------- Main ----------
 
 export function KanbanDemo() {
@@ -928,6 +1388,18 @@ export function KanbanDemo() {
       }),
     );
   }
+
+  function setColumn(id: string, column: ColumnId) {
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, column } : t)));
+  }
+
+  function setPinned(id: string, pinned: boolean) {
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, pinned } : t)));
+  }
+
+  const selectedTask = selectedId
+    ? (tasks.find((t) => t.id === selectedId) ?? null)
+    : null;
 
   return (
     <div className="flex h-full flex-col bg-cladd-bg">
@@ -1012,6 +1484,15 @@ export function KanbanDemo() {
           />
         ))}
       </div>
+
+      <TaskDetailPopup
+        task={selectedTask}
+        onOpenChange={(open) => {
+          if (!open) setSelectedId(null);
+        }}
+        onColumnChange={setColumn}
+        onPinChange={setPinned}
+      />
     </div>
   );
 }
