@@ -29,11 +29,7 @@ import { List, ListButton, SearchField } from '@cladd-ui/react';
 
 const [query, setQuery] = useState('');
 
-<SearchField
-  value={query}
-  onChange={setQuery}
-  placeholder="Search projects"
-/>;
+<SearchField value={query} onChange={setQuery} placeholder="Search projects" />;
 ```
 
 `SearchField` is controlled — pass `value` and an `onChange` handler. The handler also fires with `''` when the user presses the inline clear button, so you don't need a separate `onClear`. Everything else is plain [`Input`](/react/components/input/) — every `InputProps` prop (`size`, `color`, `rounded`, `clearButton`, `prefix`, `suffix`, …) passes straight through, with the search-field defaults applied (`size="lg"`, `rounded`, `clearButton`, `placeholder="Search"`, and the search glyph as the leading `icon`).
