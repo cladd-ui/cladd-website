@@ -287,9 +287,9 @@ export function DesignToolDemo() {
   }
 
   return (
-    <Surface level={1} wrapContent={false}>
+    <Surface level={1} wrapContent={false} className="flex h-full flex-col">
       {/* Top bar */}
-      <div className="no-scrollbar relative flex h-12 items-center gap-4 overflow-x-auto overflow-y-hidden border-b border-cladd-outline px-2">
+      <div className="no-scrollbar relative flex h-12 shrink-0 items-center gap-4 overflow-x-auto overflow-y-hidden border-b border-cladd-outline px-2">
         <div className="flex items-center gap-2 text-sm whitespace-nowrap">
           <span className="inline-flex size-6 items-center justify-center rounded-md bg-cladd-surface-cut">
             <CladdLogo className="size-3.5" />
@@ -381,7 +381,7 @@ export function DesignToolDemo() {
       </div>
 
       {/* Body: 3 columns */}
-      <div className="relative flex h-[520px]">
+      <div className="relative flex min-h-0 flex-1">
         {/* Left panel — Layers */}
         <div className="hidden w-56 flex-col border-r border-cladd-outline lg:flex">
           <div className="flex items-center justify-between px-3 pt-3 pb-2 text-xs font-medium tracking-wide text-cladd-fg-soft uppercase">

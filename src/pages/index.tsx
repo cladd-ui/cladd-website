@@ -5,6 +5,9 @@ import {
   Spinner,
   Surface,
   Toolbar,
+  ToolbarButton,
+  ToolbarSeparator,
+  Tooltip,
 } from '@cladd-ui/react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -17,6 +20,7 @@ import { IsCladdForYou } from '@/components/home/IsCladdForYou';
 import { LatestReleasePill } from '@/components/home/LatestReleasePill';
 import { PitchGrid } from '@/components/home/PitchGrid';
 import { ProductsStrip } from '@/components/home/ProductsStrip';
+import { ExternalLinkIcon } from '@/components/icons/ExternalLinkIcon';
 import { SiteLayout } from '@/components/SiteLayout';
 
 const DEMO_HEIGHT = 600;
@@ -38,7 +42,7 @@ function DemoPlaceholder() {
 
 const DesignToolDemo = dynamic(
   () =>
-    import('@/components/home/DesignToolDemo').then((m) => ({
+    import('@/components/demos/DesignToolDemo').then((m) => ({
       default: m.DesignToolDemo,
     })),
   {
@@ -49,7 +53,7 @@ const DesignToolDemo = dynamic(
 
 const KanbanDemo = dynamic(
   () =>
-    import('@/components/home/KanbanDemo').then((m) => ({
+    import('@/components/demos/KanbanDemo').then((m) => ({
       default: m.KanbanDemo,
     })),
   {
@@ -59,6 +63,11 @@ const KanbanDemo = dynamic(
 );
 
 type DemoView = 'design' | 'kanban';
+
+const DEMO_ROUTES: Record<DemoView, string> = {
+  design: '/demos/design-tool/',
+  kanban: '/demos/kanban/',
+};
 
 function HomeDemo() {
   const [view, setView] = useState<DemoView>('design');
@@ -80,6 +89,18 @@ function HomeDemo() {
               Kanban board
             </SegmentedButton>
           </Segmented>
+          <ToolbarSeparator />
+          <Tooltip tooltip="Open full screen">
+            <ToolbarButton
+              as="a"
+              href={DEMO_ROUTES[view]}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open full screen"
+            >
+              <ExternalLinkIcon />
+            </ToolbarButton>
+          </Tooltip>
         </Toolbar>
       </div>
       <div
