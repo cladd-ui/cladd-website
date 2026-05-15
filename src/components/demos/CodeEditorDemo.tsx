@@ -871,7 +871,7 @@ export function CodeEditorDemo() {
   }
 
   return (
-    <div className="flex h-full bg-cladd-bg">
+    <div className="relative flex h-full bg-cladd-bg">
       {/* Backdrop for mobile sidebar */}
       <div
         className={cn(
@@ -1010,7 +1010,7 @@ export function CodeEditorDemo() {
           {/* Editor pane */}
           <div className="flex min-w-0 flex-1 flex-col">
             {/* Tabs */}
-            <div className="no-scrollbar flex h-8 shrink-0 items-stretch gap-1 overflow-x-auto overflow-y-hidden">
+            <div className="no-scrollbar mr-2 flex h-8 shrink-0 items-stretch gap-1 overflow-x-auto overflow-y-hidden pr-2">
               {openTabs.map((id) => {
                 const f = FILES[id];
                 const isActive = id === activeFile;
@@ -1055,8 +1055,8 @@ export function CodeEditorDemo() {
 
             {/* Editor body */}
             <Surface
-              className="mr-2 min-h-0 flex-1 overflow-auto rounded-r-lg rounded-bl-lg"
-              contentClassName="py-4"
+              className="mr-2 min-h-0 flex-1 rounded-r-lg rounded-bl-lg"
+              contentClassName="py-4 overflow-auto no-scrollbar"
               outline
             >
               {active.render({
