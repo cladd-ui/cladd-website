@@ -58,12 +58,18 @@ export function SiteLayout({
         <meta property="og:image" content="https://cladd.io/share.jpg" />
         <meta property="og:image:width" content="2000" />
         <meta property="og:image:height" content="1000" />
-        <meta property="og:image:alt" content="cladd — React UI kit for building actual apps." />
+        <meta
+          property="og:image:alt"
+          content="cladd — React UI kit for building actual apps."
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content="https://cladd.io/share.jpg" />
-        <meta name="twitter:image:alt" content="cladd — React UI kit for building actual apps." />
+        <meta
+          name="twitter:image:alt"
+          content="cladd — React UI kit for building actual apps."
+        />
       </Head>
       <div className="flex min-h-screen flex-col">
         <header className="sticky top-0 z-11 border-b border-cladd-outline bg-cladd-bg">
@@ -256,6 +262,19 @@ export function SiteLayout({
               </div>
               <div className="mt-2 flex items-center gap-2">
                 <a
+                  title="Start Page HQ"
+                  href="https://startpagehq.com"
+                  target="_blank"
+                  className="opacity-50 grayscale-100 hover:opacity-100 hover:grayscale-0"
+                >
+                  <img
+                    loading="lazy"
+                    src="/assets/products/logo-startpagehq.svg"
+                    alt="Start Page HQ"
+                    className="inline-block size-6"
+                  />
+                </a>
+                <a
                   title="PaneFlow - Create Stunning Slideshows Visually. No Code Required"
                   href="https://paneflow.com"
                   target="_blank"
@@ -307,19 +326,7 @@ export function SiteLayout({
                     className="inline-block size-6"
                   />
                 </a>
-                <a
-                  title="Start Page HQ"
-                  href="https://startpagehq.com"
-                  target="_blank"
-                  className="opacity-50 grayscale-100 hover:opacity-100 hover:grayscale-0"
-                >
-                  <img
-                    loading="lazy"
-                    src="/assets/products/logo-startpagehq.svg"
-                    alt="Start Page HQ"
-                    className="inline-block size-6"
-                  />
-                </a>
+
                 <a
                   title="Cladd - A React UI kit for building actual apps"
                   href="https://cladd.io"
