@@ -55,9 +55,15 @@ export function SiteLayout({
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Cladd" />
+        <meta property="og:image" content="https://cladd.io/share.jpg" />
+        <meta property="og:image:width" content="2000" />
+        <meta property="og:image:height" content="1000" />
+        <meta property="og:image:alt" content="cladd — React UI kit for building actual apps." />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="https://cladd.io/share.jpg" />
+        <meta name="twitter:image:alt" content="cladd — React UI kit for building actual apps." />
       </Head>
       <div className="flex min-h-screen flex-col">
         <header className="sticky top-0 z-11 border-b border-cladd-outline bg-cladd-bg">
