@@ -76,7 +76,7 @@ Chips and buttons are designed to nest. Pass the same `size` token to both and t
 
 ### With icon
 
-The `icon` prop takes a component (not an element) — `Chip` renders it ahead of `children` and applies a size-matched glyph dimension. Forward extra props through `iconProps`. The icon size is locked to the chip's `size`, so you don't pass dimensions yourself.
+The `icon` prop takes a component (not an element) — `Chip` renders it ahead of `children` and applies a size-matched glyph dimension. Forward extra props through `iconProps`. The icon size is locked to the chip's `size` (ramping 6 → 16 px across the scale), so you don't pass dimensions yourself — and the same applies to any direct `<svg>` child, whether it comes through `icon` or not. Adding `className="size-3.5"` to the SVG is a no-op because the chip's selector wins; only `size-3.5!` would override it, and in practice you almost never want to.
 
 <IconExample />
 

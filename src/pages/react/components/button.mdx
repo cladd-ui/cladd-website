@@ -48,6 +48,8 @@ By default `Button` renders a `<button>` element with `variant="gradient"`, `out
 
 <SizeExample />
 
+Direct `<svg>` children are sized automatically — `Button` applies a size-matched glyph dimension (12 px at `2xs`/`xs`, 16 px from `sm` upward), so you can drop a Lucide or Heroicons component in as a child without passing dimensions. Don't add `className="size-3.5"` (or similar) on the icon — the button's selector wins and your class is a no-op unless you escalate with `size-3.5!`. In practice you almost never need to: pick the right button `size` and the icon follows.
+
 ### With spinner
 
 A common loading-state composition: drop a [`Spinner`](/react/components/spinner/) inside a button and pass the matching `size` token to both. The spinner sits at the right proportion at every step of the scale, and pairing the loading state with `readOnly` keeps the button visually intact while suppressing clicks. Same trick works for [`Chip`](/react/components/chip/) or [`Shortcut`](/react/components/shortcut/) — anything that consumes the same size scale.

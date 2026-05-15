@@ -42,6 +42,14 @@ When writing cladd code:
   render the icon as a child: \`<Button><PlusIcon />Add</Button>\`.
   Doc examples reference \`PlusIcon\` / \`CheckIcon\` as placeholders —
   they are not a specific package; substitute the host project's icons.
+- Icon sizing is automatic — do NOT put \`size-*\` (e.g. \`size-3.5\`)
+  on \`<svg>\` children inside \`Button\` or \`Chip\`. Both components
+  apply a size-matched glyph dimension to direct SVG children (Button:
+  12 px at \`2xs\`/\`xs\`, 16 px elsewhere; Chip: 6 → 16 px across the
+  scale). A plain Tailwind \`size-3.5\` class on the icon does
+  nothing because the parent's selector wins — only \`size-3.5!\` would
+  override, and the kit's mapping is the right call at every step.
+  Pass the correct \`size\` to the parent and the icon follows.
 - Never reinvent primitives with styled divs: a row of buttons is a
   \`Toolbar\`, a tag is a \`Chip\`, a vertical menu is a \`List\` (with
   \`ListButton\`), a kbd glyph is a \`Shortcut\`, a panel or card is a

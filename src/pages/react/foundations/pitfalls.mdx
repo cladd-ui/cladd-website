@@ -41,6 +41,7 @@ The seven-step `2xs → 2xl` scale is a contract. [`Button`](/react/components/b
 - **Don't** pick `2xs` or `xs` for a standalone control. At `2xs`, nested-ramp components are only 8 px tall — unreadable as a standalone. Those sizes are reserved for elements rendered _inside_ a denser container (a clear button inside an [`Input`](/react/components/input/), a `⌘K` hint inside a [`SearchField`](/react/components/search-field/)).
 - **Don't** mix sizes in a row to fit content. If a `Chip` "looks too tall" next to its label, the label is the wrong size, not the Chip.
 - **Don't** override heights with `h-*` or `size-*` Tailwind utilities on sized cladd components. The component already honours `size` through `h-cladd-*` classes; stacking `h-7` on top fights the scale and breaks the nesting math.
+- **Don't** size icons inside a [`Button`](/react/components/button/) or [`Chip`](/react/components/chip/). Both apply a size-matched dimension to direct `<svg>` children (Button: 12–16 px, Chip: 6–16 px across the scale). A `className="size-3.5"` on the icon is a no-op because the parent's selector wins — only `size-3.5!` would override it, and you almost never need to. Pass the right `size` to the parent and the icon follows.
 - **Don't** put `<Input size="sm">` next to `<Button size="md">`. Input's floating label needs the `lg` row to breathe; at `sm` it crowds the value.
 
 Default to `md`; reach for `lg` for primary inputs and hero CTAs. The full per-size height table lives in [Sizing](/react/foundations/sizing/).
