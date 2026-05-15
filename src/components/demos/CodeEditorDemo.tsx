@@ -1025,7 +1025,7 @@ export function CodeEditorDemo() {
                     outline={false}
                     className={cn(
                       'group rounded-b-none border-t border-r border-l border-cladd-outline font-medium whitespace-nowrap',
-                      !isActive && 'text-cladd-fg-softer hover:text-cladd-fg',
+                      !isActive && 'opacity-50 hover:text-cladd-fg',
                     )}
                   >
                     <FileIcon kind={f.kind} />
