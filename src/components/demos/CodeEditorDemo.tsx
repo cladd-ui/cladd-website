@@ -888,6 +888,7 @@ export function CodeEditorDemo() {
           'absolute inset-y-0 left-0 z-20 m-2 mr-0 flex w-56 shrink-0 flex-col rounded-2xl border border-cladd-outline duration-200 md:relative md:translate-x-0',
           !sidebarOpen && '-translate-x-[110%] md:translate-x-0',
         )}
+        contentClassName="overflow-y-auto"
       >
         <div className="flex h-9 shrink-0 items-center justify-between pt-1 pr-1 pl-4 text-xs font-medium tracking-wide text-cladd-fg-soft uppercase">
           Explorer

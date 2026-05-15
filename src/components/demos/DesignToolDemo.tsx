@@ -539,7 +539,7 @@ export function DesignToolDemo() {
           outline
           variant="gradient"
           bgClassName="md:hidden"
-          contentClassName="flex flex-col gap-4 p-4 w-full"
+          contentClassName="flex flex-col gap-4 p-4 w-full overflow-y-auto"
         >
           <div className="-mt-2.5 -mr-2.5 flex justify-end md:hidden">
             <Toolbar>
