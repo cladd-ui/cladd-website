@@ -73,12 +73,24 @@ const SettingsDemo = dynamic(
   },
 );
 
-type DemoView = 'design' | 'settings' | 'kanban';
+const CodeEditorDemo = dynamic(
+  () =>
+    import('@/components/demos/CodeEditorDemo').then((m) => ({
+      default: m.CodeEditorDemo,
+    })),
+  {
+    ssr: false,
+    loading: () => <DemoPlaceholder />,
+  },
+);
+
+type DemoView = 'design' | 'settings' | 'kanban' | 'editor';
 
 const DEMO_ROUTES: Record<DemoView, string> = {
   design: '/demos/design-tool/',
   settings: '/demos/settings/',
   kanban: '/demos/kanban/',
+  editor: '/demos/code-editor/',
 };
 
 function HomeDemo() {
@@ -86,7 +98,7 @@ function HomeDemo() {
   return (
     <>
       <div className="mb-4 flex justify-center">
-        <Toolbar size="sm">
+        <Toolbar>
           <Segmented>
             <SegmentedButton
               active={view === 'design'}
@@ -104,7 +116,13 @@ function HomeDemo() {
               active={view === 'kanban'}
               onClick={() => setView('kanban')}
             >
-              Kanban board
+              Kanban <span className="hidden xs:inline">board</span>
+            </SegmentedButton>
+            <SegmentedButton
+              active={view === 'editor'}
+              onClick={() => setView('editor')}
+            >
+              Code editor
             </SegmentedButton>
           </Segmented>
           <ToolbarSeparator />
@@ -129,8 +147,10 @@ function HomeDemo() {
           <DesignToolDemo />
         ) : view === 'settings' ? (
           <SettingsDemo />
-        ) : (
+        ) : view === 'kanban' ? (
           <KanbanDemo />
+        ) : (
+          <CodeEditorDemo />
         )}
       </div>
       <p className="mt-4 text-center text-sm text-cladd-fg-softer">
@@ -161,7 +181,7 @@ function HomeDemo() {
             <code className="font-mono">SurfaceCut</code>. Change the accent and
             the preview surface updates live.
           </>
-        ) : (
+        ) : view === 'kanban' ? (
           <>
             Same kit, very different surface — a dense kanban built from{' '}
             <code className="font-mono">Surface</code>,{' '}
@@ -174,6 +194,18 @@ function HomeDemo() {
             <code className="font-mono">hoverable</code> +{' '}
             <code className="font-mono">clickable</code>, so the nested action
             buttons stay legal.
+          </>
+        ) : (
+          <>
+            A code-editor shell — file tree, tabs, breadcrumb, status bar —
+            stitched together from <code className="font-mono">List</code>,{' '}
+            <code className="font-mono">ListButton</code>,{' '}
+            <code className="font-mono">Toolbar</code>,{' '}
+            <code className="font-mono">Chip</code>,{' '}
+            <code className="font-mono">Shortcut</code>,{' '}
+            <code className="font-mono">SectionTitle</code>, and{' '}
+            <code className="font-mono">Tooltip</code>. Switch tabs and click a
+            line to move the caret.
           </>
         )}
       </p>
@@ -223,7 +255,7 @@ export default function HomePage() {
         <LatestReleasePill />
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
         <HomeDemo />
       </section>
 

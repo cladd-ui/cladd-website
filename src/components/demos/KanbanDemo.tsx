@@ -338,9 +338,9 @@ function HeartOutlineIcon(props: SVGProps<SVGSVGElement>) {
     >
       <g
         fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
         stroke="currentColor"
         {...props}
       >
@@ -394,15 +394,15 @@ function CalendarIcon(props: SVGProps<SVGSVGElement>) {
       <g fill="currentColor">
         <path
           d="m5.75,4c-.4141,0-.75-.3359-.75-.75V1.25c0-.4141.3359-.75.75-.75s.75.3359.75.75v2c0,.4141-.3359.75-.75.75Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
         <path
           d="m12.25,4c-.4141,0-.75-.3359-.75-.75V1.25c0-.4141.3359-.75.75-.75s.75.3359.75.75v2c0,.4141-.3359.75-.75.75Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
         <path
           d="m13.75,2.5H4.25c-1.5166,0-2.75,1.2334-2.75,2.75v8.5c0,1.5166,1.2334,2.75,2.75,2.75h9.5c1.5166,0,2.75-1.2334,2.75-2.75V5.25c0-1.5166-1.2334-2.75-2.75-2.75Zm0,12.5H4.25c-.6895,0-1.25-.5605-1.25-1.25v-6.25h12v6.25c0,.6895-.5605,1.25-1.25,1.25Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
       </g>
     </svg>
@@ -423,7 +423,7 @@ function SubtasksIcon(props: SVGProps<SVGSVGElement>) {
         <path d="M13.25 10H10.75C9.7835 10 9 10.7835 9 11.75V14.25C9 15.2165 9.7835 16 10.75 16H13.25C14.2165 16 15 15.2165 15 14.25V11.75C15 10.7835 14.2165 10 13.25 10Z"></path>{' '}
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M4.5 1.75C4.5 1.33579 4.16421 1 3.75 1C3.33579 1 3 1.33579 3 1.75V3.5V3.75V11.75C3 12.9922 4.00779 14 5.25 14H6.75C7.16421 14 7.5 13.6642 7.5 13.25C7.5 12.8358 7.16421 12.5 6.75 12.5H5.25C4.83621 12.5 4.5 12.1638 4.5 11.75V5.87187C4.73461 5.95484 4.98705 6 5.25 6H6.75C7.16421 6 7.5 5.66421 7.5 5.25C7.5 4.83579 7.16421 4.5 6.75 4.5H5.25C4.83621 4.5 4.5 4.16379 4.5 3.75V3.5V1.75Z"
         ></path>
       </g>
@@ -443,7 +443,7 @@ function DependenciesIcon(props: SVGProps<SVGSVGElement>) {
       <g fill="currentColor">
         <path
           d="m6.25,13.5c-.4141,0-.75-.3359-.75-.75v-2.25c0-1.2407,1.0098-2.25,2.25-2.25h2.5c.4131,0,.75-.3364.75-.75v-2.25c0-.4141.3359-.75.75-.75s.75.3359.75.75v2.25c0,1.2407-1.0098,2.25-2.25,2.25h-2.5c-.4131,0-.75.3364-.75.75v2.25c0,.4141-.3359.75-.75.75Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
         <rect
           x="7"
@@ -452,7 +452,7 @@ function DependenciesIcon(props: SVGProps<SVGSVGElement>) {
           height="4.5"
           rx="1.75"
           ry="1.75"
-          stroke-width="0"
+          strokeWidth="0"
         ></rect>
         <rect
           x="1.5"
@@ -461,7 +461,7 @@ function DependenciesIcon(props: SVGProps<SVGSVGElement>) {
           height="4.5"
           rx="1.75"
           ry="1.75"
-          stroke-width="0"
+          strokeWidth="0"
         ></rect>
       </g>
     </svg>
@@ -618,27 +618,27 @@ function ShareIcon(props: SVGProps<SVGSVGElement>) {
       <g fill="currentColor">
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M11.1934 5.23491C11.3964 5.59593 11.2684 6.05322 10.9074 6.25629L6.82828 8.55079C6.46726 8.75387 6.00997 8.62583 5.8069 8.26481C5.60383 7.90379 5.73187 7.4465 6.09289 7.24343L10.172 4.94893C10.533 4.74586 10.9903 4.8739 11.1934 5.23491Z"
         ></path>{' '}
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M5.8069 9.73522C6.00997 9.3742 6.46726 9.24616 6.82828 9.44924L10.9074 11.7437C11.2684 11.9468 11.3964 12.4041 11.1934 12.7651C10.9903 13.1261 10.533 13.2542 10.172 13.0511L6.09289 10.7566C5.73187 10.5535 5.60383 10.0962 5.8069 9.73522Z"
         ></path>{' '}
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M1.5 9C1.5 7.34279 2.84279 6 4.5 6C6.15721 6 7.5 7.34279 7.5 9C7.5 10.6572 6.15721 12 4.5 12C2.84279 12 1.5 10.6572 1.5 9Z"
         ></path>{' '}
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M9.5 4.5C9.5 2.84279 10.8428 1.5 12.5 1.5C14.1572 1.5 15.5 2.84279 15.5 4.5C15.5 6.15721 14.1572 7.5 12.5 7.5C10.8428 7.5 9.5 6.15721 9.5 4.5Z"
         ></path>{' '}
         <path
           fill-rule="evenodd"
-          clip-rule="evenodd"
+          clipRule="evenodd"
           d="M9.5 13.5C9.5 11.8428 10.8428 10.5 12.5 10.5C14.1572 10.5 15.5 11.8428 15.5 13.5C15.5 15.1572 14.1572 16.5 12.5 16.5C10.8428 16.5 9.5 15.1572 9.5 13.5Z"
         ></path>
       </g>
@@ -658,16 +658,16 @@ function HistoryIcon(props: SVGProps<SVGSVGElement>) {
       <g fill="currentColor">
         <path
           d="m9,1c-2.4862,0-4.7682,1.1511-6.2616,3.0369l-.1158-.8347c-.0566-.4106-.4321-.7017-.8457-.6396-.4102.0566-.6968.4355-.6396.8457l.4082,2.9448c.0518.3755.373.647.7417.647.0342,0,.0688-.0024.1035-.0068l2.9438-.4067c.4106-.0571.6973-.4355.6406-.8457-.0576-.4106-.4414-.6968-.8457-.6406l-1.4568.2014c1.1988-1.728,3.1661-2.8015,5.3275-2.8015,3.584,0,6.5,2.916,6.5,6.5s-2.916,6.5-6.5,6.5c-.4141,0-.75.3359-.75.75s.3359.75.75.75c4.4111,0,8-3.5889,8-8S13.4111,1,9,1Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
         <path
           d="m9,4c-.4141,0-.75.3359-.75.75v4.25c0,.2461.1206.4766.3232.6167l3.25,2.25c.1299.0903.2788.1333.4263.1333.2378,0,.4717-.1128.6172-.3232.2358-.3403.1509-.8076-.1899-1.0435l-2.9268-2.0264v-3.8569c0-.4141-.3359-.75-.75-.75Z"
-          stroke-width="0"
+          strokeWidth="0"
         ></path>
-        <circle cx="3.873" cy="14.127" r=".75" stroke-width="0"></circle>
-        <circle cx="1.75" cy="9" r=".75" stroke-width="0"></circle>
-        <circle cx="6.226" cy="15.698" r=".75" stroke-width="0"></circle>
-        <circle cx="2.302" cy="11.7739" r=".75" stroke-width="0"></circle>
+        <circle cx="3.873" cy="14.127" r=".75" strokeWidth="0"></circle>
+        <circle cx="1.75" cy="9" r=".75" strokeWidth="0"></circle>
+        <circle cx="6.226" cy="15.698" r=".75" strokeWidth="0"></circle>
+        <circle cx="2.302" cy="11.7739" r=".75" strokeWidth="0"></circle>
       </g>
     </svg>
   );
