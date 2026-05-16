@@ -1,4 +1,4 @@
-import { Button, Spinner, type ButtonSize, type Color } from '@cladd-ui/react';
+import { Button, type ButtonSize, type Color } from '@cladd-ui/react';
 import { useState } from 'react';
 
 import {
@@ -63,12 +63,12 @@ export function SizeExample() {
   );
 }
 
-export function WithSpinnerExample() {
+export function LoadingExample() {
   const [size, setSize] = useState<ButtonSize>('md');
   const [loading, setLoading] = useState(true);
   return (
     <Example
-      source={EXAMPLE_SOURCE.WithSpinnerExample}
+      source={EXAMPLE_SOURCE.LoadingExample}
       state={{ size, loading }}
       controls={
         <>
@@ -85,9 +85,8 @@ export function WithSpinnerExample() {
         </>
       }
     >
-      <Button size={size} color="brand" readOnly={loading}>
-        {loading ? <Spinner size={size} /> : null}
-        {loading ? 'Saving' : 'Save changes'}
+      <Button size={size} color="brand" loading={loading} readOnly={loading}>
+        Save changes
       </Button>
     </Example>
   );

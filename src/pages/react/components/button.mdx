@@ -2,6 +2,7 @@ import { DocsLayout } from '@/components/DocsLayout';
 import {
   ColorExample,
   DisabledExample,
+  LoadingExample,
   MultilineExample,
   OverviewExample,
   PlaygroundExample,
@@ -9,7 +10,6 @@ import {
   RoundedExample,
   SizeExample,
   VariantExample,
-  WithSpinnerExample,
 } from '@/components/examples/button';
 import ButtonProps from '@/generated/props/ButtonProps';
 
@@ -24,7 +24,7 @@ export default ({ children }) => (
 
 # Button
 
-`Button` is a polymorphic, surface-backed control. It inherits the full [`Surface`](/react/components/surface/) palette — every variant, every accent color, the same outline ring — and layers on the application-grade bits a button actually needs: a consistent `2xs → 2xl` size scale, automatic focus ring, `multiline` for wrapping labels, `rounded` for pill shapes, and `disabled` / `readOnly` states that suppress interaction without losing the visual.
+`Button` is a polymorphic, surface-backed control. It inherits the full [`Surface`](/react/components/surface/) palette — every variant, every accent color, the same outline ring — and layers on the application-grade bits a button actually needs: a consistent `2xs → 2xl` size scale, automatic focus ring, `multiline` for wrapping labels, `rounded` for pill shapes, a built-in `loading` state, and `disabled` / `readOnly` states that suppress interaction without losing the visual.
 
 <OverviewExample />
 
@@ -44,17 +44,21 @@ By default `Button` renders a `<button>` element with `variant="gradient"`, `out
 
 ### Sizes
 
-`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/) share the same scale, so when you nest one inside a button you can pass the matching `size` token and it sits at the right proportion — see the [spinner example](#with-spinner) below.
+`size` accepts the standard cladd scale — `2xs`, `xs`, `sm`, `md` (default), `lg`, `xl`, `2xl`. [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/) share the same scale, so when you nest one inside a button you can pass the matching `size` token and it sits at the right proportion — see the [loading example](#loading) below.
 
 <SizeExample />
 
 Direct `<svg>` children are sized automatically — `Button` applies a size-matched glyph dimension (12 px at `2xs`/`xs`, 16 px from `sm` upward), so you can drop a Lucide or Heroicons component in as a child without passing dimensions. Don't add `className="size-3.5"` (or similar) on the icon — the button's selector wins and your class is a no-op unless you escalate with `size-3.5!`. In practice you almost never need to: pick the right button `size` and the icon follows.
 
-### With spinner
+### Loading
 
-A common loading-state composition: drop a [`Spinner`](/react/components/spinner/) inside a button and pass the matching `size` token to both. The spinner sits at the right proportion at every step of the scale, and pairing the loading state with `readOnly` keeps the button visually intact while suppressing clicks. Same trick works for [`Chip`](/react/components/chip/) or [`Shortcut`](/react/components/shortcut/) — anything that consumes the same size scale.
+`loading` swaps the button's content for a centered [`Spinner`](/react/components/spinner/) sized to the current `size` token. The label fades out in place and the button keeps its exact dimensions, so submit toolbars and inline forms don't reflow when an action starts working. The component also sets `data-loading` for any extra styling hooks you want to layer on top.
 
-<WithSpinnerExample />
+`loading` only handles the visuals — it doesn't suppress clicks on its own. Pair it with `readOnly` (keeps the button looking active) or `disabled` (dims it) to keep handlers from firing twice while the action is in flight.
+
+<LoadingExample />
+
+If you need to swap the label too — e.g. "Save changes" → "Saving…" — skip `loading` and compose a [`Spinner`](/react/components/spinner/) inline as a child instead, passing the same `size` to both.
 
 ### Variants
 
