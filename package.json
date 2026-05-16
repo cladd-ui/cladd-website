@@ -23,7 +23,7 @@
     "screenshot:examples": "node scripts/screenshot-examples.mjs"
   },
   "dependencies": {
-    "@cladd-ui/react": "^0.6.0",
+    "@cladd-ui/react": "^0.6.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.4",

@@ -13,7 +13,10 @@ import { PlusIcon } from '@/components/icons/PlusIcon';
 import { EXAMPLE_SOURCE } from '@/generated/example-source/button';
 
 import { Example } from '../Example';
+import { BoldIcon } from '../icons/BoldIcon';
 import { CheckIcon } from '../icons/CheckIcon';
+import { ItalicIcon } from '../icons/ItalicIcon';
+import { UnderlineIcon } from '../icons/UnderlineIcon';
 
 export function OverviewExample() {
   return (
@@ -184,6 +187,45 @@ export function RoundedExample() {
         </Button>
         <Button rounded={rounded} variant="transparent" outline={false}>
           Ghost
+        </Button>
+      </div>
+    </Example>
+  );
+}
+
+export function SquareExample() {
+  const [size, setSize] = useState<ButtonSize>('md');
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.SquareExample}
+      state={{ size }}
+      controls={
+        <ExampleToolbar>
+          <ExampleControlSize value={size} onChange={setSize} />
+        </ExampleToolbar>
+      }
+    >
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <Button square size={size} color="brand">
+          <BoldIcon />
+        </Button>
+        <Button square size={size}>
+          <ItalicIcon />
+        </Button>
+        <Button square size={size}>
+          <UnderlineIcon />
+        </Button>
+        <Button square size={size} rounded color="green">
+          <PlusIcon />
+        </Button>
+        <Button
+          square
+          size={size}
+          variant="transparent"
+          outline={false}
+          color="red"
+        >
+          <CheckIcon />
         </Button>
       </div>
     </Example>

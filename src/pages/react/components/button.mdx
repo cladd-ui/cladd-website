@@ -9,6 +9,7 @@ import {
   ReadOnlyExample,
   RoundedExample,
   SizeExample,
+  SquareExample,
   VariantExample,
 } from '@/components/examples/button';
 import ButtonProps from '@/generated/props/ButtonProps';
@@ -83,6 +84,12 @@ By default a button is a single fixed-height row — the label is truncated to o
 `rounded` swaps the size-specific corner radius for `rounded-full` — useful for pill-shaped CTAs, icon buttons, and toolbar chips. With `multiline`, it picks a matching pill radius that works at any line count.
 
 <RoundedExample />
+
+### Square
+
+`square` forces the button into an `aspect-square` box and drops horizontal padding, sizing it from its `size` token alone. It's the right prop for icon-only buttons in toolbars, segmented controls, and dense action rows — pass a single `<svg>` child and the glyph dimension still tracks the `size` scale, so the icon stays centered without manual width tweaking. Combine with `rounded` for a circular icon button, or leave it off for a soft-cornered square.
+
+<SquareExample />
 
 ### Disabled
 
