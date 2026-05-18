@@ -12,7 +12,7 @@ export default ({ children }) => (
 
 # CladdProvider
 
-`CladdProvider` is the single wrapper every cladd app mounts at the root. It does three small things, and they're all things the rest of the kit assumes are in place: it publishes the **theme** (`'dark'` or `'light'`) and the **app-wide accent color** through context, sets the **overlays root selector** that portalled surfaces target, and mounts the **dialog and toast portals** that back the imperative [`useDialog`](/react/components/dialog/) and [`useToast`](/react/components/toast/) hooks.
+`CladdProvider` is the single wrapper every cladd app mounts at the root. It does a few small things, and they're all things the rest of the kit assumes are in place: it publishes the **theme** (`'dark'` or `'light'`) and the **app-wide accent color** through context, sets the **overlays root selector** that portalled surfaces target, exposes **per-component defaults** that override the kit's built-ins app-wide, and mounts the **dialog and toast portals** that back the imperative [`useDialog`](/react/components/dialog/) and [`useToast`](/react/components/toast/) hooks.
 
 It does not render any visible UI of its own — wrap your app once and forget about it. Everything else in cladd reads from the context it provides: [`Button`](/react/components/button/), [`Switch`](/react/components/switch/), [`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Chip`](/react/components/chip/) and other accent-aware controls fall back to `accentColor` when their own `color` prop is left unset; [`Popover`](/react/components/popover/), [`Dialog`](/react/components/dialog/), and [`Tooltip`](/react/components/tooltip/) flip their surface defaults (variant, outline, level) based on `theme`; [`useDialog`](/react/components/dialog/) and [`useToast`](/react/components/toast/) push into the portals it mounts.
 
@@ -61,6 +61,35 @@ CSS selector for the element(s) that portalled overlays target. [`Popover`](/rea
 The default covers the three conventional app shell ids — `#app` (Vite/CRA), `#__next` (Next.js pages router), `#root` (CRA, Vite-React). Override only when your app shell uses a custom container id, or when you specifically need overlays to portal into a different node (e.g. a Shadow DOM root, an embedded iframe app shell).
 
 This matters mainly for the `inert` behavior on [`Dialog`](/react/components/dialog/) and [`Popup`](/react/components/popup/), which mark the overlays root as `inert` while open to lock out the rest of the page — pointing the selector at the wrong element means modals won't actually block input.
+
+### defaults
+
+`ComponentDefaults` · Default `{}`
+
+Per-component default props, applied app-wide. Each entry is a `Partial` of that component's props — every component that opts in exports a `*DefaultProps` type (`ButtonDefaultProps`, `ChipDefaultProps`, `SurfaceDefaultProps`, etc.) describing exactly what's overridable.
+
+```tsx
+import { CladdProvider } from '@cladd-ui/react';
+
+<CladdProvider
+  accentColor="brand"
+  defaults={{
+    Button: { size: 'lg', outline: false },
+    Chip: { variant: 'transparent' },
+    Tooltip: { position: 'top' },
+    Surface: { level: 2 },
+    ListButton: { size: 'sm' },
+  }}
+>
+  <App />
+</CladdProvider>;
+```
+
+Precedence is **instance prop → context default → built-in default**. An explicit prop on a component instance always wins, and the component's own built-in defaults fill in anything you didn't override — so `defaults` only changes the values you list, not the rest of the component's behavior.
+
+Polymorphic props (`as`, `ref`) and per-instance content (`children`, controlled values, event handlers) are intentionally excluded from the `*DefaultProps` types — they don't make sense as app-wide values.
+
+Reach for this when an app consistently deviates from a kit default — a settings panel that wants every [`Surface`](/react/components/surface/) at `level={2}`, an admin app that drops the outline ring on all [`Button`](/react/components/button/) controls, a dense dashboard that wants every [`List`](/react/components/list/) at `size="sm"`. For a one-off, just pass the prop on the instance.
 
 ### children
 
