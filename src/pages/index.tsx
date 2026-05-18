@@ -217,7 +217,7 @@ export default function HomePage() {
   return (
     <SiteLayout
       title="Cladd — A React UI kit for building actual apps"
-      description="Cladd is an opinionated React UI kit. A surface system, a sizing scale, and a complete set of application-grade components"
+      description="Cladd is an opinionated React UI kit with a surface system, a sizing scale, and a complete set of application-grade components for building real apps."
     >
       <section className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 px-4 pt-24 pb-12 text-center sm:px-6">
         <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-white light:text-black">

@@ -32,7 +32,7 @@ const ALTS: AltRow[] = [
     text: 'You need a massive component catalog',
     alt: 'Material UI · Ant Design',
   },
-  { text: 'You’re on Vue or Svelte', alt: 'cladd is React only, sorry' },
+  { text: "You're on Vue or Svelte", alt: 'cladd is React only, sorry' },
 ];
 
 function ColumnHeader({ children }: { children: ReactNode }) {

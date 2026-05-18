@@ -294,7 +294,7 @@ export function PitchGrid() {
         <Panel
           title="App-grade controls"
           pitch="The boring app-shell parts ship in the box — Toolbar, Segmented, Select, NumberField, Shortcut. Wire them up, ship faster."
-          docHref="/react/components/button/"
+          docHref="/react/components/"
           docLabel="Components"
         >
           <ControlsPreview />
