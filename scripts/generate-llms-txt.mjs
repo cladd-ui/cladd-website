@@ -7,8 +7,9 @@
 // wants to ingest — pre-rendered prose, YAML frontmatter, no JSX.
 //
 // Section order is intentionally Foundations → Components → Hooks. The
-// foundations (surfaces, colors, sizing) are the keys to using the kit
-// correctly, so agents see them before the long component list.
+// foundations (quickstart, surfaces, colors, sizing, pitfalls) are the keys
+// to using the kit correctly, so agents see them before the long component
+// list.
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -127,6 +128,11 @@ const sections = [
     title: 'Foundations',
     entries: [
       {
+        mdx: 'foundations/quickstart.mdx',
+        md: '/react/foundations/quickstart.md',
+        label: 'Quickstart',
+      },
+      {
         mdx: 'foundations/surfaces.mdx',
         md: '/react/foundations/surfaces.md',
         label: 'Surfaces',
@@ -140,6 +146,11 @@ const sections = [
         mdx: 'foundations/sizing.mdx',
         md: '/react/foundations/sizing.md',
         label: 'Sizing',
+      },
+      {
+        mdx: 'foundations/pitfalls.mdx',
+        md: '/react/foundations/pitfalls.md',
+        label: 'Pitfalls',
       },
     ],
   },

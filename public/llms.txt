@@ -21,9 +21,11 @@ Each link below points at the plain-Markdown twin of the corresponding docs page
 
 ## Foundations
 
+- [Quickstart](https://cladd.io/react/foundations/quickstart.md): Wrap your app in CladdProvider and compose the minimum app shell — the canonical layout cladd is designed around.
 - [Surfaces](https://cladd.io/react/foundations/surfaces.md): Surface levels, tone tokens, extending the ramp, and the content composition rules that drive every cladd panel.
 - [Colors](https://cladd.io/react/foundations/colors.md): Accent palette, text shades, background and outline tokens, and how to retune them with OKLCH variables.
 - [Sizing](https://cladd.io/react/foundations/sizing.md): The 2xs → 2xl size scale, exact heights per component, the root vs nested ramps, and density guidance for picking the right size.
+- [Pitfalls](https://cladd.io/react/foundations/pitfalls.md): Common anti-patterns that make cladd code feel generic — and the primitive, token, or prop to reach for instead.
 
 ## Components
 
