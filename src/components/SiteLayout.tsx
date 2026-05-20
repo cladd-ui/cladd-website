@@ -1,14 +1,16 @@
 import {
   Button,
   Link,
+  SearchIcon,
   SectionTitle,
+  Shortcut,
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
 } from '@cladd-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { CladdLogo } from './CladdLogo';
 import { GithubIcon } from './icons/GithubIcon';
@@ -16,6 +18,7 @@ import { LogoXIcon } from './icons/LogoXIcon';
 import { MoonIcon } from './icons/MoonIcon';
 import { SidebarIcon } from './icons/SidebarIcon';
 import { SunIcon } from './icons/SunIcon';
+import { SearchDialog } from './SearchDialog';
 import { SidebarProvider, useSidebar } from './SidebarContext';
 import { useThemeMode } from './ThemeMode';
 
@@ -46,6 +49,22 @@ export function SiteLayout({
   withSidebar,
 }: SiteLayoutProps) {
   const { theme, toggleTheme } = useThemeMode();
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // ⌘K / Ctrl+K opens search from anywhere on the site. We don't bail out on
+  // input focus — search shortcuts are global by convention (Stripe, Linear,
+  // GitHub) and there's no editor surface here it could collide with.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
     <SidebarProvider>
       <Head>
@@ -95,25 +114,49 @@ export function SiteLayout({
               >
                 Components
               </Link>
-
-              <Toolbar size="sm">
-                <ToolbarButton
-                  as="a"
-                  href="https://github.com/cladd-ui/cladd"
-                  target="_blank"
-                  rel="noreferrer"
+              <div className="flex items-center gap-2">
+                <Button
+                  rounded
+                  size="lg"
+                  onClick={() => setSearchOpen(true)}
+                  aria-label="Search documentation"
+                  className="hidden cursor-pointer justify-start gap-2 font-normal text-cladd-fg-soft sm:flex"
                 >
-                  <GithubIcon />
-                </ToolbarButton>
-                <ToolbarSeparator />
-                <ToolbarButton onClick={toggleTheme}>
-                  {theme === 'light' ? <SunIcon /> : <MoonIcon />}
-                </ToolbarButton>
-              </Toolbar>
+                  <SearchIcon className="size-4" />
+                  <span className="hidden lg:block">Search docs...</span>
+                  <Shortcut size="sm" className="ml-auto">
+                    cmd K
+                  </Shortcut>
+                </Button>
+
+                <Toolbar size="sm">
+                  <ToolbarButton
+                    onClick={() => setSearchOpen(true)}
+                    aria-label="Search documentation"
+                    className="sm:hidden"
+                  >
+                    <SearchIcon />
+                  </ToolbarButton>
+                  <ToolbarSeparator className="sm:hidden" />
+                  <ToolbarButton
+                    as="a"
+                    href="https://github.com/cladd-ui/cladd"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <GithubIcon />
+                  </ToolbarButton>
+                  <ToolbarSeparator />
+                  <ToolbarButton onClick={toggleTheme}>
+                    {theme === 'light' ? <SunIcon /> : <MoonIcon />}
+                  </ToolbarButton>
+                </Toolbar>
+              </div>
             </nav>
           </div>
         </header>
         <main className="flex-1">{children}</main>
+        <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
         <footer className="border-t border-cladd-outline px-4 py-6 text-xs text-cladd-fg-soft sm:px-6">
           <div className="mx-auto flex max-w-[1440px] flex-col items-start justify-start gap-8 px-4 py-12 sm:px-6">
             <div className="grid grid-cols-2 flex-wrap items-start gap-8 xs:grid-cols-3 sm:grid-cols-4 md:flex md:gap-16">
