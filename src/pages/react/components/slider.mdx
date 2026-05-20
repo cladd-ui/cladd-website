@@ -6,8 +6,10 @@ import {
   MinMaxStepExample,
   OverviewExample,
   PlaygroundExample,
+  ScaleExample,
   SizeExample,
   StatesExample,
+  ThrottleExample,
   ValueDisplayExample,
 } from '@/components/examples/slider';
 import SliderProps from '@/generated/props/SliderProps';
@@ -35,7 +37,7 @@ import { Slider } from '@cladd-ui/react';
 <Slider value={volume} onChange={setVolume} />;
 ```
 
-`Slider` works in both controlled and uncontrolled modes. Pass `value` + `onChange` for controlled, or `defaultValue` for uncontrolled. `onChange` fires on every step while the user drags or arrows through values — pair it with [`debounce`](#debounce) when the consumer is expensive (a network call, a heavy re-render in a sibling pane).
+`Slider` works in both controlled and uncontrolled modes. Pass `value` + `onChange` for controlled, or `defaultValue` for uncontrolled. `onChange` fires on every step while the user drags or arrows through values — pair it with [`debounce`](#debounce) or [`throttle`](#throttle) when the consumer is expensive (a network call, a heavy re-render in a sibling pane).
 
 ### Slider, NumberField, or NumberScrubber?
 
@@ -61,6 +63,14 @@ Reach for `Slider` when the value is continuous and the user benefits from seein
 
 <MinMaxStepExample />
 
+### Scale
+
+`scale` controls how user values map to thumb position on the track. The default `'linear'` is right for percentages, opacity, brightness — anything where equal pixel movement should feel like equal numerical change. Reach for `'log'` (requires `min > 0`) when the user cares about _ratios_, not absolute differences: an audio frequency picker spans 20 Hz → 20 kHz, but the interesting region for human hearing is the lower decade, so a linear track wastes most of its travel on near-inaudible high frequencies. Compare the two below — the logarithmic slider gives 1 kHz about half the track instead of 5% of it.
+
+For curves that aren't logarithmic — quadratic, S-curve, custom price brackets — pass a `{ toSlider, fromSlider }` pair instead, where `toSlider(value) → position` returns 0..1 and `fromSlider(position) → value` is the inverse. `min`, `max`, and `value` stay in user-value space, and `step` is still applied after the inverse mapping, so the emitted value stays grid-aligned.
+
+<ScaleExample />
+
 ### Value display
 
 The slider renders a floating value bubble above the thumb while the user drags or focuses — handy for confirming the exact landing value mid-gesture. For the resting state, pair the slider with an external readout: a [`SectionTitle`](/react/components/section-title/) label on the left, the formatted value on the right, the track between them. Format the value however the unit calls for — raw integer for volume, `xx%` for normalised opacity, `xxpx` for size.
@@ -72,6 +82,12 @@ The slider renders a floating value bubble above the thumb while the user drags 
 `debounce` (in ms, default `0`) delays the `onChange` call until the user pauses. The internal value still updates immediately, so the thumb tracks the drag with no visual lag — only the parent's `onChange` callback is throttled. Useful when the consumer is expensive: a colour-picker that re-renders a canvas, a search that hits an API, a Monaco editor that has to relayout. Drag the second slider below to feel the pause — the readout only catches up when you let go.
 
 <DebounceExample />
+
+### Throttle
+
+`throttle` (in ms, default `0`) is the lighter-touch sibling of [`debounce`](#debounce). The callback fires immediately on the first change, then at most once per N ms while the user keeps changing, with a final trailing call when they stop — so the consumer sees regular updates _during_ the drag instead of one big jump at the end. Reach for it when the side effect is too expensive to run on every step but the user still benefits from live feedback (a waveform that has to re-render, a colour preview, a live-filtered list). `throttle` takes precedence over `debounce` when both are set.
+
+<ThrottleExample />
 
 ### Disabled and read-only
 

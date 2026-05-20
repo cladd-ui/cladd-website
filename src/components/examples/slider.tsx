@@ -205,6 +205,86 @@ export function DebounceExample() {
   );
 }
 
+export function ThrottleExample() {
+  const [immediate, setImmediate] = useState(40);
+  const [throttled, setThrottled] = useState(60);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.ThrottleExample}
+      previewSurface
+      previewClassName="content-center"
+    >
+      <div className="flex w-72 flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <SectionTitle>Immediate</SectionTitle>
+            <span className="text-cladd-fg-soft tabular-nums">{immediate}</span>
+          </div>
+          <Slider value={immediate} onChange={setImmediate} color="brand" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <SectionTitle>Throttled 200ms</SectionTitle>
+            <span className="text-cladd-fg-soft tabular-nums">{throttled}</span>
+          </div>
+          <Slider
+            defaultValue={throttled}
+            onChange={setThrottled}
+            throttle={200}
+            color="green"
+          />
+        </div>
+      </div>
+    </Example>
+  );
+}
+
+export function ScaleExample() {
+  const [linearHz, setLinearHz] = useState(2000);
+  const [logHz, setLogHz] = useState(2000);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.ScaleExample}
+      previewSurface
+      previewClassName="content-center"
+    >
+      <div className="flex w-72 flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <SectionTitle>Linear</SectionTitle>
+            <span className="text-cladd-fg-soft tabular-nums">
+              {linearHz.toLocaleString()} Hz
+            </span>
+          </div>
+          <Slider
+            value={linearHz}
+            onChange={setLinearHz}
+            min={20}
+            max={20000}
+            color="cyan"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <SectionTitle>Logarithmic</SectionTitle>
+            <span className="text-cladd-fg-soft tabular-nums">
+              {logHz.toLocaleString()} Hz
+            </span>
+          </div>
+          <Slider
+            value={logHz}
+            onChange={setLogHz}
+            min={20}
+            max={20000}
+            scale="log"
+            color="cyan"
+          />
+        </div>
+      </div>
+    </Example>
+  );
+}
+
 export function StatesExample() {
   return (
     <Example
