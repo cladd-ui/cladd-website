@@ -142,14 +142,23 @@ export function TwoSizePrimitivesExample() {
       previewSurface
       previewClassName="flex-col items-stretch gap-4 content-center"
     >
-      {(['sm', 'md'] as const).map((size) => (
+      {(['xs', 'sm', 'md'] as const).map((size) => (
         <div key={size} className="flex items-center gap-4">
           <span className="w-6 font-mono text-xs text-cladd-fg-softer">
             {size}
           </span>
           <Checkbox size={size} defaultChecked />
           <Radio size={size} defaultChecked name={`docs-radio-${size}`} />
-          <Switch size={size} defaultChecked />
+          {size === 'xs' ? (
+            <span
+              className="w-10 text-center font-mono text-cladd-xs text-cladd-fg-softest"
+              aria-hidden
+            >
+              —
+            </span>
+          ) : (
+            <Switch size={size} defaultChecked />
+          )}
           <Slider size={size} defaultValue={40} className="w-32" />
         </div>
       ))}

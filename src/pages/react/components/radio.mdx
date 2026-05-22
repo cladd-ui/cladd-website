@@ -51,13 +51,13 @@ A radio set is just a group of `Radio`s sharing a single source-of-truth value �
 
 ### Sizes
 
-`size` accepts `sm` (default) and `md`. Unlike [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and [`Spinner`](/react/components/spinner/) — which run the full `2xs → 2xl` scale — `Radio` ships only the two sizes that match its sibling [`Checkbox`](/react/components/checkbox/). `sm` (20px) is the inline default; `md` (24px) is the right call when the radio is the focal point of its row, or when it's nested inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below).
+`size` accepts `xs`, `sm` (default), and `md`. Unlike [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and [`Spinner`](/react/components/spinner/) — which run the full `2xs → 2xl` scale — `Radio` ships the same three steps as its sibling [`Checkbox`](/react/components/checkbox/). `sm` (20px) is the inline default; `md` (24px) is the right call when the radio is the focal point of its row or sits inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below); `xs` (16px) is for very dense rows — an inspector grid or a compact filter strip where even a `sm` thumb would feel oversized.
 
 <SizeExample />
 
 ### Inside a button or list row
 
-`Radio`'s two sizes are **nested sizes** — calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. Pass the same `size` token to the wrapping control and the radio, and the proportions land. Use `as="span"` on the radio so it doesn't render a nested `<label>` inside the parent label.
+`Radio`'s sizes are **nested sizes** — calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. Pass the same `size` token to the wrapping control and the radio, and the proportions land. Use `as="span"` on the radio so it doesn't render a nested `<label>` inside the parent label.
 
 The same `name` on every radio in the set is a hint for assistive tech and form serialization — it doesn't enable native exclusive selection (the component renders a hidden checkbox under the hood; the _parent_ enforces single-select by holding one shared value).
 
@@ -89,7 +89,7 @@ When the radios _are_ the form — a settings panel choosing between mutually ex
 
 ### Playground
 
-`size`, `color`, and the boolean state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the radio is the focal point of a row or sits inside a `md` button or list row.
+`size`, `color`, and the boolean state toggles compose freely. `sm` covers most cases; reach for `md` when the radio is the focal point of a row or sits inside a `md` button or list row, and `xs` when the surrounding row is unusually dense.
 
 <PlaygroundExample />
 

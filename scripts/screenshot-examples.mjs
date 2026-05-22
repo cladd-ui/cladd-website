@@ -92,10 +92,11 @@ function parseExamples(mdxSource) {
 }
 
 // Walk an examples/<slug>.tsx source and return the set of example exports
-// whose bodies contain `defaultOpen`. Used in click-mode to avoid clicking a
-// trigger whose popover/popup is already shown by default — that click would
-// toggle the floating UI closed.
-function parseDefaultOpenExports(source) {
+// whose bodies contain a floating-UI trigger (PopoverTrigger / PopupTrigger /
+// DialogTrigger / SelectTrigger). Used on non-click-mode pages where only a
+// few examples render a popover that needs a real click to appear — the rest
+// are screenshotted from their initial render.
+function parseTriggerExports(source) {
   const re = /^export\s+function\s+([A-Z][A-Za-z0-9_]*Example)\s*\(/gm;
   const positions = [];
   let m;
@@ -108,7 +109,9 @@ function parseDefaultOpenExports(source) {
     const end =
       i + 1 < positions.length ? positions[i + 1].start : source.length;
     const body = source.slice(start, end);
-    if (/\bdefaultOpen\b/.test(body)) out.add(positions[i].name);
+    if (/\b(?:Popover|Popup|Dialog|Select)Trigger\b/.test(body)) {
+      out.add(positions[i].name);
+    }
   }
   return out;
 }
@@ -128,6 +131,28 @@ async function checkServer() {
         `Or point this script at a different origin via SCREENSHOT_BASE_URL.\n`,
     );
     process.exit(1);
+  }
+}
+
+// Click the first <button> inside a preview to open whatever floating UI the
+// example renders (popover, popup, dialog, …). No-op for previews whose only
+// button is the disabled state or where there's no button at all.
+async function clickFirstTrigger(preview, slug, name, warnings) {
+  const triggerCount = await preview.locator('button').count();
+  if (triggerCount === 0) {
+    warnings.push(`${slug}/${name}: no <button> trigger in preview`);
+    return;
+  }
+  const trigger = preview.locator('button').first();
+  if (await trigger.isDisabled()) return;
+  try {
+    await trigger.click({ timeout: 3_000 });
+    // Settle: animations + portal mount.
+    await preview.page().waitForTimeout(450);
+  } catch (err) {
+    warnings.push(
+      `${slug}/${name}: trigger click failed — ${err.message.split('\n')[0]}`,
+    );
   }
 }
 
@@ -157,8 +182,11 @@ async function main() {
       const examples = parseExamples(src);
       if (examples.length === 0) continue;
       const clickMode = CLICK_MODE_SLUGS.has(slug);
-      let defaultOpenExports = new Set();
-      if (clickMode) {
+      // For non-click-mode pages, detect per-example which need a trigger
+      // click (e.g. list/in-popover, search-field/inset). Click-mode pages
+      // already click every trigger, so the per-example flag is unused there.
+      let triggerExports = new Set();
+      if (!clickMode) {
         const examplesFile = path.join(
           ROOT,
           'src',
@@ -168,7 +196,7 @@ async function main() {
         );
         try {
           const exSrc = await fs.readFile(examplesFile, 'utf8');
-          defaultOpenExports = parseDefaultOpenExports(exSrc);
+          triggerExports = parseTriggerExports(exSrc);
         } catch {}
       }
       pages.push({
@@ -177,7 +205,7 @@ async function main() {
         url: `${BASE_URL}/react/${section.dir}/${slug}/`,
         examples,
         clickMode,
-        defaultOpenExports,
+        triggerExports,
       });
     }
   }
@@ -236,8 +264,11 @@ async function main() {
 
     const count = Math.min(initialPreviews.length, p.examples.length);
     for (let i = 0; i < count; i++) {
-      const name = exampleNameToSlug(p.examples[i]);
+      const exampleName = p.examples[i];
+      const name = exampleNameToSlug(exampleName);
       const file = path.join(outDir, `${name}.png`);
+      const needsTriggerClick =
+        p.clickMode || p.triggerExports.has(exampleName);
 
       if (p.clickMode) {
         // Reload between examples so prior open dialog/popover/toast state
@@ -263,28 +294,30 @@ async function main() {
           el.scrollIntoView({ block: 'center', inline: 'center' }),
         );
         await page.waitForTimeout(100);
-        const trigger = preview.locator('button').first();
-        const triggerCount = await preview.locator('button').count();
-        if (triggerCount === 0) {
-          warnings.push(`${p.slug}/${name}: no <button> trigger in preview`);
+        await clickFirstTrigger(preview, p.slug, name, warnings);
+        await page.screenshot({ path: file });
+      } else if (needsTriggerClick) {
+        // Mixed page: this specific example renders a popover that needs to
+        // be opened by clicking the trigger. Reload first so any previously
+        // opened popover from an earlier example is gone, then click and
+        // screenshot the preview rect (popover renders inline in the rect).
+        try {
+          await gotoAndReady(page, p.url);
+        } catch (err) {
+          warnings.push(`${p.slug}/${name}: reload failed — ${err.message}`);
           continue;
         }
-        const disabled = await trigger.isDisabled();
-        // Examples whose source uses `defaultOpen` render the floating UI
-        // already expanded — clicking would toggle it back closed.
-        const alreadyOpen = p.defaultOpenExports.has(p.examples[i]);
-        if (!disabled && !alreadyOpen) {
-          try {
-            await trigger.click({ timeout: 3_000 });
-            // Settle: animations + portal mount.
-            await page.waitForTimeout(450);
-          } catch (err) {
-            warnings.push(
-              `${p.slug}/${name}: trigger click failed — ${err.message.split('\n')[0]}`,
-            );
-          }
+        const previews = await page
+          .locator('[data-cladd-example-preview]')
+          .all();
+        const preview = previews[i];
+        if (!preview) {
+          warnings.push(`${p.slug}/${name}: no preview at index ${i}`);
+          continue;
         }
-        await page.screenshot({ path: file });
+        await preview.scrollIntoViewIfNeeded();
+        await clickFirstTrigger(preview, p.slug, name, warnings);
+        await preview.screenshot({ path: file });
       } else {
         await initialPreviews[i].scrollIntoViewIfNeeded();
         await initialPreviews[i].screenshot({ path: file });

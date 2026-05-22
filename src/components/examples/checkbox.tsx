@@ -22,7 +22,7 @@ import { EXAMPLE_SOURCE } from '@/generated/example-source/checkbox';
 
 import { Example } from '../Example';
 
-const CHECKBOX_SIZES: readonly CheckboxSize[] = ['sm', 'md'];
+const CHECKBOX_SIZES: readonly CheckboxSize[] = ['xs', 'sm', 'md'];
 
 export function OverviewExample() {
   const [a, setA] = useState(true);

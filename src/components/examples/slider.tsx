@@ -16,7 +16,7 @@ import { EXAMPLE_SOURCE } from '@/generated/example-source/slider';
 
 import { Example } from '../Example';
 
-const SLIDER_SIZES: readonly SliderSize[] = ['sm', 'md'];
+const SLIDER_SIZES: readonly SliderSize[] = ['xs', 'sm', 'md'];
 
 export function OverviewExample() {
   const [volume, setVolume] = useState(64);

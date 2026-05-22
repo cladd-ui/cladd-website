@@ -75,7 +75,7 @@ export function OverviewExample() {
   ];
   return (
     <Example source={EXAMPLE_SOURCE.OverviewExample}>
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Sort by</Button>
         </PopoverTrigger>
@@ -220,7 +220,7 @@ export function WithListExample() {
       source={EXAMPLE_SOURCE.WithListExample}
       previewClassName="min-h-80"
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Project actions</Button>
         </PopoverTrigger>
@@ -284,7 +284,7 @@ export function RichContentExample() {
       source={EXAMPLE_SOURCE.RichContentExample}
       previewClassName="min-h-80"
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Workspace settings</Button>
         </PopoverTrigger>
@@ -354,7 +354,7 @@ export function SizeExample() {
         </ExampleToolbar>
       }
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Open popover</Button>
         </PopoverTrigger>
@@ -419,7 +419,7 @@ export function PositionExample() {
         </>
       }
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Anchor</Button>
         </PopoverTrigger>
@@ -465,7 +465,7 @@ export function OffsetExample() {
         </ExampleToolbar>
       }
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Anchor</Button>
         </PopoverTrigger>
@@ -539,7 +539,7 @@ export function ColorExample() {
         </ExampleToolbar>
       }
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button color={color}>Open {color} popover</Button>
         </PopoverTrigger>
@@ -579,7 +579,7 @@ export function VariantExample() {
         </ExampleToolbar>
       }
     >
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Show popover</Button>
         </PopoverTrigger>

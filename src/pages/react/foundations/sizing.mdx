@@ -31,7 +31,7 @@ Every interactive control with a `size` prop draws from the same seven-step ramp
 2xs   xs   sm   md   lg   xl   2xl
 ```
 
-The full scale is implemented by [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/). Components that don't make sense below a certain density — `Input`, `NumberField`, `Textarea`, `OTPField` — start at `sm` and skip the two smallest steps. A few of the smallest primitives ([`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Switch`](/react/components/switch/), [`Slider`](/react/components/slider/)) only ship `sm` and `md` — by design, they don't need more.
+The full scale is implemented by [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/). Components that don't make sense below a certain density — `Input`, `NumberField`, `Textarea`, `OTPField` — start at `sm` and skip the two smallest steps. The form primitives ([`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Slider`](/react/components/slider/), [`Switch`](/react/components/switch/)) ride a separate, smaller ramp — `xs`, `sm`, and `md` for Checkbox/Radio/Slider, and `sm` / `md` for Switch — by design, they don't need more.
 
 <SizeScaleStripExample />
 
@@ -51,7 +51,7 @@ The two CSS spacing ramps that drive most cladd heights are `--spacing-cladd-{si
 
 The "Root height" column is the height of [`Button`](/react/components/button/), [`Input`](/react/components/input/), and friends at that size — the full-size controls. The "Nested height" column is the height of [`Chip`](/react/components/chip/), [`Shortcut`](/react/components/shortcut/), and [`Spinner`](/react/components/spinner/) at the **same** `size` token — exactly 8 px shorter, so they fit cleanly inside a root-ramp row.
 
-[`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Switch`](/react/components/switch/), and [`Slider`](/react/components/slider/) don't appear in this table — they use a separate, smaller two-step scale covered in [Two-size primitives](#two-size-primitives) below.
+[`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Switch`](/react/components/switch/), and [`Slider`](/react/components/slider/) don't appear in this table — they use a separate, smaller ramp covered in [Form primitives](#form-primitives) below.
 
 ### Root vs nested
 
@@ -87,20 +87,23 @@ Cladd is already dense by default — a 28 px Button is smaller than what most k
 
 Picking a size from this rubric — `md` for chrome, `lg` for primary inputs and hero buttons — covers ~90% of cases. When in doubt, `md`.
 
-## Two-size primitives
+## Form primitives
 
-[`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Switch`](/react/components/switch/), and [`Slider`](/react/components/slider/) only ship `sm` and `md` — these are inline form primitives that don't need the full ramp. They use their own `--spacing-cladd-thumb-*` scale:
+[`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Slider`](/react/components/slider/), and [`Switch`](/react/components/switch/) don't use the root or nested ramps — they ride their own `--spacing-cladd-thumb-*` scale. Checkbox, Radio, and Slider ship the three smallest steps; Switch ships only the middle two:
 
 | Size | Height | Components                                                                                                                                                   |
 | ---- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `xs` | 16 px  | [`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Slider`](/react/components/slider/)                                        |
 | `sm` | 20 px  | [`Checkbox`](/react/components/checkbox/), [`Radio`](/react/components/radio/), [`Switch`](/react/components/switch/), [`Slider`](/react/components/slider/) |
-| `md` | 24 px  | (same)                                                                                                                                                       |
+| `md` | 24 px  | (same as `sm`)                                                                                                                                               |
 
 This is intentionally a third ramp — these primitives are designed to **sit inside** a root-ramp row at the same token: a `size="md"` Switch (24 px) inside a `size="md"` Button or Input row (28 px) has 2 px of breathing room top and bottom. The numbers don't match the root or nested heights at the same token, and that's the point — Switch and friends should read as **inline** form widgets, not full-width controls.
 
+`xs` (16 px) is the dense end of the ramp — reach for it when the indicator rides inside a smaller container (a `sm` [`ListButton`](/react/components/list/), an inspector row that's already tight on the vertical) where even a `sm` thumb would feel oversized. Switch sits out the `xs` step because a 16 px wide toggle has nowhere for the thumb to travel.
+
 <TwoSizePrimitivesExample />
 
-If you need a third size on these primitives, you're probably reaching for the wrong primitive — a Switch the size of a Button isn't a Switch any more, it's a segmented control.
+If you need a fourth size on these primitives, you're probably reaching for the wrong one — a Switch the size of a Button isn't a Switch any more, it's a segmented control.
 
 ## Pitfalls
 

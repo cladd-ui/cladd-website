@@ -41,13 +41,13 @@ By default the root is a `<label>`, so a click anywhere inside the element toggl
 
 ### Sizes
 
-`size` accepts `sm` (default) and `md`. Unlike [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and [`Spinner`](/react/components/spinner/) — which run the full `2xs → 2xl` scale — `Checkbox` ships only the two sizes that actually make sense for a tickable square. `sm` is the inline default (20px); `md` (24px) is the right call when the checkbox is the focal point of its row, or when it's nested inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below).
+`size` accepts `xs`, `sm` (default), and `md`. Unlike [`Button`](/react/components/button/), [`Chip`](/react/components/chip/), and [`Spinner`](/react/components/spinner/) — which run the full `2xs → 2xl` scale — `Checkbox` ships only the three steps that actually make sense for a tickable square. `sm` (20px) is the inline default; `md` (24px) is the right call when the checkbox is the focal point of its row or sits inside a same-sized `md` button or list row (see [Inside a button or list row](#inside-a-button-or-list-row) below); `xs` (16px) is for very dense rows where even a `sm` thumb would feel oversized — an inspector grid, a compact filter strip.
 
 <SizeExample />
 
 ### Inside a button or list row
 
-`Checkbox`'s two sizes are **nested sizes** — they're calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. A `md` checkbox sits a touch smaller than the `md` button's text, which is the right proportion: the checkbox reads as the indicator for the row, not a co-equal control fighting the label.
+`Checkbox`'s sizes are **nested sizes** — they're calibrated to fit _inside_ a same-sized [`Button`](/react/components/button/) or [`ListButton`](/react/components/list/) without crowding the content row. A `md` checkbox sits a touch smaller than the `md` button's text, which is the right proportion: the checkbox reads as the indicator for the row, not a co-equal control fighting the label.
 
 Same trick as [`Spinner`](/react/components/spinner/) and [`Chip`](/react/components/chip/): pass the same `size` token to both the wrapping control and the checkbox, and the nested-vs-root sizing math is already baked in. Use `as="span"` on the checkbox so it doesn't render a nested `<label>` inside the parent label.
 
@@ -85,7 +85,7 @@ For terms-of-service confirmations and similar consent UI, wrap a `Checkbox` and
 
 ### Playground
 
-`size`, `color`, and the boolean state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the checkbox is the focal point of a row or sits inside a `md` button or list row.
+`size`, `color`, and the boolean state toggles compose freely. `sm` covers most cases; reach for `md` when the checkbox is the focal point of a row or sits inside a `md` button or list row, and `xs` when the surrounding row is unusually dense.
 
 <PlaygroundExample />
 

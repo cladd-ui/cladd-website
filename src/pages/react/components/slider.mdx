@@ -47,7 +47,7 @@ Reach for `Slider` when the value is continuous and the user benefits from seein
 
 ### Sizes
 
-`size` accepts `sm` (default) and `md`. Like its siblings [`Switch`](/react/components/switch/), [`Checkbox`](/react/components/checkbox/), and [`Radio`](/react/components/radio/), `Slider` ships only the two sizes that fit cleanly into a row of controls — a full `2xs → 2xl` scale doesn't earn its keep on a track-and-thumb control. `sm` is the inline default; reach for `md` when the slider is the focal control of its row or the surrounding controls are `md`-sized.
+`size` accepts `xs`, `sm` (default), and `md`. Like its siblings [`Checkbox`](/react/components/checkbox/) and [`Radio`](/react/components/radio/), `Slider` rides the thumb-scale ramp instead of the full `2xs → 2xl` scale — a track-and-thumb control doesn't earn its keep at button sizes. `sm` (20px thumb) is the inline default; reach for `md` (24px) when the slider is the focal control of its row or the surrounding controls are `md`-sized; reach for `xs` (16px) in tight inspector rows where every pixel of vertical space matters.
 
 <SizeExample />
 
@@ -103,7 +103,7 @@ The canonical design-tool pattern: a [`Surface`](/react/components/surface/) pan
 
 ### Playground
 
-`size`, `color`, and the state toggles compose freely. The `sm` / `md` pair covers most cases; reach for `md` when the slider is the focal control of its row.
+`size`, `color`, and the state toggles compose freely. `sm` covers most cases; reach for `md` when the slider is the focal control of its row, and `xs` for very tight inspector rows.
 
 <PlaygroundExample />
 

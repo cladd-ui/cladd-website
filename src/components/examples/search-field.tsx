@@ -145,7 +145,7 @@ export function InsetExample() {
   const filtered = COMMANDS.filter((c) => matches(query, c.label));
   return (
     <Example source={EXAMPLE_SOURCE.InsetExample} previewClassName="min-h-96">
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Run command</Button>
         </PopoverTrigger>

@@ -21,7 +21,7 @@ import { EXAMPLE_SOURCE } from '@/generated/example-source/radio';
 
 import { Example } from '../Example';
 
-const RADIO_SIZES: readonly RadioSize[] = ['sm', 'md'];
+const RADIO_SIZES: readonly RadioSize[] = ['xs', 'sm', 'md'];
 
 export function OverviewExample() {
   const [pick, setPick] = useState('b');

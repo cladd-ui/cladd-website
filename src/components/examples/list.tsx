@@ -242,7 +242,7 @@ export function InPopoverExample() {
   ];
   return (
     <Example source={EXAMPLE_SOURCE.InPopoverExample}>
-      <PopoverRoot defaultOpen>
+      <PopoverRoot>
         <PopoverTrigger>
           <Button>Sort by</Button>
         </PopoverTrigger>
