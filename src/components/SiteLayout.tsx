@@ -114,6 +114,10 @@ export function SiteLayout({
               >
                 Components
               </Link>
+              <Link className="hover:opacity-75" as={NextLink} href="/mcp/">
+                <span className="sm:hidden">MCP</span>
+                <span className="hidden sm:block">MCP Server</span>
+              </Link>
               <div className="flex items-center gap-2">
                 <Button
                   rounded
