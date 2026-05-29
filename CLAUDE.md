@@ -1,6 +1,6 @@
 # cladd-website
 
-Documentation and marketing site for **cladd** — published at cladd.io (eventually).
+Documentation and marketing site for **cladd** — published at [cladd.io](https://cladd.io). Source for the kit itself lives at [github.com/cladd-ui/cladd](https://github.com/cladd-ui/cladd).
 
 ## What cladd is
 
