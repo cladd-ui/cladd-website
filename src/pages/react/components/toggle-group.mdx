@@ -1,0 +1,93 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  OverviewExample,
+  MultipleExample,
+  StandaloneExample,
+  ColorExample,
+  SizeExample,
+  MultipleGroupsExample,
+  PlaygroundExample,
+} from '@/components/examples/toggle-group';
+import ToggleGroupProps from '@/generated/props/ToggleGroupProps';
+import ToggleButtonProps from '@/generated/props/ToggleButtonProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Toggle Group — Cladd"
+    description="Two-state toggle buttons, standalone or grouped into a single- or multi-select set."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Toggle Group
+
+Pressable two-state buttons. `ToggleButton` works on its own as a press-to-hold control, or drop several into a `ToggleGroup` to make a single- or multi-select set. It builds on [`Segmented`](/react/components/segmented/), so it inherits the same accent, variant, and size options — but where Segmented always keeps one option selected, a toggle can sit fully off. Like the rest of cladd's application controls, toggles are built for the dense [`Toolbar`](/react/components/toolbar/) strips of editors and dashboards — view switches, format marks, alignment — so most of the examples below sit in one.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { ToggleGroup, ToggleButton } from '@cladd-ui/react';
+
+<ToggleGroup defaultValue="grid">
+  <ToggleButton value="grid">Grid</ToggleButton>
+  <ToggleButton value="list">List</ToggleButton>
+  <ToggleButton value="board">Board</ToggleButton>
+</ToggleGroup>;
+```
+
+By default a group is single-select — pass a single string to `value` / `defaultValue` and read it back from `onValueChange`. Clicking the active button again deselects it, collapsing the selection to `undefined`. That's the difference from [`Segmented`](/react/components/segmented/), which always keeps exactly one option chosen.
+
+## Examples
+
+### Multiple
+
+Set `multiple` to let several buttons stay pressed at once. The selection becomes a `string[]` of the pressed values — a natural fit for text-format marks like bold, italic, and underline.
+
+<MultipleExample />
+
+### Standalone
+
+A `ToggleButton` used outside a group owns its own state. Leave it uncontrolled with `defaultSelected`, or control it with `selected` and `onChange` — like a [`Button`](/react/components/button/) that remembers whether it's on.
+
+<StandaloneExample />
+
+### Colors
+
+`activeColor` sets the accent applied while a button is pressed. It defaults to the theme accent and accepts any of the eleven accent colors.
+
+<ColorExample />
+
+### Sizes
+
+ToggleGroup follows the shared `2xs → 2xl` size scale. Inside a [`Toolbar`](/react/components/toolbar/) it picks up the toolbar's `size`, so the whole strip — chrome and buttons alike — scales from one prop; standalone, set `size` on the group and it forwards to every child `ToggleButton`. The default is `md`.
+
+<SizeExample />
+
+### Multiple groups
+
+Pack several groups into one [`Toolbar`](/react/components/toolbar/) and divide them with `ToolbarSeparator` — format marks as a multi-select set, alignment as single-select — for a dense, editor-grade control bar. Each group keeps its own selection while sharing the toolbar's `size` and `rounded` from context.
+
+<MultipleGroupsExample />
+
+### Playground
+
+The active-state knobs (`activeColor`, `activeVariant`), the shared `size`, and the `multiple` flag compose freely; the playground below combines them.
+
+<PlaygroundExample />
+
+## API Reference
+
+### ToggleGroup
+
+ToggleGroup accepts every [`Segmented`](/react/components/segmented/) prop (`color`, `variant`, `activeColor`, `activeVariant`, `activeOutline`, `outline`, `size`, `rounded`) in addition to those below.
+
+<ToggleGroupProps />
+
+### ToggleButton
+
+`ToggleButton` extends [`Segmented`](/react/components/segmented/)'s `SegmentedButton` (and through it [`Button`](/react/components/button/)), so the full button API is available. Inside a `ToggleGroup` it derives its pressed state from `value`; standalone it owns its own.
+
+<ToggleButtonProps />

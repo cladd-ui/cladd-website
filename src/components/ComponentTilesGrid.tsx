@@ -4,6 +4,7 @@ import {
   Chip,
   CloseIcon,
   cn,
+  DropdownIcon,
   Input,
   Link,
   List,
@@ -34,18 +35,175 @@ import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 
 import { CladdLogo } from './CladdLogo';
-import { componentHref, componentNames } from './componentNames';
+import { componentHref, componentLabel, componentNames } from './componentNames';
 import { ArrowRightIcon } from './icons/ArrowRightIcon';
 import { BoldIcon } from './icons/BoldIcon';
+import { CalendarIcon } from './icons/CalendarIcon';
 import { ItalicIcon } from './icons/ItalicIcon';
+import { UnderlineIcon } from './icons/UnderlineIcon';
+
+function ChevronDownGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M4 6l4 4 4-4" />
+    </svg>
+  );
+}
+
+function ChevronRightGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M6 4l4 4-4 4" />
+    </svg>
+  );
+}
 
 const PREVIEWS: Record<string, () => ReactNode> = {
+  Accordion: () => (
+    <div className="flex w-28 flex-col gap-1">
+      <Surface
+        outline
+        variant="gradient"
+        className="rounded-cladd-md"
+        contentClassName="flex items-center justify-between px-2 py-1.5"
+      >
+        <span className="h-1 w-10 rounded-full bg-cladd-fg-softest" />
+        <ChevronDownGlyph className="size-2.5 text-cladd-fg-softer" />
+      </Surface>
+      <div className="flex flex-col gap-1 px-2 pb-1">
+        <span className="h-1 w-full rounded-full bg-cladd-fg-softest opacity-50" />
+        <span className="h-1 w-3/4 rounded-full bg-cladd-fg-softest opacity-50" />
+      </div>
+      <Surface
+        outline
+        className="rounded-cladd-md"
+        contentClassName="flex items-center justify-between px-2 py-1.5"
+      >
+        <span className="h-1 w-12 rounded-full bg-cladd-fg-softest" />
+        <ChevronRightGlyph className="size-2.5 text-cladd-fg-softer" />
+      </Surface>
+    </div>
+  ),
+  Calendar: () => (
+    <Surface
+      outline
+      className="rounded-cladd-xl"
+      contentClassName="flex w-fit flex-col gap-1 p-2"
+    >
+      <div className="flex items-center justify-between">
+        <ChevronRightGlyph className="size-3 rotate-180 text-cladd-fg-softer" />
+        <span className="h-1 w-8 rounded-full bg-cladd-fg-softest" />
+        <ChevronRightGlyph className="size-3 text-cladd-fg-softer" />
+      </div>
+      <div className="grid grid-cols-7 gap-1">
+        {Array.from({ length: 28 }).map((_, i) => (
+          <span
+            key={i}
+            className={cn(
+              'size-2 rounded-full',
+              i === 16
+                ? 'cladd-color-blue bg-cladd-primary'
+                : 'bg-cladd-fg-softest opacity-50',
+            )}
+          />
+        ))}
+      </div>
+    </Surface>
+  ),
+  Collapsible: () => (
+    <div className="flex w-28 flex-col gap-1">
+      <Surface
+        outline
+        variant="gradient"
+        className="rounded-cladd-md"
+        contentClassName="flex items-center justify-between px-2 py-1.5"
+      >
+        <span className="h-1 w-12 rounded-full bg-cladd-fg-softest" />
+        <ChevronDownGlyph className="size-2.5 text-cladd-fg-softer" />
+      </Surface>
+      <SurfaceCut
+        className="rounded-cladd-md"
+        contentClassName="flex flex-col gap-1 p-2"
+      >
+        <span className="h-1 w-full rounded-full bg-cladd-fg-softest opacity-50" />
+        <span className="h-1 w-2/3 rounded-full bg-cladd-fg-softest opacity-50" />
+      </SurfaceCut>
+    </div>
+  ),
+  ColorEditor: () => (
+    <div className="flex w-24 flex-col gap-1">
+      <Surface
+        outline
+        variant="gradient"
+        className="relative h-12 overflow-hidden rounded-cladd-md"
+      >
+        <span className="absolute top-2 right-3 size-2 rounded-full ring-2 ring-cladd-fg-softest" />
+      </Surface>
+      <div className="flex h-2 overflow-hidden rounded-full bg-linear-90 from-transparent to-cladd-fg-softest" />
+      <div className="flex gap-1">
+        {Array.from({ length: 4 }).map((c, i) => (
+          <span
+            key={i}
+            className={cn('size-2 rounded-full bg-cladd-fg-softest')}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+  ColorPicker: () => (
+    <Button
+      readOnly
+      outline
+      className="pointer-events-none select-none"
+      contentClassName="flex items-center gap-2 pr-1.5 "
+    >
+      <div className="size-4 rounded-cladd-2xs bg-[#ff0000]" />
+      <span>#FF0000</span>
+      <DropdownIcon className="ml-auto text-cladd-fg-softer" />
+    </Button>
+  ),
+  DatePicker: () => (
+    <Button
+      readOnly
+      outline
+      className="pointer-events-none select-none"
+      contentClassName="flex items-center gap-2 pr-1.5 "
+    >
+      <CalendarIcon className="text-cladd-fg-soft" />
+      <span>May 15, 2026</span>
+      <DropdownIcon className="ml-auto text-cladd-fg-softer" />
+    </Button>
+  ),
   Backdrop: () => (
     <div className="relative size-24 overflow-hidden rounded-cladd-md bg-cladd-surface-minus ring-1 ring-cladd-outline" />
   ),
-  Button: () => <Button readOnly>Save</Button>,
-  Checkbox: () => <Checkbox checked readOnly />,
-  Chip: () => <Chip color="blue">Draft</Chip>,
+  Button: () => (
+    <Button className="pointer-events-none" readOnly>
+      Save
+    </Button>
+  ),
+  Checkbox: () => <Checkbox className="pointer-events-none" checked readOnly />,
+  Chip: () => (
+    <Chip color="blue" className="pointer-events-none">
+      Draft
+    </Chip>
+  ),
   Dialog: () => (
     <Surface
       outline
@@ -62,14 +220,16 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       </span>
     </Surface>
   ),
-  Input: () => <Input placeholder="Title" className="w-32" readOnly />,
+  Input: () => (
+    <Input placeholder="Title" className="pointer-events-none w-32" readOnly />
+  ),
   Link: () => (
-    <Link as="span" className="text-sm" readOnly>
+    <Link as="span" className="pointer-events-none text-sm" readOnly>
       Open docs ↗
     </Link>
   ),
   List: () => (
-    <Surface outline className="w-28 rounded-3xl">
+    <Surface outline className="pointer-events-none w-28 rounded-3xl">
       <List>
         <ListButton readOnly selected>
           One
@@ -81,13 +241,25 @@ const PREVIEWS: Record<string, () => ReactNode> = {
     </Surface>
   ),
   NumberField: () => (
-    <NumberField value={12} min={0} max={99} className="w-32" readOnly />
+    <NumberField
+      value={12}
+      min={0}
+      max={99}
+      className="pointer-events-none w-32"
+      readOnly
+    />
   ),
   NumberScrubber: () => (
-    <NumberScrubber value={48} min={0} max={100} className="w-20" readOnly />
+    <NumberScrubber
+      value={48}
+      min={0}
+      max={100}
+      className="pointer-events-none w-20"
+      readOnly
+    />
   ),
   OTPField: () => (
-    <OTPField value="42" readOnly className="gap-1">
+    <OTPField value="42" readOnly className="pointer-events-none gap-1">
       <OTPFieldInput />
       <OTPFieldInput />
       <OTPFieldInput />
@@ -134,13 +306,18 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       </Surface>
     </div>
   ),
-  Radio: () => <Radio checked readOnly />,
+  Radio: () => <Radio className="pointer-events-none" checked readOnly />,
   SearchField: () => (
-    <SearchField placeholder="Search…" size="lg" readOnly className="w-32" />
+    <SearchField
+      placeholder="Search…"
+      size="lg"
+      readOnly
+      className="pointer-events-none w-32"
+    />
   ),
   SectionTitle: () => <SectionTitle>Section</SectionTitle>,
   Segmented: () => (
-    <Segmented>
+    <Segmented className="pointer-events-none">
       <SegmentedButton active readOnly>
         A1
       </SegmentedButton>
@@ -153,7 +330,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       value="md"
       options={['sm', 'md', 'lg']}
       onChange={() => {}}
-      className="w-20"
+      className="pointer-events-none w-20"
       readOnly
     >
       md
@@ -161,7 +338,12 @@ const PREVIEWS: Record<string, () => ReactNode> = {
   ),
   Shortcut: () => <Shortcut>cmd K</Shortcut>,
   Slider: () => (
-    <Slider defaultValue={55} className="w-28" readOnly size="md" />
+    <Slider
+      defaultValue={55}
+      className="pointer-events-none w-28"
+      readOnly
+      size="md"
+    />
   ),
   Spinner: () => <Spinner size="lg" />,
   Surface: () => (
@@ -200,12 +382,45 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       </SurfaceCut>
     </Surface>
   ),
-  Switch: () => <Switch checked onChange={() => {}} readOnly />,
+  Switch: () => (
+    <Switch
+      className="pointer-events-none"
+      checked
+      onChange={() => {}}
+      readOnly
+    />
+  ),
+  Tabs: () => (
+    <div className="pointer-events-none flex w-28 flex-col gap-2">
+      <Segmented>
+        <SegmentedButton active readOnly>
+          <span className="flex size-3 shrink-0 items-center justify-center">
+            A
+          </span>
+        </SegmentedButton>
+        <SegmentedButton readOnly>
+          <span className="flex size-3 shrink-0 items-center justify-center">
+            B
+          </span>
+        </SegmentedButton>
+        <SegmentedButton readOnly>
+          <span className="flex size-3 shrink-0 items-center justify-center">
+            C
+          </span>
+        </SegmentedButton>
+      </Segmented>
+      <div className="flex flex-col gap-1 px-1">
+        <span className="h-1 w-full rounded-full bg-cladd-fg-softest opacity-50" />
+        <span className="h-1 w-3/4 rounded-full bg-cladd-fg-softest opacity-50" />
+        <span className="h-1 w-2/3 rounded-full bg-cladd-fg-softest opacity-50" />
+      </div>
+    </div>
+  ),
   Textarea: () => (
     <Textarea
       value="Hello"
       readOnly
-      className="w-28"
+      className="pointer-events-none w-28"
       inputClassName="!min-h-14"
     />
   ),
@@ -221,7 +436,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
     </Surface>
   ),
   Toolbar: () => (
-    <Toolbar>
+    <Toolbar className="pointer-events-none">
       <ToolbarButton readOnly>
         <BoldIcon className="size-3" />
       </ToolbarButton>
@@ -231,6 +446,19 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       <ToolbarSeparator />
       <ToolbarButton readOnly>OK</ToolbarButton>
     </Toolbar>
+  ),
+  ToggleGroup: () => (
+    <Segmented className="pointer-events-none">
+      <SegmentedButton active readOnly className="font-bold">
+        <BoldIcon className="size-3" />
+      </SegmentedButton>
+      <SegmentedButton active readOnly className="italic">
+        <ItalicIcon className="size-3" />
+      </SegmentedButton>
+      <SegmentedButton readOnly className="underline">
+        <UnderlineIcon className="size-3" />
+      </SegmentedButton>
+    </Segmented>
   ),
   Tooltip: () => (
     <div className="flex flex-col items-center gap-1">
@@ -258,6 +486,7 @@ function TileFallback({ name }: { name: string }) {
 
 function Tile({ name }: { name: string }) {
   const renderPreview = PREVIEWS[name];
+  const label = componentLabel(name);
   return (
     <Surface
       as={NextLink}
@@ -271,10 +500,10 @@ function Tile({ name }: { name: string }) {
       bgClassName="[&>div]:z-2"
     >
       <div className="flex flex-1 items-center justify-center overflow-hidden">
-        {renderPreview ? renderPreview() : <TileFallback name={name} />}
+        {renderPreview ? renderPreview() : <TileFallback name={label} />}
       </div>
       <div className="flex items-center justify-between gap-1 px-2 pt-2 pb-2 text-xs">
-        <span className="truncate font-medium text-cladd-fg">{name}</span>
+        <span className="truncate font-medium text-cladd-fg">{label}</span>
         <span className="text-cladd-fg-softest transition-colors group-hover:text-cladd-fg">
           <ArrowRightIcon />
         </span>

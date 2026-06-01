@@ -1,0 +1,95 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ColorExample,
+  FormatExample,
+  MultipleExample,
+  OverviewExample,
+  PlaygroundExample,
+  RangeExample,
+  RoundedExample,
+  SizeExample,
+} from '@/components/examples/date-picker';
+import DatePickerProps from '@/generated/props/DatePickerProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Date Picker — Cladd"
+    description="Trigger button that opens a calendar to pick a date, dates, or a range."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Date Picker
+
+DatePicker pairs a [`Button`](/react/components/button/) trigger with a [`Popover`](/react/components/popover/) that holds a [`Calendar`](/react/components/calendar/). The trigger shows the current selection (or a placeholder) and opens the calendar on click — use it in forms, filters, and toolbars where a full inline calendar would take up too much room.
+
+<OverviewExample />
+
+## Usage
+
+DatePicker ships from the `@cladd-ui/react/calendar` subpath — the calendar bundle is split out so apps that don't use it don't pay for [`react-day-picker`](https://daypicker.dev/). Because of that split, `react-day-picker` is an optional peer dependency that cladd does **not** install for you — add it explicitly:
+
+```bash
+npm install react-day-picker
+```
+
+```tsx
+import { DatePicker, type DateRange } from '@cladd-ui/react/calendar';
+
+const [value, setValue] = useState<Date | undefined>();
+
+<DatePicker value={value} onChange={setValue} />;
+```
+
+The component is controlled — pass `value` plus an `onChange` handler. In the default single mode `value` is a `Date` and `onChange` receives `Date | undefined`. The popover open state is internal by default; pass `open` / `onOpenChange` to drive it yourself.
+
+## Examples
+
+### Sizes
+
+The trigger follows the shared size scale from `2xs` to `2xl`, the same one used by [`Button`](/react/components/button/), [`Select`](/react/components/select/), and the rest of the size-aware controls. The default is `md`. The calendar inside the popover sizes independently via `calendarSize` (default `lg`).
+
+<SizeExample />
+
+### Colors
+
+Use `color` to set the accent on both the trigger and the calendar selection. Any of the eleven accent colors works; when unset it inherits the theme accent.
+
+<ColorExample />
+
+### Range
+
+Set `mode="range"` to select a start and end date. The value is a `DateRange` (`{ from?: Date; to?: Date }`, re-exported from `react-day-picker`), and `calendarProps` forwards options to the embedded [`Calendar`](/react/components/calendar/) — here `numberOfMonths: 2` shows two months side by side.
+
+<RangeExample />
+
+### Multiple
+
+Set `mode="multiple"` to collect several individual dates. The value is a `Date[]`, and the trigger lists the picked dates once more than one is selected.
+
+<MultipleExample />
+
+### Custom format
+
+Pass `format` to control the trigger label. It receives the current value for the active mode and returns a `ReactNode` — here an `Intl.DateTimeFormat` long date. Without it the trigger falls back to `toLocaleDateString`.
+
+<FormatExample />
+
+### Rounded
+
+Set `rounded` for a pill-shaped trigger — forwarded straight to [`Button.rounded`](/react/components/button/).
+
+<RoundedExample />
+
+### Playground
+
+`size`, `color`, and the boolean toggles compose freely. Default to `md`; reach for `lg` when the picker is a primary field in a form.
+
+<PlaygroundExample />
+
+## API Reference
+
+`DatePickerProps` is a discriminated union over `mode`. The default `'single'` mode takes `value: Date`, `onChange: (value: Date | undefined) => void`, a `format: (value: Date) => ReactNode`, and `closeOnSelect` (default `true`). `'multiple'` switches `value` to `Date[]` with a matching `onChange`/`format`, and `'range'` uses a `DateRange` (`{ from?: Date; to?: Date }`, re-exported from `react-day-picker`) with `onChange: (value: DateRange | undefined) => void`. The base props below — sizing, color, popover position, and so on — apply to every mode. `calendarProps` forwards straight through to the embedded [`Calendar`](/react/components/calendar/) (including `numberOfMonths`, `disabled`, `startMonth`, and `endMonth`).
+
+<DatePickerProps />

@@ -20,6 +20,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, '..');
 const pkgRoot = resolve(projectRoot, 'node_modules/@cladd-ui/react');
 const indexFile = join(pkgRoot, 'index.d.ts');
+// Calendar/DatePicker ship from the './calendar' subpath, not the main barrel,
+// so their *Props types must be discovered from this entry too.
+const calendarIndexFile = join(pkgRoot, 'calendar/index.d.ts');
+const entryFiles = [indexFile, calendarIndexFile].filter((f) => existsSync(f));
 const outDir = resolve(projectRoot, 'src/generated/props');
 
 const fileCache = new Map();
@@ -44,15 +48,15 @@ function resolveModulePath(fromFile, spec) {
 // 1. Walk index.d.ts; collect every type-only export whose name ends with
 // "Props" or "Options" (the latter for hook option objects like
 // `UseDialogConfirmOptions`).
-function discoverPropsExports() {
-  const source = parseFile(indexFile);
+function discoverPropsExports(entryFile) {
+  const source = parseFile(entryFile);
   const exports = []; // { name, file }
   for (const stmt of source.statements) {
     if (!ts.isExportDeclaration(stmt)) continue;
     if (!stmt.exportClause || !ts.isNamedExports(stmt.exportClause)) continue;
     if (!stmt.moduleSpecifier || !ts.isStringLiteral(stmt.moduleSpecifier))
       continue;
-    const modPath = resolveModulePath(indexFile, stmt.moduleSpecifier.text);
+    const modPath = resolveModulePath(entryFile, stmt.moduleSpecifier.text);
     if (!modPath) continue;
     const blanketIsType = !!stmt.isTypeOnly;
     for (const spec of stmt.exportClause.elements) {
@@ -401,7 +405,14 @@ function main() {
   }
   mkdirSync(outDir, { recursive: true });
 
-  const exports = discoverPropsExports();
+  const seenExports = new Set();
+  const exports = entryFiles
+    .flatMap((entryFile) => discoverPropsExports(entryFile))
+    .filter((exp) => {
+      if (seenExports.has(exp.name)) return false;
+      seenExports.add(exp.name);
+      return true;
+    });
   const generated = [];
   const skipped = [];
 

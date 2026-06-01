@@ -2,10 +2,16 @@
  *  Shared by the docs sidebar (DocsLayout) and the home-page catalog tile grid
  *  so adding a new component in one place flows through to the other. */
 export const componentNames = [
+  'Accordion',
   'Backdrop',
   'Button',
+  'Calendar',
   'Checkbox',
   'Chip',
+  'Collapsible',
+  'ColorEditor',
+  'ColorPicker',
+  'DatePicker',
   'Dialog',
   'Input',
   'Link',
@@ -26,8 +32,10 @@ export const componentNames = [
   'Surface',
   'SurfaceCut',
   'Switch',
+  'Tabs',
   'Textarea',
   'Toast',
+  'ToggleGroup',
   'Toolbar',
   'Tooltip',
   'CladdProvider',
@@ -41,4 +49,14 @@ export function componentHref(name: string) {
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
     .toLowerCase();
   return `/react/components/${kebab}/`;
+}
+
+/** Human-readable label for display — sidebar, tile grid, page/meta titles.
+ *  The array stays CamelCase (the canonical component identifiers used for
+ *  hrefs and preview keys); this splits them into words for the eye, keeping
+ *  acronyms intact: "OTPField" → "OTP Field", "ColorPicker" → "Color Picker". */
+export function componentLabel(name: string) {
+  return name
+    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
 }

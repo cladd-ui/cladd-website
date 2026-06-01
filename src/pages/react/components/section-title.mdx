@@ -10,14 +10,14 @@ import SectionTitleProps from '@/generated/props/SectionTitleProps';
 
 export default ({ children }) => (
   <DocsLayout
-    title="SectionTitle — Cladd"
+    title="Section Title — Cladd"
     description="Heading label for grouping content inside panels, popovers, and settings."
   >
     {children}
   </DocsLayout>
 );
 
-# SectionTitle
+# Section Title
 
 `SectionTitle` is the small uppercase eyebrow label cladd uses to break a dense panel into named groups — the line that sits above a cluster of form fields, the heading on a popover section, the divider between unrelated rows in a settings sheet. It renders a `<div>` with cladd's tuned typography (`text-cladd-xs`, `font-medium`, `text-cladd-fg-soft`, `uppercase`, non-selectable) and a `flex items-end gap-4` layout so you can drop a count chip, a status badge, or an inline action next to the title without any extra wrapper.
 

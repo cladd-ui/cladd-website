@@ -3,14 +3,14 @@ import CladdProviderProps from '@/generated/props/CladdProviderProps';
 
 export default ({ children }) => (
   <DocsLayout
-    title="CladdProvider — Cladd"
+    title="Cladd Provider — Cladd"
     description="App-wide provider for the theme, default accent color, and overlay portals."
   >
     {children}
   </DocsLayout>
 );
 
-# CladdProvider
+# Cladd Provider
 
 `CladdProvider` is the single wrapper every cladd app mounts at the root. It does a few small things, and they're all things the rest of the kit assumes are in place: it publishes the **theme** (`'dark'` or `'light'`) and the **app-wide accent color** through context, sets the **overlays root selector** that portalled surfaces target, exposes **per-component defaults** that override the kit's built-ins app-wide, and mounts the **dialog and toast portals** that back the imperative [`useDialog`](/react/components/dialog/) and [`useToast`](/react/components/toast/) hooks.
 

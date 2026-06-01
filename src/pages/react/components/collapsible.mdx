@@ -1,0 +1,126 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  OverviewExample,
+  ControlledExample,
+  IndicatorExample,
+  KeepMountedExample,
+  DisabledExample,
+  NestedExample,
+  PlaygroundExample,
+} from '@/components/examples/collapsible';
+import CollapsibleRootProps from '@/generated/props/CollapsibleRootProps';
+import CollapsibleTriggerProps from '@/generated/props/CollapsibleTriggerProps';
+import CollapsiblePanelProps from '@/generated/props/CollapsiblePanelProps';
+import CollapsibleIndicatorProps from '@/generated/props/CollapsibleIndicatorProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Collapsible — Cladd"
+    description="Show or hide a single section behind one trigger."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Collapsible
+
+A single disclosure: one trigger that shows or hides one panel. Use it for
+optional details, advanced settings, and inline reveals where there's just
+one thing to toggle — for stacked sections that open one at a time, reach for
+[`Accordion`](/react/components/accordion/) instead.
+
+The trigger is your own markup: pass a single element (a
+[`Button`](/react/components/button/), a row, anything) and cladd clones it to
+attach the click handler, `aria-expanded`, `aria-controls`, and a `data-open`
+attribute. The panel animates its height between `0` and `auto` and respects
+`prefers-reduced-motion`.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import {
+  CollapsibleRoot,
+  CollapsibleTrigger,
+  CollapsiblePanel,
+  Button,
+} from '@cladd-ui/react';
+
+export default function Example() {
+  return (
+    <CollapsibleRoot defaultOpen>
+      <CollapsibleTrigger>
+        <Button variant="transparent">Toggle section</Button>
+      </CollapsibleTrigger>
+      <CollapsiblePanel>Panel content.</CollapsiblePanel>
+    </CollapsibleRoot>
+  );
+}
+```
+
+## Examples
+
+### Controlled
+
+Drive open state yourself with `open` and `onOpenChange` when the toggle
+lives outside the trigger's own subtree — a button elsewhere on screen, a
+keyboard shortcut, or an effect.
+
+<ControlledExample />
+
+### Indicator
+
+`CollapsibleIndicator` reads the open state from context, so you can swap a
+plus and minus glyph (or any pair) without wiring up state of your own. Pass a
+render function to receive `{ open, disabled }`.
+
+<IndicatorExample />
+
+### Keep mounted
+
+By default the panel unmounts when collapsed. Set `keepMounted` to keep its
+content in the DOM — useful when an [`Input`](/react/components/input/) or other
+control inside the panel should preserve its value across toggles.
+
+<KeepMountedExample />
+
+### Disabled
+
+A disabled root makes the trigger inert: clicks are ignored and the panel
+stays put. The trigger element also receives `disabled` and a `data-disabled`
+attribute for styling.
+
+<DisabledExample />
+
+### Nested
+
+Because each Collapsible is self-contained, you can nest one inside another
+panel to build a dense disclosure tree — here an "Advanced" reveal lives
+inside a [`Surface`](/react/components/surface/) within the outer panel.
+
+<NestedExample />
+
+### Playground
+
+Toggle `keepMounted` and `disabled` to see how each affects the panel.
+
+<PlaygroundExample />
+
+## API Reference
+
+### CollapsibleRoot
+
+<CollapsibleRootProps />
+
+### CollapsibleTrigger
+
+<CollapsibleTriggerProps />
+
+### CollapsiblePanel
+
+<CollapsiblePanelProps />
+
+### CollapsibleIndicator
+
+<CollapsibleIndicatorProps />

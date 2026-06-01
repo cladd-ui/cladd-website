@@ -1,0 +1,113 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  AppShellExample,
+  ColorExample,
+  ControlledExample,
+  DisabledExample,
+  KeepMountedExample,
+  OverviewExample,
+  PlaygroundExample,
+  SizeExample,
+} from '@/components/examples/tabs';
+import TabsProps from '@/generated/props/TabsProps';
+import TabsListProps from '@/generated/props/TabsListProps';
+import TabProps from '@/generated/props/TabProps';
+import TabPanelProps from '@/generated/props/TabPanelProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Tabs — Cladd"
+    description="Switch between sibling views within a single panel or screen."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Tabs
+
+`Tabs` partitions one region of the screen into a set of sibling views — Overview / Activity / Settings, Write / Preview / Diff, the panels of an inspector — and shows one at a time. It's four pieces that compose: a stateful `Tabs` root that owns the selected value, a `TabsList` strip of `Tab` buttons, and a `TabPanel` for each value. The strip is rendered with [`Segmented`](/react/components/segmented/), so every accent, variant, and size that works there works here, and arrow-key navigation with roving focus is built in.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { Tabs, TabsList, Tab, TabPanel } from '@cladd-ui/react';
+
+<Tabs defaultValue="overview">
+  <TabsList>
+    <Tab value="overview">Overview</Tab>
+    <Tab value="activity">Activity</Tab>
+  </TabsList>
+  <TabPanel value="overview">…</TabPanel>
+  <TabPanel value="activity">…</TabPanel>
+</Tabs>;
+```
+
+`Tabs` renders no DOM of its own — it's the state container. Each `Tab` and its `TabPanel` are paired by a matching `value`; clicking a tab (or arrowing to it) shows the panel with the same value and unmounts the rest. Use `defaultValue` for the uncontrolled case and `value` + `onValueChange` when you need to drive the selection from outside.
+
+## Examples
+
+### Controlled
+
+Pass `value` and `onValueChange` to own the selection yourself — handy when the active tab is part of app state, synced to the URL, or set by something other than a click. Here the current value is mirrored below the panels.
+
+<ControlledExample />
+
+### Sizes
+
+`TabsList` carries the [`Segmented`](/react/components/segmented/) `size` prop across the full `2xs → 2xl` scale; `md` is the default and the right call for most app chrome. The whole strip and its tabs scale together, so the panels stay anchored to the same rhythm as the rest of your UI.
+
+<SizeExample />
+
+### Colors
+
+`activeColor` tints the selected tab with any of the eleven cladd accents, while the rest of the strip stays neutral — the accent reads as "you are here". Like the other accent-aware controls it inherits the theme accent from [`CladdProvider`](/react/components/cladd-provider/) when unset, so you only reach for `activeColor` to override.
+
+<ColorExample />
+
+### Keep panels mounted
+
+By default an inactive `TabPanel` unmounts, so its state resets when you leave. Pass `keepMounted` to keep it in the tree (hidden) instead — the canonical case is a form field whose typed value should survive a trip to another tab. Type into the [`Input`](/react/components/input/) below, switch to Recipients, and switch back: the draft is still there.
+
+<KeepMountedExample />
+
+### Disabled tab
+
+A `Tab` accepts `disabled` to dim it and take it out of both the click target and the arrow-key rotation — use it for a view gated behind a plan tier or a permission the current user lacks.
+
+<DisabledExample />
+
+### In a toolbar
+
+Tabs earn their keep as an app-section switcher. Drop a `TabsList` straight into a [`Toolbar`](/react/components/toolbar/) — a `transparent` variant lets it sit flush in the bar — and you get a dense header that switches the main content region. This is the layout cladd was built for: a lot on screen, still legible.
+
+<AppShellExample />
+
+### Playground
+
+`size`, `activeColor`, and the [`Segmented`](/react/components/segmented/) `outline` / `rounded` toggles all compose on `TabsList`. Default to `md`; reach for `lg` when the tab strip is the primary navigation of a screen.
+
+<PlaygroundExample />
+
+## API Reference
+
+### Tabs
+
+<TabsProps />
+
+### TabsList
+
+`TabsList` renders a [`Segmented`](/react/components/segmented/), so it also accepts every `Segmented` prop — `color`, `variant`, `activeColor`, `activeVariant`, `outline`, `size`, and `rounded`.
+
+<TabsListProps />
+
+### Tab
+
+`Tab` extends [`SegmentedButton`](/react/components/segmented/), so it accepts that component's props in addition to the `value` below.
+
+<TabProps />
+
+### TabPanel
+
+<TabPanelProps />

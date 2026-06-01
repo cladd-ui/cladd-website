@@ -11,7 +11,7 @@
 // to using the kit correctly, so agents see them before the long component
 // list.
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,39 +22,23 @@ const outFile = resolve(projectRoot, 'public/llms.txt');
 const SITE_ORIGIN = 'https://cladd.io';
 
 // Mirror of DocsLayout's sidebar order, with Foundations promoted above
-// Components. Each entry maps a doc route to its MDX source so we can pull
-// the page description straight out of the <DocsLayout> tag.
-const componentNames = [
-  'Backdrop',
-  'Button',
-  'Checkbox',
-  'Chip',
-  'Dialog',
-  'Input',
-  'Link',
-  'List',
-  'NumberField',
-  'NumberScrubber',
-  'OTPField',
-  'Popover',
-  'Popup',
-  'Radio',
-  'SearchField',
-  'SectionTitle',
-  'Segmented',
-  'Select',
-  'Shortcut',
-  'Slider',
-  'Spinner',
-  'Surface',
-  'SurfaceCut',
-  'Switch',
-  'Textarea',
-  'Toast',
-  'Toolbar',
-  'Tooltip',
-  'CladdProvider',
-];
+// Components — auto-discovered from the MDX directory (the same source
+// generate-mcp-catalog.mjs reads) so the list can never drift out of sync as
+// component docs are added. The display label is each page's own
+// <DocsLayout title> (minus the " — Cladd" suffix): it already carries the
+// right word-split and acronym casing — "OTP Field", "Color Picker" — that a
+// kebab-slug-derived label would lose.
+const componentEntries = readdirSync(resolve(pagesRoot, 'components'))
+  .filter((file) => file.endsWith('.mdx') && file !== 'index.mdx')
+  .sort()
+  .map((file) => {
+    const slug = file.replace(/\.mdx$/, '');
+    return {
+      mdx: `components/${file}`,
+      md: `/react/components/${slug}.md`,
+      label: parseTitle(resolve(pagesRoot, `components/${file}`)),
+    };
+  });
 
 const hookNames = [
   'useTheme',
@@ -156,14 +140,7 @@ const sections = [
   },
   {
     title: 'Components',
-    entries: componentNames.map((name) => {
-      const slug = toKebab(name);
-      return {
-        mdx: `components/${slug}.mdx`,
-        md: `/react/components/${slug}.md`,
-        label: name,
-      };
-    }),
+    entries: componentEntries,
   },
   {
     title: 'Hooks',
@@ -191,6 +168,20 @@ function parseDescription(mdxPath) {
     throw new Error(`No description attribute in ${mdxPath}`);
   }
   return descMatch[1].trim();
+}
+
+function parseTitle(mdxPath) {
+  const text = readFileSync(mdxPath, 'utf8');
+  const layoutMatch = text.match(/<DocsLayout([\s\S]*?)>/);
+  if (!layoutMatch) {
+    throw new Error(`No <DocsLayout> tag in ${mdxPath}`);
+  }
+  const titleMatch = layoutMatch[1].match(/\btitle\s*=\s*"((?:[^"\\]|\\.)*)"/);
+  if (!titleMatch) {
+    throw new Error(`No title attribute in ${mdxPath}`);
+  }
+  // Strip the " — Cladd" suffix every page tacks onto <title>.
+  return titleMatch[1].replace(/\s+[—-]\s+Cladd$/, '').trim();
 }
 
 const header = `# cladd

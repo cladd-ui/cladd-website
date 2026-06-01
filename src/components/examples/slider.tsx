@@ -415,3 +415,163 @@ export function PlaygroundExample() {
     </Example>
   );
 }
+
+export function TrackVariantExample() {
+  const [a, setA] = useState(40);
+  const [b, setB] = useState(60);
+  const [c, setC] = useState(75);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.TrackVariantExample}
+      previewSurface
+      previewClassName="flex-col gap-8 content-center"
+    >
+      <Slider
+        variant="track"
+        size="xs"
+        value={a}
+        onChange={setA}
+        className="w-72"
+      />
+      <Slider
+        variant="track"
+        size="sm"
+        color="green"
+        value={b}
+        onChange={setB}
+        className="w-72"
+      />
+      <Slider
+        variant="track"
+        size="md"
+        color="blue"
+        value={c}
+        onChange={setC}
+        className="w-72"
+      />
+    </Example>
+  );
+}
+
+export function TrackRoundedExample() {
+  const [a, setA] = useState(35);
+  const [b, setB] = useState(65);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.TrackRoundedExample}
+      previewSurface
+      previewClassName="flex-col gap-8 content-center"
+    >
+      <Slider
+        variant="track"
+        rounded
+        size="sm"
+        color="purple"
+        value={a}
+        onChange={setA}
+        className="w-72"
+      />
+      <Slider
+        variant="track"
+        rounded
+        size="md"
+        color="cyan"
+        value={b}
+        onChange={setB}
+        className="w-72"
+      />
+    </Example>
+  );
+}
+
+export function TrackRangeFillExample() {
+  const [a, setA] = useState(45);
+  const [b, setB] = useState(70);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.TrackRangeFillExample}
+      previewSurface
+      previewClassName="flex-col gap-8 content-center"
+    >
+      <Slider
+        variant="track"
+        rangeFill
+        size="md"
+        color="green"
+        value={a}
+        onChange={setA}
+        className="w-72"
+      />
+      <Slider
+        variant="track"
+        rangeFill
+        rounded
+        size="md"
+        color="blue"
+        value={b}
+        onChange={setB}
+        className="w-72"
+      />
+    </Example>
+  );
+}
+
+export function TrackPlaygroundExample() {
+  const [value, setValue] = useState(55);
+  const [size, setSize] = useState<SliderSize>('md');
+  const [color, setColor] = useState<Color>('blue');
+  const [rounded, setRounded] = useState(false);
+  const [rangeFill, setRangeFill] = useState(true);
+  const [rangeOutline, setRangeOutline] = useState(true);
+  return (
+    <Example
+      source={EXAMPLE_SOURCE.TrackPlaygroundExample}
+      previewSurface
+      state={{ size, color, rounded, rangeFill, rangeOutline }}
+      previewClassName="content-center"
+      controls={
+        <>
+          <ExampleToolbar>
+            <ExampleControlSize
+              value={size}
+              onChange={setSize}
+              sizes={SLIDER_SIZES}
+            />
+          </ExampleToolbar>
+          <ExampleToolbar>
+            <ExampleControlSwitch
+              label="rounded"
+              checked={rounded}
+              onChange={setRounded}
+            />
+            <ExampleControlSwitch
+              label="rangeFill"
+              checked={rangeFill}
+              onChange={setRangeFill}
+            />
+            <ExampleControlSwitch
+              label="rangeOutline"
+              checked={rangeOutline}
+              onChange={setRangeOutline}
+            />
+          </ExampleToolbar>
+          <ExampleToolbar>
+            <ExampleControlColor value={color} onChange={setColor} />
+          </ExampleToolbar>
+        </>
+      }
+    >
+      <Slider
+        variant="track"
+        value={value}
+        onChange={setValue}
+        size={size}
+        color={color}
+        rounded={rounded}
+        rangeFill={rangeFill}
+        rangeOutline={rangeOutline}
+        className="w-72"
+      />
+    </Example>
+  );
+}

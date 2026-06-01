@@ -14,14 +14,14 @@ import NumberFieldProps from '@/generated/props/NumberFieldProps';
 
 export default ({ children }) => (
   <DocsLayout
-    title="NumberField — Cladd"
+    title="Number Field — Cladd"
     description="Numeric input with stepper buttons for picking a bounded value."
   >
     {children}
   </DocsLayout>
 );
 
-# NumberField
+# Number Field
 
 `NumberField` is the stepper-style numeric control: a [`Surface`](/react/components/surface/) container with a `−` [`Button`](/react/components/button/) on the left, the current value in the middle, and a `+` [`Button`](/react/components/button/) on the right. Each press fires `onChange` with the new value, already clamped to `[min, max]` and offset by `step`. It's the right pick for quantities in a cart, a zoom level in an inspector, a tip percentage — anywhere the value moves in discrete increments and the user mostly nudges rather than types.
 

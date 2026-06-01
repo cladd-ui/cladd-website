@@ -13,7 +13,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-import { componentNames } from './componentNames';
+import { componentLabel, componentNames } from './componentNames';
 import { ArrowLeftIcon } from './icons/ArrowLeftIcon';
 import { ArrowRightIcon } from './icons/ArrowRightIcon';
 import { CheckIcon } from './icons/CheckIcon';
@@ -94,7 +94,7 @@ const sections: { title: string; links: { label: string; href: string }[] }[] =
       links: [
         { label: 'Overview', href: '/react/components/' },
         ...componentNames.map((name) => ({
-          label: name,
+          label: componentLabel(name),
           href: `/react/components/${toKebab(name)}/`,
         })),
       ],

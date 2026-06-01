@@ -1,0 +1,160 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  ControlledExample,
+  DisabledExample,
+  MultipleExample,
+  OverviewExample,
+  PlaygroundExample,
+  SettingsPanelExample,
+} from '@/components/examples/accordion';
+import AccordionRootProps from '@/generated/props/AccordionRootProps';
+import AccordionItemProps from '@/generated/props/AccordionItemProps';
+import AccordionTriggerProps from '@/generated/props/AccordionTriggerProps';
+import AccordionPanelProps from '@/generated/props/AccordionPanelProps';
+import AccordionIndicatorProps from '@/generated/props/AccordionIndicatorProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Accordion — Cladd"
+    description="Stacked, collapsible sections for settings panels and grouped content."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Accordion
+
+`Accordion` is a stack of collapsible sections where, by default, opening one closes the rest — the canonical shape for a settings sidebar, an inspector, or a grouped preferences panel where you want a lot on screen without it all being open at once. It's a thin coordinator on top of [`Collapsible`](/react/components/collapsible/): each `AccordionItem` publishes the very same disclosure context, so `AccordionTrigger`, `AccordionPanel`, and `AccordionIndicator` are literally the `Collapsible` parts wearing accordion names. The kit brings the open-state logic, the height animation, and the aria wiring; you bring the trigger markup.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import {
+  AccordionIndicator,
+  AccordionItem,
+  AccordionPanel,
+  AccordionRoot,
+  AccordionTrigger,
+} from '@cladd-ui/react';
+
+<AccordionRoot defaultValue="appearance">
+  <AccordionItem value="appearance">
+    <AccordionTrigger>
+      <button type="button" className="flex w-full justify-between px-4 py-2">
+        Appearance
+        <AccordionIndicator className="transition-transform data-[open]:rotate-90">
+          <ChevronIcon />
+        </AccordionIndicator>
+      </button>
+    </AccordionTrigger>
+    <AccordionPanel>
+      <div className="px-4 pb-4">Theme, accent color, and density.</div>
+    </AccordionPanel>
+  </AccordionItem>
+</AccordionRoot>;
+```
+
+`AccordionRoot` owns the open value(s) — uncontrolled via `defaultValue`, controlled via `value` / `onValueChange` — and the single-vs-`multiple` mode. It renders no DOM of its own. Each `AccordionItem` binds a `value` and derives its own open state from the root. `AccordionTrigger` **clones** its single child to attach the toggle `onClick` plus the aria wiring (`aria-expanded`, `aria-controls`, `id`) and a `data-open` attribute — so a plain `<button>`, a [`Button`](/react/components/button/), or a custom row all work. `AccordionPanel` animates its `height` between `0` and its measured natural height; put block padding on a **nested** element so the panel can collapse all the way to zero.
+
+### The chevron
+
+cladd ships no icons — `AccordionIndicator` is an empty, `aria-hidden` slot you drop your own glyph into. Because it carries `data-open`, rotating a static chevron is pure CSS (`data-[open]:rotate-90`). For a full glyph swap (plus ↔ minus, say), pass a render function instead: `{({ open }) => (open ? <MinusIcon /> : <PlusIcon />)}`. You can also skip the component entirely and rotate an icon off the trigger's own `data-open` — the cloned child carries it too.
+
+## Examples
+
+Each example below shares one small local helper, `AccordionRow`, so every `AccordionItem` stays a single line instead of repeating the full trigger markup. It's built on cladd's own [`Button`](/react/components/button/) — a transparent, full-width ghost — so the row picks up hover, active, and focus-ring states for free rather than hand-rolling them. Because `AccordionTrigger` clones its child to inject the toggle `onClick`, the aria wiring, and `data-open`, the row only has to spread those props (`...props`) straight onto the `Button`. That's the whole helper:
+
+```tsx
+// `ChevronIcon` is your own glyph — cladd ships none.
+function AccordionRow({
+  label,
+  ...props
+}: { label: string } & ComponentPropsWithoutRef<'button'>) {
+  return (
+    <Button
+      variant="transparent"
+      outline={false}
+      {...props}
+      className="w-full rounded-none aria-disabled:pointer-events-none aria-disabled:opacity-50"
+      contentClassName="justify-between px-4"
+    >
+      <span>{label}</span>
+      <AccordionIndicator className="text-cladd-fg-soft transition-transform data-[open]:rotate-90">
+        <ChevronIcon />
+      </AccordionIndicator>
+    </Button>
+  );
+}
+```
+
+Forgetting that `{...props}` spread is the one easy mistake here — without it the cloned `onClick` never reaches the `Button` and nothing toggles.
+
+### Single (default)
+
+By default the accordion is single-open: opening one section collapses whatever was open, and re-toggling the open section closes it down to nothing. `defaultValue` sets which item starts expanded. This is the right mode for a settings panel where one focused section at a time keeps the screen legible.
+
+<OverviewExample />
+
+### Multiple
+
+Pass `multiple` to let items open and close independently — nothing auto-collapses. The selection becomes a `string[]`, so a controlled `value` is an array and `onValueChange` receives the full array. This is the FAQ / reference shape, where a reader may want several sections expanded side by side.
+
+<MultipleExample />
+
+### Controlled
+
+Drive the open value yourself with `value` / `onValueChange` when the open state is owned by your app — synced to a route, persisted, or read elsewhere. In single-open mode `onValueChange` hands you a single `string` (or `undefined` when everything is closed); in `multiple` mode it hands you the array.
+
+<ControlledExample />
+
+### Disabled
+
+`disabled` on a single `AccordionItem` freezes just that item — its trigger stops toggling and reads as unavailable (a section gated behind a higher plan, say). `disabled` on `AccordionRoot` freezes every item at once. The disabled state flows through to the trigger as `aria-disabled` and `data-disabled`, so you can dim it in CSS.
+
+<DisabledExample />
+
+### Settings panel
+
+The layout cladd was built for: a stack of sections whose panels hold real controls — an [`Input`](/react/components/input/), a [`List`](/react/components/list/) of [`Switch`](/react/components/switch/) rows — framed by a single [`Surface`](/react/components/surface/). Single-open keeps exactly one group expanded so a dense panel stays readable. Dense, but not crowded.
+
+<SettingsPanelExample />
+
+### Playground
+
+`multiple` and the accent `color` compose freely. Toggle `multiple` to switch between one-at-a-time and independent sections; the color token flows down to anything inside the panels that reads the surface accent.
+
+<PlaygroundExample />
+
+## API Reference
+
+### AccordionRoot
+
+Stateful, non-visual root for the set of sections. Owns the open value(s) and the single-vs-`multiple` mode, publishing them to its `AccordionItem`s through context. Renders no DOM of its own.
+
+<AccordionRootProps />
+
+### AccordionItem
+
+One section within an `AccordionRoot`. Binds a `value`, derives its open state from the surrounding accordion, and republishes it as a [`Collapsible`](/react/components/collapsible/) context — so the disclosure parts below work unchanged inside it. Renders a single `<div>` wrapper carrying `data-open` / `data-disabled`.
+
+<AccordionItemProps />
+
+### AccordionTrigger
+
+An alias of [`CollapsibleTrigger`](/react/components/collapsible/). **Clones** its single child to attach the toggle `onClick`, the aria wiring (`aria-expanded`, `aria-controls`, `id`), and a `data-open` attribute. The child must accept `onClick` — a `<button>` is ideal. Composes with any existing `onClick` on the child, and no-ops while the item is `disabled`.
+
+<AccordionTriggerProps />
+
+### AccordionPanel
+
+An alias of [`CollapsiblePanel`](/react/components/collapsible/). The content region — animates its `height` between `0` and its measured natural height, carries the `region` role and aria wiring back to its trigger, and honors `prefers-reduced-motion`. Put block padding on a nested element so it collapses fully.
+
+<AccordionPanelProps />
+
+### AccordionIndicator
+
+An alias of [`CollapsibleIndicator`](/react/components/collapsible/). An optional, `aria-hidden` slot for the open/closed affordance. Pass static markup and rotate it off `data-open` in CSS, or pass a render function receiving `{ open, disabled }` to swap glyphs entirely. Brings no glyph of its own.
+
+<AccordionIndicatorProps />

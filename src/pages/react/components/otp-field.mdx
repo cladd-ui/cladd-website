@@ -14,14 +14,14 @@ import OTPFieldSeparatorProps from '@/generated/props/OTPFieldSeparatorProps';
 
 export default ({ children }) => (
   <DocsLayout
-    title="OTPField — Cladd"
+    title="OTP Field — Cladd"
     description="Field for entering one-time codes and verification PINs."
   >
     {children}
   </DocsLayout>
 );
 
-# OTPField
+# OTP Field
 
 `OTPField` is the one-time-code field — the row of square cells you reach for on SMS confirmations, MFA prompts, and magic-link redemptions. It holds a single string `value` and distributes it across a fixed number of cells: typing advances focus, backspace retreats, paste auto-fills across the row, and characters that don't match the field's `pattern` are silently rejected. Compose it with `OTPFieldInput` for each cell and `OTPFieldSeparator` for the dash between groups, or skip the children entirely and pass `maxLength` to generate them for you.
 

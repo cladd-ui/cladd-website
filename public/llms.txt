@@ -29,35 +29,43 @@ Each link below points at the plain-Markdown twin of the corresponding docs page
 
 ## Components
 
+- [Accordion](https://cladd.io/react/components/accordion.md): Stacked, collapsible sections for settings panels and grouped content.
 - [Backdrop](https://cladd.io/react/components/backdrop.md): Dimming layer that sits behind dialogs, popups, and other overlays.
 - [Button](https://cladd.io/react/components/button.md): Clickable control for primary actions, forms, toolbars, and menus.
+- [Calendar](https://cladd.io/react/components/calendar.md): Month grid for picking a single date, multiple dates, or a range.
 - [Checkbox](https://cladd.io/react/components/checkbox.md): Selectable control for binary settings and multi-choice option groups.
 - [Chip](https://cladd.io/react/components/chip.md): Compact label for tags, statuses, and inline metadata.
+- [Cladd Provider](https://cladd.io/react/components/cladd-provider.md): App-wide provider for the theme, default accent color, and overlay portals.
+- [Collapsible](https://cladd.io/react/components/collapsible.md): Show or hide a single section behind one trigger.
+- [Color Editor](https://cladd.io/react/components/color-editor.md): Full panel for editing a solid color or a linear gradient.
+- [Color Picker](https://cladd.io/react/components/color-picker.md): Compact swatch trigger that opens a color editor in a popover.
+- [Date Picker](https://cladd.io/react/components/date-picker.md): Trigger button that opens a calendar to pick a date, dates, or a range.
 - [Dialog](https://cladd.io/react/components/dialog.md): Modal window for confirms, alerts, and short focused flows.
 - [Input](https://cladd.io/react/components/input.md): Single-line text field for short user input.
 - [Link](https://cladd.io/react/components/link.md): Navigational text link that flows inline with content and prose.
 - [List](https://cladd.io/react/components/list.md): Vertically stacked rows for sidebars, navigation panels, and menus.
-- [NumberField](https://cladd.io/react/components/number-field.md): Numeric input with stepper buttons for picking a bounded value.
-- [NumberScrubber](https://cladd.io/react/components/number-scrubber.md): Drag-to-change numeric control for inspector and design-tool inputs.
-- [OTPField](https://cladd.io/react/components/otp-field.md): Field for entering one-time codes and verification PINs.
+- [Number Field](https://cladd.io/react/components/number-field.md): Numeric input with stepper buttons for picking a bounded value.
+- [Number Scrubber](https://cladd.io/react/components/number-scrubber.md): Drag-to-change numeric control for inspector and design-tool inputs.
+- [OTP Field](https://cladd.io/react/components/otp-field.md): Field for entering one-time codes and verification PINs.
 - [Popover](https://cladd.io/react/components/popover.md): Floating panel anchored to a trigger for menus and inline editors.
 - [Popup](https://cladd.io/react/components/popup.md): Full-screen overlay for task editors, settings panels, and detail sheets.
 - [Radio](https://cladd.io/react/components/radio.md): Selectable control for picking one option from a group.
-- [SearchField](https://cladd.io/react/components/search-field.md): Search bar for filtering lists, menus, and option sheets.
-- [SectionTitle](https://cladd.io/react/components/section-title.md): Heading label for grouping content inside panels, popovers, and settings.
+- [Search Field](https://cladd.io/react/components/search-field.md): Search bar for filtering lists, menus, and option sheets.
+- [Section Title](https://cladd.io/react/components/section-title.md): Heading label for grouping content inside panels, popovers, and settings.
 - [Segmented](https://cladd.io/react/components/segmented.md): Inline control for choosing one option from a small set.
 - [Select](https://cladd.io/react/components/select.md): Dropdown for picking one or many options from a list.
 - [Shortcut](https://cladd.io/react/components/shortcut.md): Inline display of a keyboard shortcut.
 - [Slider](https://cladd.io/react/components/slider.md): Range control for picking a value between a min and max.
 - [Spinner](https://cladd.io/react/components/spinner.md): Spinning indicator for inline loading states.
+- [Surface Cut](https://cladd.io/react/components/surface-cut.md): SurfaceCut is the recessed counterpart to Surface — for inset slots, fields, code blocks, and any UI that should read as carved into the parent.
 - [Surface](https://cladd.io/react/components/surface.md): Surface is the foundational container in cladd — every panel, card, button, and toolbar is built from it.
-- [SurfaceCut](https://cladd.io/react/components/surface-cut.md): SurfaceCut is the recessed counterpart to Surface — for inset slots, fields, code blocks, and any UI that should read as carved into the parent.
 - [Switch](https://cladd.io/react/components/switch.md): Binary toggle for immediate-effect on/off settings.
+- [Tabs](https://cladd.io/react/components/tabs.md): Switch between sibling views within a single panel or screen.
 - [Textarea](https://cladd.io/react/components/textarea.md): Multi-line text field that auto-grows with its content.
 - [Toast](https://cladd.io/react/components/toast.md): Auto-dismissing notification anchored to the corner of the screen.
+- [Toggle Group](https://cladd.io/react/components/toggle-group.md): Two-state toggle buttons, standalone or grouped into a single- or multi-select set.
 - [Toolbar](https://cladd.io/react/components/toolbar.md): Grouped strip of action buttons for editors, inspectors, and app shells.
 - [Tooltip](https://cladd.io/react/components/tooltip.md): Small floating label that appears on hover, focus, or touch.
-- [CladdProvider](https://cladd.io/react/components/cladd-provider.md): App-wide provider for the theme, default accent color, and overlay portals.
 
 ## Hooks
 

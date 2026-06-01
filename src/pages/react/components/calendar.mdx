@@ -1,0 +1,116 @@
+import { DocsLayout } from '@/components/DocsLayout';
+
+import {
+  OverviewExample,
+  SizeExample,
+  ColorExample,
+  RangeExample,
+  MultipleExample,
+  DropdownExample,
+  HeaderFooterExample,
+  PlaygroundExample,
+} from '@/components/examples/calendar';
+
+import CalendarProps from '@/generated/props/CalendarProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Calendar — Cladd"
+    description="Month grid for picking a single date, multiple dates, or a range."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Calendar
+
+An inline month grid for picking dates. Use it for date fields, scheduling
+panels, and booking flows where the calendar stays on screen. For a compact
+trigger that opens the grid in a popover, reach for
+[`DatePicker`](/react/components/date-picker/) instead.
+
+<OverviewExample />
+
+## Usage
+
+`Calendar` is built on [`react-day-picker`](https://daypicker.dev/), which cladd treats as an optional peer dependency and does **not** install for you — add it explicitly:
+
+```bash
+npm install react-day-picker
+```
+
+`Calendar` then ships from a subpath, not the main barrel:
+
+```tsx
+import { Calendar } from '@cladd-ui/react/calendar';
+
+function Example() {
+  const [selected, setSelected] = useState();
+
+  return <Calendar mode="single" selected={selected} onSelect={setSelected} />;
+}
+```
+
+## Examples
+
+### Sizes
+
+The grid and its controls follow the `sm` → `2xl` size scale. The default is
+`md`. Tune the navigation buttons separately with `controlSize`, which takes a
+[`Button`](/react/components/button/) size.
+
+<SizeExample />
+
+### Colors
+
+Use the `color` prop to tint the selected day and focus ring with any accent.
+
+<ColorExample />
+
+### Range
+
+Set `mode="range"` to select a start and end date. Pair it with
+`numberOfMonths` to show several months at once — handy for picking spans that
+cross a month boundary. The selection is a `DateRange` (`{ from, to }`).
+
+<RangeExample />
+
+### Multiple
+
+Set `mode="multiple"` to collect any number of individual dates. The selection
+is a `Date[]`.
+
+<MultipleExample />
+
+### Dropdown navigation
+
+Set `captionLayout="dropdown"` to swap the month and year labels for select
+menus, so users can jump across the calendar without clicking through every
+month.
+
+<DropdownExample />
+
+### Header and footer
+
+Pass `header` and `footer` to render your own content above and below the grid.
+Here the footer echoes the current selection as a
+[`Chip`](/react/components/chip/) and the header uses a
+[`SectionTitle`](/react/components/section-title/).
+
+<HeaderFooterExample />
+
+### Playground
+
+<PlaygroundExample />
+
+## API Reference
+
+`Calendar` is built on
+[react-day-picker](https://daypicker.dev/) and forwards every `DayPicker` prop
+straight through, so the full day-picker API is available alongside the cladd
+props below. That includes `mode` (`'single' | 'multiple' | 'range'`),
+`selected`, `onSelect`, `numberOfMonths`, `captionLayout`
+(`'label' | 'dropdown'`), `disabled`, and `startMonth` / `endMonth`. `size` is a
+`CalendarSize` (`'sm' | 'md' | 'lg' | 'xl' | '2xl'`).
+
+<CalendarProps />

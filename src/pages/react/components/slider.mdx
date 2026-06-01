@@ -10,6 +10,10 @@ import {
   SizeExample,
   StatesExample,
   ThrottleExample,
+  TrackPlaygroundExample,
+  TrackRangeFillExample,
+  TrackRoundedExample,
+  TrackVariantExample,
   ValueDisplayExample,
 } from '@/components/examples/slider';
 import SliderProps from '@/generated/props/SliderProps';
@@ -38,6 +42,8 @@ import { Slider } from '@cladd-ui/react';
 ```
 
 `Slider` works in both controlled and uncontrolled modes. Pass `value` + `onChange` for controlled, or `defaultValue` for uncontrolled. `onChange` fires on every step while the user drags or arrows through values — pair it with [`debounce`](#debounce) or [`throttle`](#throttle) when the consumer is expensive (a network call, a heavy re-render in a sibling pane).
+
+`variant` chooses between two visual presentations. The default `'thumb'` is the thin track with a prominent draggable thumb described above. The newer [`'track'`](#track-variant) is a thick, recessed track that _is_ the control — the filled portion does the talking and a slim flush handle replaces the round thumb. Reach for `'track'` when the slider reads as a chunky meter or fill bar (a volume block, a progress-shaped input) rather than a hairline scrubber.
 
 ### Slider, NumberField, or NumberScrubber?
 
@@ -106,6 +112,30 @@ The canonical design-tool pattern: a [`Surface`](/react/components/surface/) pan
 `size`, `color`, and the state toggles compose freely. `sm` covers most cases; reach for `md` when the slider is the focal control of its row, and `xs` for very tight inspector rows.
 
 <PlaygroundExample />
+
+### Track variant
+
+`variant="track"` swaps the thin-track-with-thumb for a thick recessed track that is the control itself: the active range is a raised gradient [`Surface`](/react/components/surface/) inside a [`SurfaceCut`](/react/components/surface-cut/) channel, and a slim flush handle marks the value instead of a round thumb. The track grows with `size`, so it reads as a substantial block rather than a hairline. Unlike the `thumb` variant, `color` is left unset by default — the filled track inherits any surrounding `cladd-color-*` context, so a track slider drops into a coloured panel without a `color` prop.
+
+<TrackVariantExample />
+
+### Rounded track
+
+`rounded` (default `false`, track variant only) swaps the size-based corner radius for fully round (`rounded-full`) ends — a pill-shaped track and a pill-shaped fill. Reach for it when the slider sits among other rounded controls or when the softer silhouette suits the surface. It's a no-op on the `thumb` variant, whose track is already a thin pill.
+
+<TrackRoundedExample />
+
+### Range fill
+
+`rangeFill` (default `false`, track variant only) renders the active range as a bold `gradient-fill` accent instead of the subtle raised `gradient` — the filled portion goes solid-colour, turning the track into a high-contrast meter. The handle flips to the on-accent colour once it crosses the midpoint so it stays legible against the fill. Pair it with `rounded` for a fill-bar look. `rangeOutline` (default `true`, track variant only) controls the outline ring on the active range — keep it on for a crisp edge against the channel, turn it off when the fill should read as flush.
+
+<TrackRangeFillExample />
+
+### Track playground
+
+The track-variant flags — `size`, `color`, `rounded`, `rangeFill`, `rangeOutline` — compose freely. Toggle them below to dial in the exact density and contrast the surface calls for.
+
+<TrackPlaygroundExample />
 
 ## API Reference
 

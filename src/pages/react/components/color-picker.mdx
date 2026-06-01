@@ -1,0 +1,121 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  OverviewExample,
+  EmptyExample,
+  GradientExample,
+  CustomValueExample,
+  SizeExample,
+  InToolbarExample,
+  HeaderFooterExample,
+  PlaygroundExample,
+} from '@/components/examples/color-picker';
+import ColorPickerProps from '@/generated/props/ColorPickerProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Color Picker — Cladd"
+    description="Compact swatch trigger that opens a color editor in a popover."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Color Picker
+
+A compact swatch trigger that opens a [`ColorEditor`](/react/components/color-editor/)
+in a [`Popover`](/react/components/popover/). Reach for it in dense inspectors
+and property panels where a full inline editor would take up too much room.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { ColorPicker } from '@cladd-ui/react';
+
+function Example() {
+  const [value, setValue] = useState('#3b82f6');
+
+  return <ColorPicker value={value} onChange={(c) => setValue(c.hex)} />;
+}
+```
+
+## Examples
+
+### Empty
+
+When there is no value — `null`, an empty string, or a fully transparent color
+— the swatch collapses to an outlined "×" and the trigger shows the
+`placeholder` node in place of a hex label.
+
+<EmptyExample />
+
+### Gradient
+
+Set `gradient` to add a Solid / Gradient switch and let the embedded
+[`ColorEditor`](/react/components/color-editor/) edit a linear gradient. This
+flips the value to the discriminated union — `onChange` now emits a `solid` or
+`linear` value, so read `c.css` for the CSS string rather than `c.hex`. Pass
+`swatches` to offer preset stop colors.
+
+<GradientExample />
+
+### Custom value display
+
+Pass `children` to replace the auto-formatted hex / gradient label with your
+own value row — here the hex with the field name pushed to the trailing edge —
+and set a leading glyph through the [`icon`](#api-reference) prop. This is the
+inspector-row pattern used in tools like PaneFlow.
+
+<CustomValueExample />
+
+### Sizes
+
+`size` runs the standard `2xs → 2xl` scale shared with
+[`Button`](/react/components/button/), [`Select`](/react/components/select/), and
+the rest of the size-aware controls — the swatch scales with the trigger. Pass
+the same token you'd use on a sibling control and the picker sits at the matching
+height. The second row pairs `rounded` and `outline` to read as a pill that
+matches a recessed form. The editor inside the popover is unaffected — size it
+independently with `controlSize`.
+
+<SizeExample />
+
+### In a toolbar
+
+ColorPickers slot into a [`Toolbar`](/react/components/toolbar/) as a property
+row — a fill swatch, a [`ToolbarSeparator`](/react/components/toolbar/), and a
+stroke swatch — for the dense inspector feel cladd was built for.
+
+<InToolbarExample />
+
+### Header & footer
+
+`header` and `footer` render your own nodes above and below the editor, inside
+the popover — the chrome a real picker needs around the swatches. Here a
+[`SectionTitle`](/react/components/section-title/) and a live hex
+[`Chip`](/react/components/chip/) label the popover, and an "Apply fill"
+[`Button`](/react/components/button/) in the footer commits and closes it via the
+controlled `popoverState`.
+
+<HeaderFooterExample />
+
+### Playground
+
+`size`, `color`, `rounded`, `outline`, and `gradient` compose freely — toggle
+between a solid and a gradient picker and restyle the trigger to match its
+surroundings.
+
+<PlaygroundExample />
+
+## API Reference
+
+ColorPicker is a compact swatch trigger that opens a
+[`ColorEditor`](/react/components/color-editor/) inside a
+[`Popover`](/react/components/popover/). The value props form a discriminated
+union on `gradient`: by default they describe a solid color (`ColorValue`), and
+with `gradient` set they describe a gradient (`GradientValue`). Editor props
+such as `alpha`, `inputs`, `format`, `swatches`, and `controlSize` are forwarded
+to the embedded `ColorEditor`.
+
+<ColorPickerProps />

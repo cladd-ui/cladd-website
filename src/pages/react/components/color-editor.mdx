@@ -1,0 +1,106 @@
+import { DocsLayout } from '@/components/DocsLayout';
+import {
+  AngleButtonExample,
+  CompactExample,
+  ControlOutlineExample,
+  ControlSizeExample,
+  FormatExample,
+  GradientExample,
+  HeaderFooterExample,
+  OverviewExample,
+  PlaygroundExample,
+} from '@/components/examples/color-editor';
+import ColorEditorProps from '@/generated/props/ColorEditorProps';
+
+export default ({ children }) => (
+  <DocsLayout
+    title="Color Editor — Cladd"
+    description="Full panel for editing a solid color or a linear gradient."
+  >
+    {children}
+  </DocsLayout>
+);
+
+# Color Editor
+
+`ColorEditor` is the full, inline color-editing panel — a saturation/brightness area, a hue slider, an optional alpha slider, a row of channel scrubbers, a hex input, and an optional row of swatches. Turn on `gradient` and it gains a Solid/Gradient switch plus two-stop linear-gradient editing with an angle control. It's the surface you embed in an inspector, a theme editor, or a design-tool sidebar when picking a color _is_ the task and you want it always visible.
+
+For the popover version — a trigger swatch that opens this same panel on demand — reach for [`ColorPicker`](/react/components/color-picker/) instead. `ColorEditor` is the panel; `ColorPicker` wraps it in a trigger.
+
+<OverviewExample />
+
+## Usage
+
+```tsx
+import { ColorEditor } from '@cladd-ui/react';
+
+const [color, setColor] = useState('#2f6bff');
+
+<ColorEditor value={color} onChange={(c) => setColor(c.hex)} />;
+```
+
+The panel is **full-width** — it has no intrinsic width of its own and stretches to fill its container. Wrap it in a fixed-width element (or drop it into an inspector column) to size it. `value` accepts any CSS color string or a single channel set (`{ r, g, b }`, `{ h, s, l }`, `{ h, s, v }`); `onChange` fires on every change with a fully-resolved value carrying `hex`, `rgb`, `hsl`, `hsb`, and `css` — read whichever you need straight off it. Leave `value` off and pass `defaultValue` to run it uncontrolled.
+
+Internally the panel is built from real cladd primitives — the channel scrubbers are [`NumberScrubber`](/react/components/number-scrubber/), the hex field is an [`Input`](/react/components/input/), the Solid/Gradient switch is a [`Toolbar`](/react/components/toolbar/) — so it inherits the surface and accent of its surroundings. Drop it inside a [`Surface`](/react/components/surface/) and its focus rings and active states pick up that surface's `color`.
+
+## Examples
+
+### Overview
+
+A solid editor with the full control stack and a row of preset `swatches`. Clicking a swatch applies it to the color; swatches are solid colors only. The value is held in state and read back via `c.hex` in `onChange`.
+
+<OverviewExample />
+
+### Channel format
+
+`format` picks which channels the scrubber row shows — `'rgb'` (default), `'hsl'`, or `'hsb'`. It only changes the scrubber labels and the numbers the user edits; the emitted value always carries every representation (`rgb`, `hsl`, `hsb`, `hex`, `css`) regardless of which format is on screen.
+
+<FormatExample />
+
+### Gradient
+
+Pass `gradient` to enable the Solid/Gradient switch and two-stop linear-gradient editing. In gradient mode the panel gains a stop bar (drag the two thumbs, click to select which stop you're editing), a flip button, and an angle control. `value`/`defaultValue` accept a `linear-gradient()` CSS string or a gradient object, and `onChange` fires a **discriminated** value: `{ type: 'solid', ...ColorValue }` or `{ type: 'linear', angle, stops, css }`. Read `c.css` to get a ready-to-use `background` string for either mode.
+
+<GradientExample />
+
+### Angle as a button
+
+`angleControl` switches the gradient angle widget between a degree `'scrubber'` (default) and a `'button'` that steps the angle 45° per click. The button is the denser choice when you want the gradient bar to take the row and only need coarse direction control.
+
+<AngleButtonExample />
+
+### Compact (area only)
+
+Strip the panel down to just the saturation/brightness area and hue slider by turning off `alpha`, `inputs`, and `hexInput`, and shrink the area with `areaClassName`. Dropped inside a [`Surface`](/react/components/surface/) with a `color`, the picker inherits that accent for its focus ring — useful for a tiny inline picker that lives in a denser inspector row.
+
+<CompactExample />
+
+### Control size
+
+`controlSize` scales the inner controls — scrubbers, hex input, gradient buttons — across `sm`, `md` (default), `lg`, `xl`, and `2xl`. The Solid/Gradient toolbar always renders one step smaller than the rest. The saturation/brightness area and the slider bars keep their fixed height; size them separately via `areaClassName` and `className` if you need to.
+
+<ControlSizeExample />
+
+### Control outline
+
+`controlOutline` toggles the surface outline on the inner controls — the channel and alpha scrubbers, the hex input, and the Solid/Gradient toolbar. On by default; turn it off for a flatter, more recessed panel where the controls read as part of the surface rather than as outlined fields. The gradient bar's flip and angle controls stay ghost either way.
+
+<ControlOutlineExample />
+
+### Header & footer
+
+`header` and `footer` take any React node and render above the controls and below the swatches, inside the panel. Use them for the chrome an inspector needs around the picker — a [`SectionTitle`](/react/components/section-title/) and a live hex [`Chip`](/react/components/chip/) up top, an Apply [`Button`](/react/components/button/) at the bottom. Both slots stay interactive when the panel is `disabled`, so they're also the place for an inherit toggle or eyedropper that should keep working while the color controls are dimmed.
+
+<HeaderFooterExample />
+
+### Playground
+
+`controlSize`, `format`, `gradient`, and the `alpha` / `inputs` / `hexInput` toggles compose freely; the surrounding [`Surface`](/react/components/surface/) `color` tints the panel's accent. The hue and alpha bars are the same kind of track you'll find in [`Slider`](/react/components/slider/), and the channel row is a [`NumberScrubber`](/react/components/number-scrubber/) per channel.
+
+<PlaygroundExample />
+
+## API Reference
+
+`ColorEditorProps` is a **discriminated union on `gradient`**. With `gradient` omitted or `false`, `value`/`defaultValue` take a solid `ColorInput` and `onChange` fires a `ColorValue`. With `gradient` set to `true`, `value`/`defaultValue` additionally accept a `GradientInput` (a `linear-gradient()` string or gradient object) and `onChange` fires a discriminated `ColorEditorValue` — `{ type: 'solid', ...ColorValue }` or `{ type: 'linear', angle, stops, css }`. `ColorEditorControlSize` is `'sm' | 'md' | 'lg' | 'xl' | '2xl'` and `ColorEditorFormat` is `'rgb' | 'hsl' | 'hsb'`.
+
+<ColorEditorProps />

@@ -9,14 +9,14 @@ import SearchFieldProps from '@/generated/props/SearchFieldProps';
 
 export default ({ children }) => (
   <DocsLayout
-    title="SearchField — Cladd"
+    title="Search Field — Cladd"
     description="Search bar for filtering lists, menus, and option sheets."
   >
     {children}
   </DocsLayout>
 );
 
-# SearchField
+# Search Field
 
 `SearchField` is a thin wrapper around [`Input`](/react/components/input/) that bakes in the search-field conventions: a left-aligned search glyph, a pill shape, an inline clear button that fades out when the query is empty, and an `onClear` that resets the value for you. Reach for it as a floating pill inside a [`Popover`](/react/components/popover/), [`List`](/react/components/list/), or command palette — or wrap it in a sticky [`Surface`](/react/components/surface/) to pin it as a header bar above a scrolling list.
 
