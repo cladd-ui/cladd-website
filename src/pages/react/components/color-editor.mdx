@@ -6,6 +6,7 @@ import {
   ControlSizeExample,
   FormatExample,
   GradientExample,
+  GradientObjectExample,
   HeaderFooterExample,
   OverviewExample,
   PlaygroundExample,
@@ -39,9 +40,110 @@ const [color, setColor] = useState('#2f6bff');
 <ColorEditor value={color} onChange={(c) => setColor(c.hex)} />;
 ```
 
-The panel is **full-width** — it has no intrinsic width of its own and stretches to fill its container. Wrap it in a fixed-width element (or drop it into an inspector column) to size it. `value` accepts any CSS color string or a single channel set (`{ r, g, b }`, `{ h, s, l }`, `{ h, s, v }`); `onChange` fires on every change with a fully-resolved value carrying `hex`, `rgb`, `hsl`, `hsb`, and `css` — read whichever you need straight off it. Leave `value` off and pass `defaultValue` to run it uncontrolled.
+The panel is **full-width** — it has no intrinsic width of its own and stretches to fill its container. Wrap it in a fixed-width element (or drop it into an inspector column) to size it. `value` accepts any CSS color string or a single channel set (`{ r, g, b }`, `{ h, s, l }`, `{ h, s, b }`); `onChange` fires on every change with a fully-resolved value carrying `hex`, `rgb`, `hsl`, `hsb`, and `css` — read whichever you need straight off it. Leave `value` off and pass `defaultValue` to run it uncontrolled. See [Values](#values) below for the full breakdown of what goes in and what comes out.
 
 Internally the panel is built from real cladd primitives — the channel scrubbers are [`NumberScrubber`](/react/components/number-scrubber/), the hex field is an [`Input`](/react/components/input/), the Solid/Gradient switch is a [`Toolbar`](/react/components/toolbar/) — so it inherits the surface and accent of its surroundings. Drop it inside a [`Surface`](/react/components/surface/) and its focus rings and active states pick up that surface's `color`.
+
+## Values
+
+The editor is **permissive on the way in and exhaustive on the way out**: `value` / `defaultValue` accept a handful of loose formats, but `onChange` always hands back one fully-resolved object carrying every representation. You never have to convert before passing a color in, and you never have to convert after reading one out — just store the field you care about.
+
+### Accepted input
+
+`value` and `defaultValue` take a `ColorInput` — either a CSS color string or a single channel set. Alpha is optional on every form; omit it for fully opaque.
+
+| Form                | Examples                                                             | Ranges                                |
+| ------------------- | -------------------------------------------------------------------- | ------------------------------------- |
+| Hex string          | `'#2f6bff'`, `'#2f6bffcc'`, `'#fff'`, `'#fff8'`                      | 3, 4, 6, or 8 digits; `#` required    |
+| CSS function string | `'rgb(47 107 255)'`, `'rgba(47,107,255,0.8)'`, `'hsl(220 100% 59%)'` | modern (space) or legacy (comma) form |
+| Named color         | `'red'`, `'white'`, `'transparent'`                                  | basic set only — see note             |
+| RGB object          | `{ r: 47, g: 107, b: 255 }`                                          | r, g, b `0–255` · `a` `0–1`           |
+| HSL object          | `{ h: 220, s: 100, l: 59 }`                                          | h `0–360` · s, l `0–100` · `a` `0–1`  |
+| HSB object          | `{ h: 220, s: 82, b: 100 }`                                          | h `0–360` · s, b `0–100` · `a` `0–1`  |
+
+A few things worth knowing:
+
+- **Alpha is always `0–1`** on channel sets, even though hex encodes it as two extra digits (`#rrggbb**aa**`). Leave `a` off and the color is opaque.
+- **Out-of-range numbers are clamped**, and an **unparseable string falls back to black** (`#000000`) rather than throwing — so a typo'd value silently becomes black.
+- **Named colors cover only a basic set** — `transparent`, `black`, `white`, `gray`/`grey`, `silver`, `red`, `maroon`, `orange`, `yellow`, `olive`, `lime`, `green`, `aqua`/`cyan`, `teal`, `blue`, `navy`, `fuchsia`/`magenta`, `purple`, `pink`. Anything outside it (`coral`, `rebeccapurple`, …) is **not** recognized and falls back to black. Use hex/rgb/hsl for those.
+- **Input is independent of [`format`](#channel-format).** You can pass `{ h, s, l }` and still display RGB scrubbers — `format` only controls which channels the scrubber row shows, never how you supply or receive the value.
+
+### Emitted value
+
+`onChange` fires on every change — area drag, hue/alpha slide, channel scrub, hex commit, swatch click — with a single `ColorValue`. It always carries **every** representation regardless of what you passed in or which `format` is on screen, so read whichever field fits:
+
+| Field | Type             | Notes                                                           |
+| ----- | ---------------- | --------------------------------------------------------------- |
+| `hex` | `string`         | `#rrggbb`, or `#rrggbbaa` when alpha `< 1`                      |
+| `rgb` | `{ r, g, b, a }` | r, g, b `0–255` · a `0–1`                                       |
+| `hsl` | `{ h, s, l, a }` | h `0–360` · s, l `0–100` · a `0–1`                              |
+| `hsb` | `{ h, s, b, a }` | h `0–360` · s, b `0–100` · a `0–1`                              |
+| `css` | `string`         | `#rrggbb` when opaque, else `rgba(...)`; ready for `background` |
+
+```tsx
+<ColorEditor
+  value={color}
+  onChange={(c) => {
+    c.hex; // '#2f6bff'
+    c.rgb; // { r: 47, g: 107, b: 255, a: 1 }
+    c.hsl; // { h: 220, s: 100, l: 59, a: 1 }
+    c.css; // '#2f6bff'  (or 'rgba(47, 107, 255, 0.8)' when translucent)
+    setColor(c.hex);
+  }}
+/>
+```
+
+To run it controlled, **store one field and feed it back to `value`** — the emitted object as a whole is _not_ a valid input. `c.hex` round-trips cleanly for solids; `c.css` round-trips for both solids and gradients, which makes it the simplest choice once gradients are in play.
+
+### Gradient values
+
+With [`gradient`](#gradient) on, both ends widen. The Solid mode still accepts (and emits) the solid forms above; the Gradient mode adds these inputs:
+
+- **`linear-gradient(...)` string** — `'linear-gradient(90deg, #2f6bff 0%, #ec4899 100%)'`. Direction keywords work too (`to right`, `to bottom left`) and are converted to degrees; an omitted angle defaults to `90deg`.
+- **Gradient object** — `{ angle: 90, stops: [{ color, position }] }`. `type` is optional (`'linear'`), `angle` defaults to `90`, each `position` (`0–100`) defaults to an even spread, and each stop `color` is itself any `ColorInput` — so channel-set stops work without building a string:
+
+```tsx
+// Equivalent gradient inputs — pass whichever form your data is already in:
+value = 'linear-gradient(90deg, #2f6bff 0%, #ec4899 100%)';
+
+value = {
+  angle: 90,
+  stops: [
+    { color: { r: 47, g: 107, b: 255, a: 1 }, position: 0 },
+    { color: { r: 236, g: 72, b: 153, a: 1 }, position: 100 },
+  ],
+};
+```
+
+The editor edits **exactly two stops** — a gradient input with more keeps only the first and last.
+
+`onChange` then emits a discriminated `ColorEditorValue`. Branch on `type`:
+
+```ts
+// Solid mode — the full ColorValue, tagged:
+{ type: 'solid', hex, rgb, hsl, hsb, css }
+
+// Gradient mode:
+{
+  type: 'linear',
+  angle: 90,                          // degrees, 0–360
+  stops: [                            // always two, sorted by position
+    { color: ColorValue, position: 0 },
+    { color: ColorValue, position: 100 },
+  ],
+  css: 'linear-gradient(90deg, …)',   // ready for style={{ background }}
+}
+```
+
+Each stop's `color` is a full `ColorValue` (`c.stops[0].color.hex`, etc.). `c.css` is a ready `background` string in **both** modes, so storing it is the one-liner that handles solid and gradient alike:
+
+```tsx
+const [css, setCss] = useState(
+  'linear-gradient(90deg, #2f6bff 0%, #ec4899 100%)',
+);
+
+<ColorEditor gradient value={css} onChange={(c) => setCss(c.css)} />;
+```
 
 ## Examples
 
@@ -62,6 +164,12 @@ A solid editor with the full control stack and a row of preset `swatches`. Click
 Pass `gradient` to enable the Solid/Gradient switch and two-stop linear-gradient editing. In gradient mode the panel gains a stop bar (drag the two thumbs, click to select which stop you're editing), a flip button, and an angle control. `value`/`defaultValue` accept a `linear-gradient()` CSS string or a gradient object, and `onChange` fires a **discriminated** value: `{ type: 'solid', ...ColorValue }` or `{ type: 'linear', angle, stops, css }`. Read `c.css` to get a ready-to-use `background` string for either mode.
 
 <GradientExample />
+
+### Gradient from object stops
+
+A `linear-gradient()` string isn't the only way to supply a gradient. Pass a `{ angle, stops }` object and each stop's `color` is any `ColorInput` — including an `{ r, g, b, a }` (or `{ h, s, l }`) channel set, so you never have to assemble a CSS string by hand. The emitted stops come back the same shape with a full `ColorValue` per stop, so read the rgba straight off `c.stops[i].color.rgb` to keep your state in channel form. Positions are `0–100`; `angle` is in degrees and defaults to `90`.
+
+<GradientObjectExample />
 
 ### Angle as a button
 

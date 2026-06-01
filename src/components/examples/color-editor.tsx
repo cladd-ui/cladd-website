@@ -9,6 +9,7 @@ import {
   type ColorEditorFormat,
   type ColorEditorValue,
   type ColorValue,
+  type GradientStopInput,
 } from '@cladd-ui/react';
 import { useState } from 'react';
 
@@ -134,6 +135,61 @@ export function AngleButtonExample() {
           angleControl="button"
           value={css}
           onChange={(c: ColorEditorValue) => setCss(c.css)}
+        />
+      </div>
+    </Example>
+  );
+}
+
+// Hand-authored source: the rgba stop state lives outside the `<Example>`
+// children, so an override is the only way to show the full object shape.
+const GRADIENT_OBJECT_SOURCE = `const [angle, setAngle] = useState(90);
+const [stops, setStops] = useState([
+  { color: { r: 47, g: 107, b: 255, a: 1 }, position: 0 },
+  { color: { r: 236, g: 72, b: 153, a: 1 }, position: 100 },
+]);
+
+// Pass a { angle, stops } object — each stop color is any ColorInput, here an
+// { r, g, b, a } channel set. Every emitted stop carries a full ColorValue, so
+// read the rgba straight back off .color.rgb.
+<ColorEditor
+  gradient
+  value={{ angle, stops }}
+  onChange={(c) => {
+    if (c.type !== 'linear') return;
+    setAngle(c.angle);
+    setStops(
+      c.stops.map((s) => ({ color: s.color.rgb, position: s.position })),
+    );
+  }}
+/>;`;
+
+export function GradientObjectExample() {
+  const [angle, setAngle] = useState(90);
+  const [stops, setStops] = useState<GradientStopInput[]>([
+    { color: { r: 47, g: 107, b: 255, a: 1 }, position: 0 },
+    { color: { r: 236, g: 72, b: 153, a: 1 }, position: 100 },
+  ]);
+  return (
+    <Example
+      source={GRADIENT_OBJECT_SOURCE}
+      previewSurface
+      previewClassName="content-center"
+    >
+      <div className="w-64">
+        <ColorEditor
+          gradient
+          value={{ angle, stops }}
+          onChange={(c: ColorEditorValue) => {
+            if (c.type !== 'linear') return;
+            setAngle(c.angle);
+            setStops(
+              c.stops.map((s) => ({
+                color: s.color.rgb,
+                position: s.position,
+              })),
+            );
+          }}
         />
       </div>
     </Example>

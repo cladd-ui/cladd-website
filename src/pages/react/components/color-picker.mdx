@@ -40,6 +40,15 @@ function Example() {
 }
 ```
 
+## Values
+
+`ColorPicker` takes the **same value props as the [`ColorEditor`](/react/components/color-editor/)** it wraps. `value` / `defaultValue` accept any `ColorInput` — a CSS string (`'#2f6bff'`, `'rgba(...)'`, `'red'`) or a single channel set (`{ r, g, b }`, `{ h, s, l }`, `{ h, s, b }`) — and `onChange` emits the fully-resolved `ColorValue` (`hex`, `rgb`, `hsl`, `hsb`, `css`). With [`gradient`](#gradient), input also takes a `linear-gradient()` string or gradient object and `onChange` emits the discriminated `solid` / `linear` value. The editor's [Values](/react/components/color-editor/#values) section has the full breakdown of accepted formats, ranges, and emitted fields.
+
+Two behaviors are specific to the picker's **trigger**:
+
+- **Label.** A solid value shows its uppercased hex (`#2F6BFF`); a gradient shows `gradientLabel` (default `'Gradient'`). Pass `children` to render your own value node instead.
+- **Empty state.** A missing value (`null`, `undefined`, or `''`) — or a fully transparent one (alpha `0`, including a gradient whose every stop is transparent) — collapses the swatch to an outlined "×" and shows `placeholder` in place of the label.
+
 ## Examples
 
 ### Empty
