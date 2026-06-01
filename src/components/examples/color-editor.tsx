@@ -269,6 +269,7 @@ export function PlaygroundExample() {
   const [hexInput, setHexInput] = useState(true);
   const [controlOutline, setControlOutline] = useState(true);
   const [gradient, setGradient] = useState(false);
+  const [swatches, setSwatches] = useState(true);
   return (
     <Example
       source={EXAMPLE_SOURCE.PlaygroundExample}
@@ -280,6 +281,7 @@ export function PlaygroundExample() {
         hexInput,
         controlOutline,
         gradient,
+        swatches,
       }}
       controls={
         <>
@@ -323,6 +325,11 @@ export function PlaygroundExample() {
               checked={controlOutline}
               onChange={setControlOutline}
             />
+            <ExampleControlSwitch
+              label="swatches"
+              checked={swatches}
+              onChange={setSwatches}
+            />
           </ExampleToolbar>
           <ExampleToolbar>
             <ExampleControlColor value={accent} onChange={setAccent} />
@@ -348,7 +355,7 @@ export function PlaygroundExample() {
             inputs={inputs}
             hexInput={hexInput}
             controlOutline={controlOutline}
-            swatches={PALETTE}
+            swatches={swatches ? PALETTE : undefined}
           />
         ) : (
           <ColorEditor
@@ -360,7 +367,7 @@ export function PlaygroundExample() {
             inputs={inputs}
             hexInput={hexInput}
             controlOutline={controlOutline}
-            swatches={PALETTE}
+            swatches={swatches ? PALETTE : undefined}
           />
         )}
       </Surface>
