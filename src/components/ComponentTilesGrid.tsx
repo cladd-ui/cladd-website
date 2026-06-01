@@ -35,7 +35,11 @@ import NextLink from 'next/link';
 import type { ReactNode } from 'react';
 
 import { CladdLogo } from './CladdLogo';
-import { componentHref, componentLabel, componentNames } from './componentNames';
+import {
+  componentHref,
+  componentLabel,
+  componentNames,
+} from './componentNames';
 import { ArrowRightIcon } from './icons/ArrowRightIcon';
 import { BoldIcon } from './icons/BoldIcon';
 import { CalendarIcon } from './icons/CalendarIcon';
@@ -157,7 +161,7 @@ const PREVIEWS: Record<string, () => ReactNode> = {
       </Surface>
       <div className="flex h-2 overflow-hidden rounded-full bg-linear-90 from-transparent to-cladd-fg-softest" />
       <div className="flex gap-1">
-        {Array.from({ length: 4 }).map((c, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <span
             key={i}
             className={cn('size-2 rounded-full bg-cladd-fg-softest')}
