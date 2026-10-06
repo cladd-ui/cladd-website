@@ -256,6 +256,13 @@ export function SiteLayout({
                     MCP server
                   </Link>
                   <Link
+                    as={NextLink}
+                    href="/sponsors/"
+                    className="hover:text-cladd-fg"
+                  >
+                    Sponsors
+                  </Link>
+                  <Link
                     as="a"
                     href="/llms.txt"
                     target="_blank"

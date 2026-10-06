@@ -22,6 +22,7 @@ import { MarkdownIcon } from './icons/MarkdownIcon';
 import { SidebarIcon } from './icons/SidebarIcon';
 import { useSidebar } from './SidebarContext';
 import { SiteLayout } from './SiteLayout';
+import { SidebarSponsors } from './Sponsors';
 
 interface DocsLayoutProps {
   children: ReactNode;
@@ -429,6 +430,7 @@ function DocsLayoutContent({
             <SidebarIcon />
           </ToolbarButton>
         </Toolbar>
+        <SidebarSponsors />
         {sections.map((section) => (
           <div key={section.title} className="flex flex-col gap-2">
             <SectionTitle>{section.title}</SectionTitle>

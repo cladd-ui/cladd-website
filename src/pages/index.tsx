@@ -15,6 +15,7 @@ import { useState } from 'react';
 
 import { CodePreviewPairs } from '@/components/home/CodePreviewPairs';
 import { ComponentCatalog } from '@/components/home/ComponentCatalog';
+import { HomeSponsors } from '@/components/home/HomeSponsors';
 import { InstallCTA } from '@/components/home/InstallCTA';
 import { IsCladdForYou } from '@/components/home/IsCladdForYou';
 import { LatestReleasePill } from '@/components/home/LatestReleasePill';
@@ -270,6 +271,8 @@ export default function HomePage() {
       <IsCladdForYou />
 
       <InstallCTA />
+
+      <HomeSponsors />
     </SiteLayout>
   );
 }
